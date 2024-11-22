@@ -1,36 +1,40 @@
-const app = require("./app");
-const dotenv = require("dotenv");
+import app from "./app.js";
+import dotenv from "dotenv";
+import pkg from "pg";
+const { Pool } = pkg;
+
+// Load environment variables from .env file
 dotenv.config({ path: "../BE.env" });
 
-// Database connection
-const { Pool } = require("pg");
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PORT } = process.env;
+const PORT = process.env.PORT || 3000;
+
+// Configure the PostgreSQL connection pool
 const pool = new Pool({
-  user: PGUSER,
-  host: PGHOST,
-  database: PGDATABASE,
-  password: PGPASSWORD,
-  port: 5432,
+  host: process.env.PGHOST,
+  user: process.env.PGUSER,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT || 5432,
   ssl: {
     rejectUnauthorized: false,
     require: true,
   },
 });
 
+// Test database connection
 (async () => {
-  const client = await pool.connect();
   try {
+    const client = await pool.connect();
     console.log("Connected to database successfully....");
     client.release();
   } catch (err) {
-    console.error("Database connection error");
+    console.error("Database connection error:", err);
   }
 })();
 
-const port = PORT || 3000;
-
-const server = app.listen(port, () => {
-  console.log(`Server starts listening on port ${port}....`);
+// Start the server
+const server = app.listen(PORT, () => {
+  console.log(`Server starts listening on port ${PORT}....`);
 });
 
-module.exports = pool;
+export default server;

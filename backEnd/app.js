@@ -1,8 +1,11 @@
-const express = require("express");
-const dotenv = require("dotenv");
+// const express = require("express");
+// const dotenv = require("dotenv");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config({ path: "../BE.env" });
 
-const cors = require("cors");
+// const cors = require("cors");
 const app = express();
 
 app.use(cors());
@@ -15,4 +18,5 @@ app.use("/", (req, res, next) => {
     message: "hello from server",
   });
 });
-module.exports = app;
+
+export default app;
