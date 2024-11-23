@@ -37,4 +37,4 @@ const server = app.listen(PORT, () => {
   console.log(`Server starts listening on port ${PORT}....`);
 });
 
-export default server;
+export default pool;

@@ -1,11 +1,13 @@
-// const pool = require("./server");
+// import pool from "./server.js";
 
-// (async () => {
-//   const client = await pool.connect();
+// async function test() {
 //   try {
-//     console.log("Connected to database successfully....");
-//     client.release();
+//     const query = `CREATE TABLE if not exists test (id INT)`;
+//     const res = await pool.query(query);
+//     console.log(res);
 //   } catch (err) {
-//     console.error("Database connection error");
+//     console.log(err);
 //   }
-// })();
+// }
+
+// test();
