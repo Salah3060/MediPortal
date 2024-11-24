@@ -2,18 +2,19 @@ import pool from "./server.js";
 
 const createUsersTable = `create table Users
     (
-        userId int , 
-        firstName varchar(15), 
-        lastName varchar(15), 
+        userId int generated always as identity (start with 1 increment by 1)  , 
+        firstName varchar(15) not null , 
+        lastName varchar(15) not null , 
         phoneNumber varchar(15), 
-        email varchar(15), 
+        email varchar(15) unique , 
         gender varchar(5),
         wallet int , 
-        createdAt  date , 
-        updatedAt date , 
+        createdAt  timestamp , 
+        updatedAt timestamp , 
         birthDate date , 
-        password varchar(20) , 
-        primary key (userId) 
+        password varchar(20) not null, 
+        primary key (userId) , 
+        constraint validGender check (gender in ('Male' ,'Female'))
     )`;
 const createPatientsTable = `create table Patients
     (
@@ -21,45 +22,45 @@ const createPatientsTable = `create table Patients
         bloodType VARCHAR(5),
         chronicDisease VARCHAR(20),
         primary KEY (patientId),
-        foreign KEY (patientId) REFERENCES Users(userId)
+        foreign KEY (patientId) REFERENCES Users(userId) on delete cascade 
     )
 `;
 const createDoctorsTable = `create table Doctors
     (
         doctorId INT,
-        licenseNumber int , 
+        licenseNumber int not null , 
         yaersOfExperience int , 
         about VARCHAR(50),
-        specialization VARCHAR(20),
+        specialization VARCHAR(20) not null ,
         primary KEY (doctorId),
-        foreign KEY (doctorId) REFERENCES Users(userId)
+        foreign KEY (doctorId) REFERENCES Users(userId) on delete cascade 
     )
 `;
 const createCategoriesTable = `create table Categories
 (
-    categoryId INT,
-    categoryName varchar(20) , 
+    categoryId INT generated always as identity (start with 1 increment by 1),
+    categoryName varchar(20) unique not null, 
     categoryDescription VARCHAR(50),
     primary KEY (categoryId)
 )
 `;
 const createMedicalProductsTable = `create table MedicalProducts
     (
-        productId INT,
-        productName int , 
+        productId INT generated always as identity (start with 1 increment by 1) ,
+        productName int not null  , 
         productPrice int , 
         productStackQuantity int , 
         productDescription VARCHAR(50),
-        productExpiryDate date ,
+        productExpiryDate timestamp not null  ,
         productCategory int , 
         primary KEY (productId),
-        foreign KEY (productCategory) REFERENCES Categories(categoryId)
+        foreign KEY (productCategory) REFERENCES Categories(categoryId) 
     )
 `;
 const createOrdersTable = `create table Orders
 (
-    orderId INT,
-    orderDate date , 
+    orderId INT generated always as identity (start with 1 increment by 1),
+    orderDate timestamp , 
     totalAmount int ,
     primary KEY (orderId)
 )
@@ -82,4 +83,3 @@ async function createTable(query) {
     console.log(err);
   }
 }
-createTable(createOrderProductRelationTable);
