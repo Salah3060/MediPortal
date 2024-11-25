@@ -22,6 +22,11 @@ const signUpController = async (req, res, next) => {
     const JWT = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
+
+    res.cookie("JWT", jwt, {
+      maxAge: 1 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
     res.status(200).json({
       status: "success",
       date: { user },

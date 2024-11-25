@@ -3,11 +3,11 @@ import pool from "./server.js";
 const createUsersTable = `create table Users
     (
         userId int generated always as identity (start with 1 increment by 1)  , 
-        firstName varchar(15) not null , 
-        lastName varchar(15) not null , 
-        phoneNumber varchar(15), 
-        email varchar(15) unique , 
-        gender varchar(5),
+        firstName varchar(20) not null , 
+        lastName varchar(20) not null , 
+        phoneNumber varchar(20), 
+        email varchar(30) unique , 
+        gender varchar(8),
         wallet int , 
         createdAt  timestamp , 
         updatedAt timestamp , 
@@ -20,7 +20,7 @@ const createPatientsTable = `create table Patients
     (
         patientId INT,
         bloodType VARCHAR(5),
-        chronicDisease VARCHAR(20),
+        chronicDisease VARCHAR(30),
         primary KEY (patientId),
         foreign KEY (patientId) REFERENCES Users(userId) on delete cascade 
     )
@@ -31,7 +31,7 @@ const createDoctorsTable = `create table Doctors
         licenseNumber int not null , 
         yaersOfExperience int , 
         about VARCHAR(50),
-        specialization VARCHAR(20) not null ,
+        specialization VARCHAR(50) not null ,
         primary KEY (doctorId),
         foreign KEY (doctorId) REFERENCES Users(userId) on delete cascade 
     )
@@ -83,3 +83,7 @@ async function createTable(query) {
     console.log(err);
   }
 }
+
+// createTable(createUsersTable);
+// createTable(createDoctorsTable);
+// createTable(createPatientsTable);

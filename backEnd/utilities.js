@@ -24,4 +24,10 @@ const globalErrorHandler = async (err, req, res, next) => {
   });
 };
 
-export { AppError, globalErrorHandler };
+const catchAsyncError = (fn) => {
+  return (req, res, next) => {
+    fn(req, res, next).catch(next);
+  };
+};
+
+export { AppError, globalErrorHandler, catchAsyncError };
