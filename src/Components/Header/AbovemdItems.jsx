@@ -16,7 +16,7 @@ export default function AbovemdLayout() {
         Sign up
       </Link>
       <Link
-        to={"MediPortal/contact/"}
+        to={"/MediPortal/contact/"}
         className="hover:text-tertiary hover:border-b transition-all duration-300 "
       >
         Contact Us
