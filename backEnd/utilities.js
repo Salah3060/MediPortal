@@ -1,6 +1,4 @@
 import { query } from "express";
-import pkg from "postcss/lib/css-syntax-error";
-const { captureStackTrace } = pkg;
 
 class AppError extends Error {
   constructor(message, statusCode) {
