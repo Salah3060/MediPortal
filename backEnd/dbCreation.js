@@ -72,7 +72,7 @@ const createOrderProductRelationTable = `create table OrderProductRelation
     productQuantity int ,
     primary KEY (orderId , productId) , 
     foreign key (orderId) references Orders (orderId) ,
-    foreign key (productId) references MedicalProducts (productId) 
+    foreign key (productId) references MedicalProducts (productId)
 )
 `;
 async function createTable(query) {
@@ -87,3 +87,146 @@ async function createTable(query) {
 // createTable(createUsersTable);
 // createTable(createDoctorsTable);
 // createTable(createPatientsTable);
+// the answer can be null(not answered yet)
+const createQuestionsTable = `create table Questions
+(
+    questionId int generated always as identity,
+    patientId int,
+    speciality varchar(50) not null,
+    question varchar(250) not null,
+    answer varchar(400),
+    questionDate timestamp not null,
+    answerDate timestamp,
+    primary key (questionId , patientId),
+    foreign key (patientId) references Patients(patientId) on delete cascade
+);
+`;
+const createReviewsTable = `create table Reviews
+(
+    doctorId int,
+    patientId int,
+    rate int not null,
+    review varchar(200),
+    reviewDate timestamp not null,
+    primary key (doctorId,patientId),
+    foreign key (doctorId) references Doctors(doctorId) on delete cascade,
+    foreign key (patientId) references Patients(patientId) on delete cascade
+);
+`;
+const createWorkspacesTable = `create table Workspaces 
+(
+    workspaceId int generated always as identity,
+    workspaceName varchar(120) not null unique,
+    workspaceType varchar(10) not null,
+    primary key (workspaceId),
+    constraint validateWorkspaceType check (workspaceType in ('Hospital','clinic'))
+);
+`;
+const createWorkspaceContacts = `create table WorkspaceContacts
+(
+    contactId int generated always as identity,
+    workspacePhone varchar(100) not null unique,
+    workspaceId int,
+    primary key (contactId),
+    foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade
+);
+`;
+const createWorkspaceLocations = `create table WorkspaceLocations
+(
+    locationId int generated always as identity,
+    workspacesLocation varchar(150) not null unique,
+    workspaceId int,
+    primary key (locationId),
+    foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade
+
+);
+`;
+const createOffersTable = `create table Offers
+(
+    percentage int not null check (percentage between 0 and 100),
+    startDate timestamp not null,
+    endDate timestamp not null,
+    doctorId int,
+    workspaceId int,
+    constraint validateDates check (startDate < endDate),
+    primary key (doctorId,workspaceId),
+    foreign key (doctorId) references Doctors(doctorId) on delete cascade,
+    foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade
+);
+`;
+
+//---------------
+const createInsuranceProvidersTable = `create table InsurancesProviders
+(
+    providerId int generated always as identity,
+    providerName varchar(100) not null unique,
+    primary key (providerId)
+)
+`;
+const createInsuranceProviderContacts = `create table InsuranceProviderContacts
+(
+    contactId int generated always as identity,
+    providerPhone varchar(100) not null unique,
+    providerId int,
+    primary key (contactId),
+    foreign key (providerId) references InsurancesProviders(providerId) on delete cascade
+);
+`;
+const createInsuranceProviderLocations = `create table InsuranceProviderLocations
+(
+    locationId int generated always as identity,
+    providerLocation varchar(150) not null unique,
+    providerId int,
+    primary key (locationId),
+    foreign key (providerId) references InsurancesProviders(providerId) on delete cascade
+);
+`;
+const createInsurancesTable = `create table Insurances
+(
+    insuranceId int unique generated always as identity,
+    startDate timestamp not null,
+    duration INTERVAL not null,
+    providerId int,
+    primary key (insuranceId,providerId),
+    foreign key (providerId) references InsurancesProviders(providerId) on delete cascade
+);
+`;
+const createCoverageTable = `create table Coverage
+(
+    insuranceId int,
+    workspaceId int,
+    primary key (insuranceId,workspaceId),
+    foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade,
+    foreign key (insuranceId) references Insurances(insuranceId) on delete cascade
+);
+`;
+const createDoctorAvailabilityTable = `create table DoctorAvailability
+(
+    workingDay varChar(15) not null,
+    startTime TIME not null,
+    endTime TIME not null,
+    doctorId int,
+    workspaceId int,
+    primary key (doctorId,workspaceId,workingDay,startTime),
+    foreign key (doctorId) references Doctors(doctorId) on delete cascade,
+    foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade,
+    constraint validateTimes check (startTime < endTime)
+);
+`;
+const createAppointmentsTable = `create table Appointments
+(
+    appointmentId int generated always as identity,
+    appointmentDate timestamp not null,
+    appointmentStatus varchar(30) not null,
+    fees int not null,
+    paymentStatus varchar(30) not null,
+    bookingDate timestamp not null,
+    patientId int,
+    doctorId int,
+    workspaceId int,
+    primary key (patientId, appointmentId),
+    foreign key (doctorId) references Doctors(doctorId) on delete cascade,
+    foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade,
+    foreign key (patientId) references Patients(patientId) on delete cascade
+);
+`;
