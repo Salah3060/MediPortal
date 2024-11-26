@@ -29,7 +29,7 @@ const createDoctorsTable = `create table Doctors
     (
         doctorId INT,
         licenseNumber int not null , 
-        yaersOfExperience int , 
+        yearsOfExperience int , 
         about VARCHAR(50),
         specialization VARCHAR(50) not null ,
         primary KEY (doctorId),
