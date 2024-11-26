@@ -18,4 +18,12 @@ const retrieveAllDoctors = async (fields, filters, orders) => {
   }
 };
 
+const updateDoctor = async (id) => {
+  try {
+    const query = `update `;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export { retrieveAllDoctors };
