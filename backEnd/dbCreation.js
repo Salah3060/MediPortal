@@ -230,3 +230,4 @@ const createAppointmentsTable = `create table Appointments
     foreign key (patientId) references Patients(patientId) on delete cascade
 );
 `;
+const tester = "tsting";
