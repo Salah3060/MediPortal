@@ -32,7 +32,7 @@ Api Documentaion will here    إن شاء الله يا بتوع الفرونت
 
 
 2.Doctors
-    1.1 signUp 
+    1.1 getAllDoctors
     endPoint: 127.0.0.1:3000/doctors/allDoctors?gender=Male&&order=firstName&&fields=firstName,lastName
     queryOption: userId=2,gender=Male,email=xxxxx  ==>for filter 
                order=userId,-firstName    ==> - for DESC default ASC 
@@ -60,7 +60,11 @@ Api Documentaion will here    إن شاء الله يا بتوع الفرونت
                             }
                }
 
-
+    2.2 get doctor by any of its arrtibue 
+        ==>use get all doctors and set wanted attrubite like 
+         endPoint: 127.0.0.1:3000/doctors/allDoctors?firstName='Kamal' 
+         endPoint: 127.0.0.1:3000/doctors/allDoctors?userId=4
+         you can query on name with all methods KAmal kAMak 
 
 
     

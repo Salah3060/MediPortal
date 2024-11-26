@@ -37,6 +37,10 @@ const filterQueryHandler = (query, validAttributes) => {
 
   const filters = Object.entries(query).map((el) => {
     if (el[0] === "userId") return `${el[0]} = ${Number(el[1])}`;
+    if (el[0] === "firstName" || el[0] === "lastName")
+      return `${el[0]} ='${
+        el[1][0].toUpperCase() + el[1].slice(1).toLowerCase()
+      }'`;
     return `${el[0]}='${el[1]}'`;
   });
   return filters;

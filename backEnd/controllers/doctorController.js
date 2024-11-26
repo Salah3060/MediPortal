@@ -7,17 +7,17 @@ import {
   orderQueryHandler,
 } from "../utilities.js";
 
-const getAllDoctors = catchAsyncError(async (req, res, next) => {
-  const validAttributes = [
-    "userId",
-    "email",
-    "phoneNumber",
-    "lastName",
-    "firstName",
-    "gender",
-    "specialization",
-  ];
+const validAttributes = [
+  "userId",
+  "email",
+  "phoneNumber",
+  "lastName",
+  "firstName",
+  "gender",
+  "specialization",
+];
 
+const getAllDoctors = catchAsyncError(async (req, res, next) => {
   let fields;
   if (req.query.fields) {
     fields = fieldsQueryHandler(req.query, validAttributes);
@@ -42,6 +42,7 @@ const getAllDoctors = catchAsyncError(async (req, res, next) => {
     filters = filterQueryHandler(req.query, validAttributes);
     if (!filters) return next(new AppError("Invalid query atrributes", 400));
     if (filters.length == 0) filters = undefined;
+    console.log(filters);
   }
 
   const doctors = await retrieveAllDoctors(fields, filters, orders);
