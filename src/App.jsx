@@ -1,7 +1,7 @@
 import "./Styles/App.css";
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "./Components/Header.jsx";
-import Footer from "./Components/Footer.jsx";
+import Header from "./Components/Header/Header.jsx";
+import Footer from "./Components/Footer/Footer.jsx";
 import PharmacyHeader from "./Components/Pharmacy/PharmacyHeader.jsx";
 import PharmacyFooter from "./Components/Pharmacy/PharmacyFooter.jsx";
 
