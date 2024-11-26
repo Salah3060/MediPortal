@@ -27,10 +27,10 @@ const signUpController = async (req, res, next) => {
       maxAge: 1 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
+    delete user.password;
     res.status(200).json({
       status: "success",
       date: { user },
-      JWT,
     });
   } catch (error) {
     console.log(error);

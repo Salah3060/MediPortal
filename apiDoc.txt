@@ -1,1 +1,67 @@
 Api Documentaion will here    إن شاء الله يا بتوع الفرونت 
+
+
+1.Authentication 
+    1.1 signUp 
+    endPoint: 127.0.0.1:3000/auth/signUp
+    method : post 
+    body : {
+            "email":"test@test.com" , 
+            "password":"test1234"
+            }
+    response : {
+                 "status": "success",
+                  "date": {
+                             "user": {
+                                "userid": 1,
+                                "firstname": "test",
+                                "lastname": "test",
+                                "phonenumber": "1234567890",
+                                "email": "test1234@test.com",
+                                "gender": "Male",
+                                "wallet": 1000,
+                                "createdat": "2024-11-25T18:58:50.865Z",
+                                "updatedat": "2024-11-25T18:58:50.865Z",
+                                "birthdate": "1990-01-14T22:00:00.000Z"
+                                    }
+                            }
+               }
+    ***JWT sent as cookie 
+
+
+
+
+2.Doctors
+    1.1 signUp 
+    endPoint: 127.0.0.1:3000/doctors/allDoctors?gender=Male&&order=firstName&&fields=firstName,lastName
+    queryOption: userId=2,gender=Male,email=xxxxx  ==>for filter 
+               order=userId,-firstName    ==> - for DESC default ASC 
+               fields =userId,lastName  ===> to detect only some fields wanted for results
+    method : get 
+    body : {
+           }
+    response : {
+                 "status": "success",
+                  "date": {
+                             doctors : [
+                                        {
+                                        "userid": 1,
+                                        "firstname": "test",
+                                        "lastname": "test",
+                                        "phonenumber": "1234567890",
+                                        "email": "test1234@test.com",
+                                        "gender": "Male",
+                                        "wallet": 1000,
+                                        "createdat": "2024-11-25T18:58:50.865Z",
+                                        "updatedat": "2024-11-25T18:58:50.865Z",
+                                        "birthdate": "1990-01-14T22:00:00.000Z"
+                                        }
+                                     ]
+                            }
+               }
+    ***JWT sent as cookie 
+
+
+
+
+    
