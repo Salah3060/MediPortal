@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Landing from "../Components/Home/Landing";
 import NewServices from "../Components/Home/NewServices";
 import HomeOffers from "../Components/Home/HomeOffers";
-import Specialities from "../Components/Home/Specialities";
+import Specialities from "../Components/Home/Specialties";
 import Features from "../Components/Home/Features";
 
 const Home = () => {
@@ -38,9 +38,15 @@ const Home = () => {
       >
         <Landing />
       </div>
-      <NewServices />
-      <HomeOffers />
-      <Specialities />
+      <div className="w-full bg-[#e0fbfc] py-8">
+        <NewServices />
+      </div>
+      <div className="w-full bg-white">
+        <HomeOffers />
+      </div>
+      <div className="w-full bg-[#e0fbfc] py-4">
+        <Specialities />
+      </div>
       <Features />
     </div>
   );
