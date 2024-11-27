@@ -29,3 +29,5 @@ export const getAllCategories = async () => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+
+// Testing
