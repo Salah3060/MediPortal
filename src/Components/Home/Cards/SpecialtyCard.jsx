@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 
 const SpecialtyCard = ({ specialty }) => {
   return (
-    <div className="flex flex-col gap-2 w-full rounded-lg">
-      <div className="image rounded-t-lg overflow-hidden w-full h-[215px]">
+    <div className="flex flex-col gap-4 items-center md:items-start w-full hover:scale-95 transition-all duration-300 bg-white max-w-[400px] border rounded-xl">
+      <div className="image rounded-t-lg overflow-hidden w-full h-[215px] max-w-[400px] min-w-[280px]">
         <img
           src={specialty.image}
           alt={specialty.title}

@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 
 const CategoryCard = ({ category }) => {
   return (
-    <Link className="flex flex-col h-full bg-white shadow-md rounded-lg overflow-hidden hover:scale-105 transition-all duration-300">
+    <Link
+      className="flex flex-col h-full bg-white shadow-md rounded-lg overflow-hidden hover:scale-105 transition-all duration-300"
+      to={`/MediPortal/pharmacy/categories/${category.id}/products`}
+    >
       <div className="image flex-1 overflow-hidden">
         <img
           src={category.image}

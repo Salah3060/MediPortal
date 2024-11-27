@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const OfferCard = ({ offer }) => {
   return (
-    <div className="flex flex-col gap-4 items-center md:items-start w-full">
+    <div className="flex flex-col gap-4 items-center md:items-start w-full hover:scale-95 transition-all duration-300">
       {/* Image Section */}
       <div className="image rounded-lg h-[190px] w-full max-w-[400px] min-w-[280px] overflow-hidden relative">
         <img

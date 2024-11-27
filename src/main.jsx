@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Pages/Home.jsx";
 import Pharmacy from "./Pages/Pharmacy.jsx";
 import Products from "./Pages/Products.jsx";
+import SingleProductPage from "./Pages/SingleProductPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +23,12 @@ const router = createBrowserRouter([
         element: <Pharmacy />,
       },
       {
-        path: "pharmacy/products/:categoryId",
+        path: "pharmacy/categories/:categoryId/products",
         element: <Products />,
+      },
+      {
+        path: "pharmacy/categories/:categoryId/products/:productId",
+        element: <SingleProductPage />,
       },
     ],
   },
