@@ -52,7 +52,7 @@ const createMedicalProductsTable = `create table MedicalProducts
         productStackQuantity int , 
         productDescription VARCHAR(50),
         productExpiryDate timestamp not null  ,
-        productCategory int , 
+        productCategory int ,
         primary KEY (productId),
         foreign KEY (productCategory) REFERENCES Categories(categoryId) 
     )
