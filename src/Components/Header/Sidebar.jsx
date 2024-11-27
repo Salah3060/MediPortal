@@ -10,7 +10,7 @@ export default function Sidebar({ isOpen, toogleSideBar }) {
       className={`bg-primary fixed top-0 bottom-0 right-0 w-1/2 sm:w-[350px] 
             transition-all duration-500
             ${isOpen ? "translate-x-0" : "translate-x-96"}
-            pt-16 `}
+            pt-16 z-40`}
     >
       <button
         className="text-white  focus:outline-none text-[2.5rem] 
