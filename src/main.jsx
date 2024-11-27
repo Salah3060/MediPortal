@@ -4,14 +4,14 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import store from "./Store/Store.js";
 // import { Provider } from "react-redux";
-import Home from "./Pages/Home.jsx";
-import Pharmacy from "./Pages/Pharmacy.jsx";
-import Products from "./Pages/Products.jsx";
+import Home from "@/Pages/Home.jsx";
+import Pharmacy from "@/Pages/Pharmacy.jsx";
+import Products from "@/Pages/Products.jsx";
 
 // import Login from "./Pages/Login.jsx";
 // import Signup from "./Pages/signup.jsx";
 
-import SingleProductPage from "./Pages/SingleProductPage.jsx";
+import SingleProductPage from "@/Pages/SingleProductPage.jsx";
 
 const router = createBrowserRouter([
   {

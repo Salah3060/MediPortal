@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import Landing from "../Components/Home/Landing";
-import NewServices from "../Components/Home/NewServices";
-import HomeOffers from "../Components/Home/HomeOffers";
-import Specialities from "../Components/Home/Specialties";
-import Features from "../Components/Home/Features";
+import Landing from "@/Components/Home/Landing";
+import NewServices from "@/Components/Home/NewServices";
+import HomeOffers from "@/Components/Home/HomeOffers";
+import Specialities from "@/Components/Home/Specialties";
+import Features from "@/Components/Home/Features";
 
 const Home = () => {
   const images = [

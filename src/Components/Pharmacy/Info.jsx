@@ -1,4 +1,4 @@
-import ministryLogo from "../../assets/Pharmacy/ministry.jpg";
+import ministryLogo from "@/assets/Pharmacy/ministry.jpg";
 
 const Info = () => {
   return (

@@ -1,6 +1,6 @@
-import SearchProducts from "../Components/Pharmacy/Products/SearchProducts";
+import SearchProducts from "@/Components/Pharmacy/Products/SearchProducts";
 import { useParams, Link } from "react-router-dom";
-import ProductsList from "../Components/Pharmacy/Products/ProductsList";
+import ProductsList from "@/Components/Pharmacy/Products/ProductsList";
 
 const Products = () => {
   const { categoryId } = useParams();

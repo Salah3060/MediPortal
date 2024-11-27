@@ -1,6 +1,6 @@
-import SearchBar from "../Components/Pharmacy/SearchBar";
-import Info from "../Components/Pharmacy/Info";
-import Categories from "../Components/Pharmacy/Categories";
+import SearchBar from "@/Components/Pharmacy/SearchBar";
+import Info from "@/Components/Pharmacy/Info";
+import Categories from "@/Components/Pharmacy/Categories";
 
 const Pharmacy = () => {
   return (
