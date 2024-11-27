@@ -3,7 +3,7 @@ import Items from "./Items";
 
 const Header = () => {
   return (
-    <div className="bg-primary text-white  flex justify-center items-center py-2 px-5">
+    <div className="bg-primary text-white flex justify-center items-center py-1 px-5">
       {/* CONTAINER */}
       <div
         className="

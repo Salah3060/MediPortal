@@ -8,6 +8,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 1",
       price: 10.99,
       category: "Electronics",
+      categoryId: 1,
       image: "https://picsum.photos/200/200",
     },
     {
@@ -15,6 +16,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 1",
       price: 10.99,
       category: "Electronics",
+      categoryId: 2,
       image: "https://picsum.photos/200/200",
     },
     {
@@ -22,6 +24,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 1",
       price: 10.99,
       category: "Electronics",
+      categoryId: 3,
       image: "https://picsum.photos/200/200",
     },
     {
@@ -29,6 +32,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 1",
       price: 10.99,
       category: "Electronics",
+      categoryId: 4,
       image: "https://picsum.photos/200/200",
     },
     {
@@ -36,6 +40,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 1",
       price: 10.99,
       category: "Electronics",
+      categoryId: 5,
       image: "https://picsum.photos/200/200",
     },
     {
@@ -43,6 +48,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 2",
       price: 9.99,
       category: "Electronics",
+      categoryId: 6,
       image: "https://picsum.photos/200/300",
     },
     {
@@ -50,6 +56,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 2",
       price: 9.99,
       category: "Electronics",
+      categoryId: 7,
       image: "https://picsum.photos/200/300",
     },
     {
@@ -57,6 +64,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 2",
       price: 9.99,
       category: "Electronics",
+      categoryId: 8,
       image: "https://picsum.photos/200/300",
     },
     {
@@ -64,6 +72,7 @@ const ProductsList = ({ catName }) => {
       name: "Product 2",
       price: 9.99,
       category: "Electronics",
+      categoryId: 9,
       image: "https://picsum.photos/200/300",
     },
   ];

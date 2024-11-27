@@ -144,7 +144,7 @@ const HomeOffers = () => {
       </div>
 
       {/* Swiper Section */}
-      <div className="offers w-full">
+      <div className="offers w-full py-2">
         <Swiper
           slidesPerView={1} // Default for small screens
           spaceBetween={20}
