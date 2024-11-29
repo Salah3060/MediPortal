@@ -10,6 +10,10 @@ export function ValidataPhone(phonenumber) {
   let Regex = /^(002|\+2)?(010|011|012|015)[0-9]{8}$/;
   return Regex.test(phonenumber) || phonenumber.length < 2;
 }
+export function ValidataPassword(password) {
+  let Regex = /^((?=.*[A-Z])|(?=.*[a-z]))(?=.*[0-9])[0-9a-zA-Z]{8,}$/;
+  return Regex.test(password) || password.length < 2;
+}
 export function DiseaseVaidator(Dis) {
   let Regex = /(?=.*[A-Za-z])[A-Za-z0-9]+$/;
   return Regex.test(Dis) || Dis.length < 2;

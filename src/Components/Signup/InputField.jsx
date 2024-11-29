@@ -10,6 +10,7 @@ export default function InputField({
   errorMsg,
   isRequired = false,
   Maxwidth = "max-w-52",
+  type = "text",
 }) {
   return (
     <span className={`${Maxwidth} flex flex-col items-center`}>
@@ -21,7 +22,7 @@ export default function InputField({
                           ? "bg-gray-50 "
                           : "bg-darkRed bg-opacity-40"
                       }`}
-          type="text"
+          type={type}
           placeholder={placeholder}
           value={user[mykey]}
           onChange={(e) =>

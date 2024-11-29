@@ -16,6 +16,7 @@ export default function Signup() {
     otherDisease: "",
     chronicDiseases: [],
     bloodtype: "",
+    password: "",
   });
   const [step, setStep] = useState(1);
 
