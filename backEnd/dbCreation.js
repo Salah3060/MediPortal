@@ -50,12 +50,13 @@ const createCategoriesTable = `create table Categories
 const createMedicalProductsTable = `create table MedicalProducts
     (
         productId INT generated always as identity (start with 1 increment by 1) ,
-        productName int not null  , 
+        productName  varchar(30) not null default 'cital'  , 
         productPrice int , 
         productStackQuantity int , 
         productDescription VARCHAR(50),
         productExpiryDate timestamp not null  ,
         productCategory int , 
+        manufacture  varchar(30) not null default 'Eva-Pharma' ,
         primary KEY (productId),
         foreign KEY (productCategory) REFERENCES Categories(categoryId) 
     )
@@ -77,6 +78,13 @@ const createOrderProductRelationTable = `create table OrderProductRelation
     foreign key (orderId) references Orders (orderId) ,
     foreign key (productId) references MedicalProducts (productId)
 )
+`;
+const createActiveIngrediants = `create table ActiveIngredients (
+     activeIngredient varchar(25),
+     productId  int ,
+     primary key (activeIngredient , productId),
+     foreign key (productId) references MedicalProducts (productId) )
+      , 
 `;
 async function createTable(query) {
   try {

@@ -8,8 +8,6 @@ class AppError extends Error {
       ? "fail"
       : "internal database error";
     this.isOperational = true;
-
-    captureStackTrace(this, this.constructor);
   }
 }
 
@@ -34,8 +32,8 @@ const filterQueryHandler = (query, validAttributes) => {
     return false;
 
   const filters = Object.entries(query).map((el) => {
-    if (el[0] === "userId") return `${el[0]} = ${Number(el[1])}`;
-    if (el[0] === "firstName" || el[0] === "lastName")
+    if (el[0].slice(-2) === "Id") return `${el[0]} = ${Number(el[1])}`;
+    if (el[0].slice(-4) === "Name" || el[0].slice(-4) === "Name")
       return `${el[0]} ='${
         el[1][0].toUpperCase() + el[1].slice(1).toLowerCase()
       }'`;

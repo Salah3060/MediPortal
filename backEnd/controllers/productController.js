@@ -5,23 +5,27 @@ import {
   fieldsQueryHandler,
   orderQueryHandler,
 } from "../utilities.js";
-import { retrieveAllPatients } from "../databases/patientDatabase.js";
+
+import { retrieveAllProducts } from "../databases/productDatabase.js";
+
 const validAttributes = [
-  "userId",
-  "email",
-  "phoneNumber",
-  "lastName",
-  "firstName",
-  "gender",
-  "accountState",
+  "productId",
+  "productName",
+  "productCategory",
+  "manufacture",
+  "productPrice",
+  "productDescription",
+  "categoryName",
 ];
 
-const getAllPatients = catchAsyncError(async (req, res, next) => {
+const getAllProducts = catchAsyncError(async (req, res, next) => {
   let fields;
   if (req.query.fields) {
     fields = fieldsQueryHandler(req.query, validAttributes);
     if (!fields) return next(new AppError("Invalid query atrributes", 400));
     if (fields.length == 0) fields = undefined;
+    if (fields)
+      fields = fields.join(",").replaceAll("product", " p.product").split(",");
   }
   delete req.query.fields;
 
@@ -29,9 +33,9 @@ const getAllPatients = catchAsyncError(async (req, res, next) => {
 
   if (req.query.order) {
     orders = orderQueryHandler(req.query, validAttributes);
-    console.log(orders);
     if (!orders) return next(new AppError("Invalid query atrributes", 400));
     if (orders.length == 0) orders = undefined;
+    if (orders) orders = orders.join(",").replaceAll("p", "p.p").split(",");
   }
 
   delete req.query.order;
@@ -41,16 +45,16 @@ const getAllPatients = catchAsyncError(async (req, res, next) => {
     filters = filterQueryHandler(req.query, validAttributes);
     if (!filters) return next(new AppError("Invalid query atrributes", 400));
     if (filters.length == 0) filters = undefined;
+    if (filters) filters = filters.join(",").replaceAll("p", "p.p").split(",");
   }
-  console.log(filters);
 
-  const patients = await retrieveAllPatients(fields, filters, orders);
+  const products = await retrieveAllProducts(fields, filters, orders);
 
   res.status(200).json({
     status: "success",
     ok: true,
-    data: { patients },
+    data: { products },
   });
 });
 
-export { getAllPatients };
+export { getAllProducts };
