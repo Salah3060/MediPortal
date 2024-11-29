@@ -14,7 +14,7 @@ export default function InputField({
 }) {
   return (
     <span className={`${Maxwidth} flex flex-col items-center`}>
-      <span className="flex items-center gap-2 w-full">
+      <span className="flex items-center gap-2 w-full relative">
         <input
           className={`border border-gray-300 text-gray-900 text-sm rounded-lg block  p-2.5 w-full 
                       ${
@@ -34,8 +34,8 @@ export default function InputField({
           required={isRequired}
         />
         <MdErrorOutline
-          className={`text-xl text-darkRed
-                      ${Validate(user[mykey]) ? "opacity-0" : "opacity-100"}`}
+          className={`text-xl text-darkRed absolute right-2
+                      ${Validate(user[mykey]) ? "hidden" : ""}`}
         />
       </span>
       <p
