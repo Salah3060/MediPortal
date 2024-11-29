@@ -8,10 +8,12 @@ import Home from "@/Pages/Home.jsx";
 import Pharmacy from "@/Pages/Pharmacy.jsx";
 import Products from "@/Pages/Products.jsx";
 
-// import Login from "./Pages/Login.jsx";
-// import Signup from "./Pages/signup.jsx";
+import Login from "./Pages/Login.jsx";
+import Signup from "./Pages/signup.jsx";
 
 import SingleProductPage from "@/Pages/SingleProductPage.jsx";
+import { Provider } from "react-redux";
+import store from "./Store/Store.js";
 
 const router = createBrowserRouter([
   {
@@ -30,14 +32,14 @@ const router = createBrowserRouter([
         path: "pharmacy/categories/:categoryId/products",
         element: <Products />,
       },
-      // {
-      //   path: "login",
-      //   element: <Login />,
-      // },
-      // {
-      //   path: "signup",
-      //   element: <Signup />,
-      // },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
+      },
       {
         path: "pharmacy/categories/:categoryId/products/:productId",
         element: <SingleProductPage />,
@@ -47,7 +49,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  // <Provider store={store}>
-  <RouterProvider router={router} />
-  // </Provider>
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );

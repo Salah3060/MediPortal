@@ -13,9 +13,11 @@
   border-radius: 12px;
   max-width: 400px !important;
 }
+
 .loginAnimation h1 {
   transition: all 400ms ease-in-out;
 }
+
 .loginAnimation:hover h1 {
   transform: translateY(-6.875rem);
   font-size: 42px;
@@ -23,6 +25,10 @@
   color: #253237;
   letter-spacing: 10px;
 }
+
 .loginAnimation:hover h1::after {
   content: "...";
+}
+.sing-up-input-style {
+  @apply border border-gray-300 text-sm rounded-lg  bg-gray-50  p-2.5;
 }
