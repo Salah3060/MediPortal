@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
-import { useEffect } from "react";
 import { useState } from "react";
 import Stepper from "../Components/Signup/Stepper";
 import Personalinfo from "../Components/Signup/Personalinfo";
 import Patient from "../Components/Signup/Patient";
+import Doctor from "../Components/Signup/Doctor";
+
 export default function Signup() {
   const [user, setUser] = useState({
     firstname: "",
@@ -17,15 +17,10 @@ export default function Signup() {
     chronicDiseases: [],
     bloodtype: "",
     password: "",
+    license: "",
+    speciality: "",
   });
   const [step, setStep] = useState(1);
-
-  useEffect(
-    function () {
-      console.log(user);
-    },
-    [user]
-  );
 
   return (
     <div className="min-w-h-lvh w-full flex justify-center items-center text-primary">
@@ -43,20 +38,5 @@ export default function Signup() {
         )}
       </div>
     </div>
-  );
-}
-
-function Doctor({ user, setUser, setStep }) {
-  return (
-    <form className="flex flex-col justify-between ">
-      <div className=" flex justify-evenly my-10">
-        <span className="grid sm:grid-cols-2 grid-cols-1 gap-5 w-full ">
-          Doctor
-        </span>
-      </div>
-      <button className="btn " onClick={() => {}} type="submit">
-        Next
-      </button>
-    </form>
   );
 }

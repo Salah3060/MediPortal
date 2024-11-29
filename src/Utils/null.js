@@ -18,3 +18,8 @@ export function DiseaseVaidator(Dis) {
   let Regex = /(?=.*[A-Za-z])[A-Za-z0-9]+$/;
   return Regex.test(Dis) || Dis.length < 2;
 }
+
+export default function LicenseValidator(lic) {
+  let Regex = /^[0-9]{1,}$/;
+  return Regex.test(lic) || lic.length < 2;
+}
