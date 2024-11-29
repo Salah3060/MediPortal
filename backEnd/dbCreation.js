@@ -12,9 +12,12 @@ const createUsersTable = `create table Users
         createdAt  timestamp , 
         updatedAt timestamp , 
         birthDate date , 
-        password varchar(20) not null, 
+        password varchar(32) not null default,
+        userRole varchar(15) not null default 'Patient',
+        userState varchar(10) ,
         primary key (userId) , 
         constraint validGender check (gender in ('Male' ,'Female'))
+        constraint validUserState check (userState in ('Active' , 'Pending' , 'Blocked')),
     )`;
 const createPatientsTable = `create table Patients
     (
