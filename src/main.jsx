@@ -9,8 +9,8 @@ import Pharmacy from "@/Pages/Pharmacy.jsx";
 import Products from "@/Pages/Products.jsx";
 import Question from "@/Pages/Question.jsx";
 
-// import Login from "./Pages/Login.jsx";
-// import Signup from "./Pages/signup.jsx";
+import Login from "./Pages/Login.jsx";
+import Signup from "./Pages/signup.jsx";
 
 import SingleProductPage from "@/Pages/SingleProductPage.jsx";
 
@@ -35,14 +35,14 @@ const router = createBrowserRouter([
         path: "pharmacy/categories/:categoryId/products",
         element: <Products />,
       },
-      // {
-      //   path: "login",
-      //   element: <Login />,
-      // },
-      // {
-      //   path: "signup",
-      //   element: <Signup />,
-      // },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
+      },
       {
         path: "pharmacy/categories/:categoryId/products/:productId",
         element: <SingleProductPage />,
