@@ -53,9 +53,9 @@ const Categories = () => {
 
       {/* Responsive Grid with minmax */}
       <div
-        className="grid gap-10"
+        className="grid gap-6"
         style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(215px, 1fr))",
         }}
       >
         {categories.map((category) => (

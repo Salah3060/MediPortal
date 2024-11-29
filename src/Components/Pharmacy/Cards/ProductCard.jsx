@@ -7,11 +7,11 @@ const ProductCard = ({ product }) => {
       className="flex flex-col h-full bg-white shadow-md rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 p-5 gap-2"
       to={`/MediPortal/pharmacy/categories/${product.categoryId}/products/${product.id}`}
     >
-      <div className="image">
-        <img
+        <div className="image">
+          <img
           src={product.image}
           alt={product.name}
-          className="w-full h-[180px] object-cover"
+          className="w-full h-[160px] object-cover"
         />
       </div>
       <div className="text">

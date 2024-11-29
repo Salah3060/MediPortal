@@ -87,7 +87,7 @@ const ProductsList = ({ catName }) => {
       <div
         className="grid gap-6"
         style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
         }}
       >
         {Products.map((product) => (
