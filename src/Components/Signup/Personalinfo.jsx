@@ -161,11 +161,7 @@ export default function Personalinfo({ user, setUser, setStep }) {
           />
         </span>
       </div>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        onClick={StepsValidation}
-        type="submit"
-      >
+      <button className="btn" onClick={StepsValidation} type="submit">
         Next
       </button>
     </form>

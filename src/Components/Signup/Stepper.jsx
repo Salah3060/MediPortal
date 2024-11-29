@@ -5,7 +5,7 @@ const Stepper = ({ currentStep }) => {
   const steps = ["Personal Info", "Specific info", "finish"];
   return (
     <>
-      <div className="sm:flex hidden justify-between mb-5 ">
+      <div className="sm:flex hidden justify-between mb-5 max-w-[28.125rem] ">
         {steps?.map((step, i) => (
           <div
             key={i}

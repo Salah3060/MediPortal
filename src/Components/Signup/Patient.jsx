@@ -84,11 +84,7 @@ export default function Patient({ user, setUser, setStep }) {
             />
           </span>
         </div>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={StepValidate}
-          type="submit"
-        >
+        <button className="btn" onClick={StepValidate} type="submit">
           Next
         </button>
       </form>
