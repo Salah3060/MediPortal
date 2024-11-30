@@ -1,23 +1,25 @@
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { RiErrorWarningFill } from "react-icons/ri";
 
+import { useSelector, useDispatch } from "react-redux";
+import { fetchSingleProduct } from "@/Store/Slices/productsSlice";
+import { useEffect } from "react";
+import Loader from "../Components/Loader";
+
 const SingleProductPage = () => {
   const { productId } = useParams();
+  const dispatch = useDispatch();
 
-  const product = {
-    productId: productId,
-    productName: "Product Name",
-    image: "https://picsum.photos/200/200",
-    productPrice: 100,
-    productCategory: 1,
-    productDescription:
-      "Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description",
-    ingredients: ["Ingredient 1", "Ingredient 2", "Ingredient 3"],
-    manufacturer: "Manufacturer Name",
-  };
+  const { isLoading, error, selectedProduct } = useSelector(
+    (state) => state.products
+  );
 
-  const categoryName = "Name Here";
+  useEffect(() => {
+    dispatch(fetchSingleProduct(productId));
+  }, [dispatch, productId]);
+
+  if (isLoading) return <Loader />;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="container max-w-[1300px] mx-auto px-4 py-8 flex flex-col gap-8 w-full items-center">
@@ -25,16 +27,16 @@ const SingleProductPage = () => {
       <div className="productInfo container bg-gradient-to-r from-[#c2dfe3] to-[#9db4c0] p-4 md:p-6 lg:p-8 flex flex-col md:flex-row gap-8 rounded-xl flex-grow">
         <div className="image">
           <img
-            src={product.image}
-            alt={product.productName}
-            className="w-full h-[200px] md:h-full object-cover rounded-lg"
+            src={`https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png`}
+            alt={selectedProduct?.productname}
+            className="w-full h-[200px] object-contain rounded-lg"
           />
         </div>
         <div className="info flex flex-col gap-2 w-full">
           <h1 className="text-primary text-xl md:text-3xl font-semibold">
-            {product.productName}
+            {selectedProduct?.productname}
           </h1>
-          <h2 className="text-primary/80">{categoryName}</h2>
+          <h2 className="text-primary/80">{selectedProduct?.categoryname}</h2>
           <button className="w-full md:w-[50%] self-end py-2 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-tertiary transition-all duration-300 ease-in-out">
             Add to Cart
           </button>
@@ -55,7 +57,7 @@ const SingleProductPage = () => {
             Medical Description
           </h1>
           <p className="text-sm md:text-md text-primary/80">
-            {product.productDescription}
+            {selectedProduct?.productdescription}
           </p>
         </div>
         <div className="ingredients flex flex-col gap-2 border-b pb-6 border-b-primary">
@@ -63,7 +65,12 @@ const SingleProductPage = () => {
             Active Ingredients
           </h1>
           <div className="flex flex-wrap gap-2 items-center">
-            {product.ingredients.map((ingredient, index) => (
+            {selectedProduct?.activeingredients.length === 0 && (
+              <p className="text-sm md:text-md text-primary/80">
+                No active ingredients found.
+              </p>
+            )}
+            {selectedProduct?.activeingredients.map((ingredient, index) => (
               <p
                 key={index}
                 className="text-sm md:text-md bg-white px-4 py-2 rounded-xl text-primary hover:text-tertiary hover:bg-primary transition-all duration-300"
@@ -78,7 +85,7 @@ const SingleProductPage = () => {
             Manufacture
           </h1>
           <p className="text-sm md:text-md text-primary/80">
-            {product.manufacturer}
+            {selectedProduct?.manufacture}
           </p>
         </div>
       </div>
@@ -113,10 +120,6 @@ const SingleProductPage = () => {
       </div>
     </div>
   );
-};
-
-SingleProductPage.propTypes = {
-  product: PropTypes.object.isRequired,
 };
 
 export default SingleProductPage;

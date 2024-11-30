@@ -1,81 +1,23 @@
 import PropTypes from "prop-types";
 import ProductCard from "../Cards/ProductCard";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "@/Store/Slices/productsSlice";
+import { useEffect } from "react";
+import Loader from "../../Loader";
 
 const ProductsList = ({ catName }) => {
-  const Products = [
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Electronics",
-      categoryId: 1,
-      image: "https://picsum.photos/200/200",
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Electronics",
-      categoryId: 2,
-      image: "https://picsum.photos/200/200",
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Electronics",
-      categoryId: 3,
-      image: "https://picsum.photos/200/200",
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Electronics",
-      categoryId: 4,
-      image: "https://picsum.photos/200/200",
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Electronics",
-      categoryId: 5,
-      image: "https://picsum.photos/200/200",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 9.99,
-      category: "Electronics",
-      categoryId: 6,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 9.99,
-      category: "Electronics",
-      categoryId: 7,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 9.99,
-      category: "Electronics",
-      categoryId: 8,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 9.99,
-      category: "Electronics",
-      categoryId: 9,
-      image: "https://picsum.photos/200/300",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { isLoading, error, selectedItems } = useSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    dispatch(fetchProducts(catName));
+  }, [dispatch, catName]);
+
+  if (isLoading) return <Loader />;
+
+  if (error) return <div>Error: {error}</div>;
   return (
     <div className="container max-w-[1300px] mx-auto px-4 py-8">
       {/* Header */}
@@ -90,8 +32,8 @@ const ProductsList = ({ catName }) => {
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
         }}
       >
-        {Products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        {selectedItems.map((product) => (
+          <ProductCard key={product.productid} product={product} />
         ))}
       </div>
     </div>

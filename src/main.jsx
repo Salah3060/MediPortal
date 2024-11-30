@@ -2,8 +2,8 @@ import { createRoot } from "react-dom/client";
 import "./Styles/index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import store from "./Store/Store.js";
-// import { Provider } from "react-redux";
+import store from "./Store/Store.js";
+import { Provider } from "react-redux";
 import Home from "@/Pages/Home.jsx";
 import Pharmacy from "@/Pages/Pharmacy.jsx";
 import Products from "@/Pages/Products.jsx";
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         element: <Question />,
       },
       {
-        path: "pharmacy/categories/:categoryId/products",
+        path: "pharmacy/categories/:categoryName/products",
         element: <Products />,
       },
       {
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "pharmacy/categories/:categoryId/products/:productId",
+        path: "pharmacy/categories/:categoryName/products/:productId",
         element: <SingleProductPage />,
       },
     ],
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  // <Provider store={store}>
-  <RouterProvider router={router} />
-  // </Provider>
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );

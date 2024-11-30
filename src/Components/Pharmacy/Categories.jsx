@@ -1,48 +1,25 @@
 import CategoryCard from "./Cards/CategoryCard";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllCategories } from "@/Store/Slices/productsSlice";
+import { useEffect } from "react";
+import Loader from "../Loader";
 
 const Categories = () => {
-  const categories = [
-    {
-      id: 1,
-      name: "Medicines",
-      image: "https://placehold.co/600x400",
-    },
-    {
-      id: 2,
-      name: "Vitamins",
-      image: "https://placehold.co/600x400",
-    },
-    {
-      id: 3,
-      name: "Supplements",
-      image: "https://placehold.co/600x400",
-    },
-    {
-      id: 4,
-      name: "Personal Care",
-      image: "https://placehold.co/600x400",
-    },
-    {
-      id: 5,
-      name: "Health Devices",
-      image: "https://placehold.co/600x400",
-    },
-    {
-      id: 5,
-      name: "Health Devices",
-      image: "https://placehold.co/600x400",
-    },
-    {
-      id: 5,
-      name: "Health Devices",
-      image: "https://placehold.co/600x400",
-    },
-    {
-      id: 5,
-      name: "Health Devices",
-      image: "https://placehold.co/600x400",
-    },
-  ];
+  const dispatch = useDispatch();
+
+  // Select necessary state from Redux store
+  const { isLoading, error, categories } = useSelector(
+    (state) => state.products
+  );
+
+  // Fetch categories when the component mounts
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
+
+  if (isLoading) return <Loader />;
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="container max-w-[1300px] mx-auto px-4 py-8">
@@ -58,8 +35,8 @@ const Categories = () => {
           gridTemplateColumns: "repeat(auto-fit, minmax(215px, 1fr))",
         }}
       >
-        {categories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
+        {categories?.map((category) => (
+          <CategoryCard key={category.categoryid} category={category} />
         ))}
       </div>
     </div>

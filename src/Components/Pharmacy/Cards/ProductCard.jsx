@@ -5,23 +5,23 @@ const ProductCard = ({ product }) => {
   return (
     <Link
       className="flex flex-col h-full bg-white shadow-md rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 p-5 gap-2"
-      to={`/MediPortal/pharmacy/categories/${product.categoryId}/products/${product.id}`}
+      to={`/MediPortal/pharmacy/categories/${product.categoryname}/products/${product.productid}`}
     >
-        <div className="image">
-          <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-[160px] object-cover"
+      <div className="image">
+        <img
+          src={`https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png`}
+          alt={product.productname}
+          className="w-full h-[160px] object-contain"
         />
       </div>
       <div className="text">
-        <h2 className="font-medium">{product.name}</h2>
+        <h2 className="font-medium">{product.productname}</h2>
         <span className="text-lightGrayText text-[13px] font-bold">
-          {product.category}
+          {product.categoryname}
         </span>
         <div className="flex gap-2 text-tertiary">
           <span className="">From</span>
-          <p className="font-bold">${product.price}</p>
+          <p className="font-bold">${product.productprice}</p>
         </div>
       </div>
       <div className="button w-full">

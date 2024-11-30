@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import ProductsList from "@/Components/Pharmacy/Products/ProductsList";
 
 const Products = () => {
-  const { categoryId } = useParams();
+  const { categoryName } = useParams();
   return (
     <div>
       <div className="bg-primary w-full py-2">
@@ -17,13 +17,12 @@ const Products = () => {
           >
             MediPortal Pharmacy
           </Link>{" "}
-          / <span>Category Name</span>
+          / <span>{categoryName}</span>
         </div>
       </div>
 
       <div className="bg-[#9db4c0]">
-        <ProductsList catName={"Name Here"} />{" "}
-        {/* Pass the category name here */}
+        <ProductsList catName={categoryName} />
       </div>
     </div>
   );
