@@ -2,8 +2,8 @@ Api Documentaion will here    إن شاء الله يا بتوع الفرونت
 
 
 1.Authentication 
-    1.1 signUp 
-    endPoint: 127.0.0.1:3000/auth/signUp
+    1.1 logIn
+    endPoint: 127.0.0.1:3000/auth/logIn
     method : post 
     body : {
             "email":"test@test.com" , 
@@ -32,7 +32,7 @@ Api Documentaion will here    إن شاء الله يا بتوع الفرونت
 
 
 2.Doctors
-    1.1 getAllDoctors
+    2.1 getAllDoctors
     endPoint: 127.0.0.1:3000/doctors/allDoctors?gender=Male&&order=firstName&&fields=firstName,lastName
     queryOption: userId=2,gender=Male,email=xxxxx  ==>for filter 
                order=userId,-firstName    ==> - for DESC default ASC 
@@ -68,3 +68,90 @@ Api Documentaion will here    إن شاء الله يا بتوع الفرونت
 
 
     
+ 3.Patients   
+     3.1 getAllPatient
+    endPoint: 127.0.0.1:3000/patients/allPatients?gender=Male&&order=firstName&&fields=firstName,lastName
+    queryOption: userId=2,gender=Male,email=xxxxx  ==>for filter 
+               order=userId,-firstName    ==> - for DESC default ASC 
+               fields =userId,lastName  ===> to detect only some fields wanted for results
+    method : get 
+    body : {
+           }
+    response : {
+                 "status": "success",
+                  ok:true 
+                  "date": {
+                             "patients": [
+                                        {
+                                            "userid": 5,
+                                            "firstname": "Chris",
+                                            "lastname": "Wilson",
+                                            "phonenumber": "3334445555",
+                                            "email": "chris.wilson1@gmail.com",
+                                            "gender": "Male",
+                                            "wallet": 3000,
+                                            "createdat": "2024-11-25T18:58:50.865Z",
+                                            "updatedat": "2024-11-25T18:58:50.865Z",
+                                            "birthdate": "1995-07-21T21:00:00.000Z",
+                                            "bloodtype": "A+",
+                                            "chronicdisease": "Diabetes"
+                                        },
+                                     ]
+                            }
+               }
+
+    3.2 get patint by any of its arrtibue 
+        ==>use get all patintss and set wanted attrubite like 
+         endPoint: 127.0.0.1:3000/patints/allPatints?firstName='Kamal' 
+         endPoint: 127.0.0.1:3000/patints/alPatints?userId=4
+         you can query on name with all methods KAmal kAMak 
+
+
+
+
+4.Pharmasy 
+     4.1 Products
+    endPoint: 127.0.0.1:3000/products/allProducts?fields=productPrice,productName,categoryName&&order=productPrice
+    queryOption: fields , productId=2 (filter) , order
+    method : get 
+    body : {
+           }
+    response : {
+                 "status": "success",
+                  ok:true 
+                  "date": {
+                             "products": [
+                                        {
+                                        "productid": 34,
+                                        "productprice": 190,
+                                        "productstackquantity": 15,
+                                        "productdescription": "Pain relief patch for muscle soreness.",
+                                        "productexpirydate": "2025-11-30T22:00:00.000Z",
+                                        "manufacture": "Eva-Pharma",
+                                        "productname": "Cital",
+                                        "categoryname": "Painkillers",
+                                        "activeingredients": []
+                                       },
+                                     ]
+                            }
+               }
+    4.2 getAllCategories 
+        endPoint :127.0.0.1:3000/categories/allCategories
+        method : get 
+        body : {
+               }
+        response : {
+                status:'success',
+                ok:true,
+                data{
+                    "categories": [
+                                    {
+                                        "categoryid": 1,
+                                        "categoryname": "Beauty",
+                                        "categorydescription": "Improves skin health and glow."
+                                    },
+                                  ]       
+                   }
+                  }
+
+                  

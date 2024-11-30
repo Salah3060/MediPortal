@@ -1,4 +1,3 @@
-import { retrieveAllDoctors } from "../databases/doctorDatabse.js";
 import {
   AppError,
   catchAsyncError,
@@ -6,7 +5,7 @@ import {
   fieldsQueryHandler,
   orderQueryHandler,
 } from "../utilities.js";
-
+import { retrieveAllPatients } from "../databases/patientDatabase.js";
 const validAttributes = [
   "userId",
   "email",
@@ -14,11 +13,10 @@ const validAttributes = [
   "lastName",
   "firstName",
   "gender",
-  "specialization",
   "accountState",
 ];
 
-const getAllDoctors = catchAsyncError(async (req, res, next) => {
+const getAllPatients = catchAsyncError(async (req, res, next) => {
   let fields;
   if (req.query.fields) {
     fields = fieldsQueryHandler(req.query, validAttributes);
@@ -44,13 +42,15 @@ const getAllDoctors = catchAsyncError(async (req, res, next) => {
     if (!filters) return next(new AppError("Invalid query atrributes", 400));
     if (filters.length == 0) filters = undefined;
   }
+  console.log(filters);
 
-  const doctors = await retrieveAllDoctors(fields, filters, orders);
+  const patients = await retrieveAllPatients(fields, filters, orders);
+
   res.status(200).json({
-    status: "succes",
+    status: "success",
     ok: true,
-    data: { doctors },
+    data: { patients },
   });
 });
 
-export { getAllDoctors };
+export { getAllPatients };
