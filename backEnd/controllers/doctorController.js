@@ -43,7 +43,6 @@ const getAllDoctors = catchAsyncError(async (req, res, next) => {
     filters = filterQueryHandler(req.query, validAttributes);
     if (!filters) return next(new AppError("Invalid query atrributes", 400));
     if (filters.length == 0) filters = undefined;
-    console.log(filters);
   }
 
   const doctors = await retrieveAllDoctors(fields, filters, orders);

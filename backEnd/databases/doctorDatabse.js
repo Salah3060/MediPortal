@@ -10,7 +10,6 @@ const retrieveAllDoctors = async (fields, filters, orders) => {
     query += `   from Users u  join Doctors d on u .userId = d.doctorId   `;
     if (filters) query += `where ${filters.join(" and ")}`;
     if (orders) query += `order by ${orders.join(" , ")}`;
-    console.log(query);
     const res = await pool.query(query);
     return res.rows;
   } catch (err) {

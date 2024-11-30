@@ -66,6 +66,12 @@ const orderQueryHandler = (query, validAttributes) => {
   });
   return orders;
 };
+
+const validateLogIn = (req, res, next) => {
+  console.log("test");
+  console.log(req.cookies);
+  next();
+};
 export {
   AppError,
   globalErrorHandler,
@@ -73,4 +79,5 @@ export {
   filterQueryHandler,
   fieldsQueryHandler,
   orderQueryHandler,
+  validateLogIn,
 };

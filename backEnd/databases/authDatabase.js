@@ -1,6 +1,6 @@
 import pool from "../server.js";
 
-const signUpDb = async (email, password) => {
+const logInDb = async (email, password) => {
   try {
     const query = `select * from Users where email=$1 and password=$2`;
     const res = await pool.query(query, [email, password]);
@@ -11,4 +11,4 @@ const signUpDb = async (email, password) => {
   }
 };
 
-export { signUpDb };
+export { logInDb };
