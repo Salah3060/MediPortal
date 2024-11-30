@@ -1,11 +1,12 @@
 import pkg from "jsonwebtoken";
 import dotenv from "dotenv";
 import { logInDb, registerDb } from "../databases/authDatabase.js";
-import { AppError } from "../utilities.js";
+import { AppError, catchAsyncError } from "../utilities.js";
 const { data, JsonWebToken } = pkg;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import validator from "validator";
+import { promisify } from "util";
 dotenv.config("../../BE.env");
 
 const createToken = (id) => {
@@ -15,9 +16,10 @@ const createToken = (id) => {
   return JWT;
 };
 const sendAndSignToken = async (user, res) => {
-  const token = createToken(user.userId);
-  res.cookie("JWT", jwt, {
+  const token = createToken(user.userid);
+  res.cookie("jwt", token, {
     maxAge: 1 * 24 * 60 * 60 * 1000,
+    secure: false,
     httpOnly: true,
   });
   res.status(200).json({
@@ -37,22 +39,9 @@ const logInController = async (req, res, next) => {
     if (!user) {
       return next(new AppError("No User valid for this data", 404));
     }
-    const { userId } = user;
-    const JWT = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
 
-    res.cookie("jwt", JWT, {
-      httpOnly: true, // Prevents JavaScript access to cookies
-      // secure: false, // Disable secure in development (localhost)
-      // maxAge: 3600000, // 1-hour expiration
-    });
     delete user.password;
-    res.status(200).json({
-      status: "success",
-      date: { user },
-      JWT,
-    });
+    sendAndSignToken(user, res);
   } catch (error) {
     console.log(error);
   }
@@ -161,4 +150,23 @@ const registerController = async (req, res, next) => {
   }
 };
 
-export { logInController, registerController };
+const validateLoggedIn = catchAsyncError(async (req, res, next) => {
+  const { jwt: token } = req.cookies;
+  if (!token)
+    return next(
+      new AppError("Protected Path , Plesase login to get access", 401)
+    );
+
+  const { id } = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
+  if (!id)
+    return next(
+      new AppError("Protected Path , Plesase login to get access", 401)
+    );
+  const user = await logInDb(undefined, undefined, id);
+  if (!user) new AppError("Protected Path , Plesase login to get access", 401);
+  console.log(user);
+  req.user = user;
+  next();
+});
+
+export { logInController, registerController, validateLoggedIn };

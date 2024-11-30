@@ -1,4 +1,8 @@
 import { query } from "express";
+import pkg from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config("../../BE.env");
 
 class AppError extends Error {
   constructor(message, statusCode) {
@@ -67,11 +71,6 @@ const orderQueryHandler = (query, validAttributes) => {
   return orders;
 };
 
-const validateLogIn = (req, res, next) => {
-  console.log("test");
-  console.log(req.cookies);
-  next();
-};
 export {
   AppError,
   globalErrorHandler,
@@ -79,5 +78,4 @@ export {
   filterQueryHandler,
   fieldsQueryHandler,
   orderQueryHandler,
-  validateLogIn,
 };

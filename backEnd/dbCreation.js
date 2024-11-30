@@ -5,7 +5,7 @@ const createUsersTable = `create table Users
     userId int generated always as identity (start with 1 increment by 1), 
     firstName varchar(20) not null, 
     lastName varchar(20) not null, 
-    phoneNumber varchar(20), 
+    phoneNumber varchar(110), 
     email varchar(30) unique, 
     gender varchar(8) check (gender in ('Male', 'Female')),
     wallet numeric(10, 2) default 0.00, 
@@ -53,7 +53,7 @@ const createMedicalProductsTable = `create table MedicalProducts
         productPrice int , 
         productStackQuantity int , 
         productDescription VARCHAR(50),
-        productExpiryDate timestamp not null  ,
+        productExpiryDate date not null  ,
         productCategory int , 
         manufacture  varchar(30) not null default 'Eva-Pharma' ,
         primary KEY (productId),
@@ -64,7 +64,7 @@ const createOrdersTable = `create table Orders
 (
     orderId INT generated always as identity (start with 1 increment by 1),
     orderDate timestamp , 
-    totalAmount int ,
+    totalAmount float ,
     primary KEY (orderId)
 )
 `;
