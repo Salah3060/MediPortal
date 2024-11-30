@@ -149,11 +149,12 @@ const registerController = async (req, res, next) => {
     let specificAtt = [];
     if (userRole === "Patient") {
       specificAtt = [bloodType, chronicDisease];
-    } else {
+    } else if (userRole === "Doctor") {
       specificAtt = [licenseNumber, specialization];
     }
 
     const newUser = await registerDb(attributes, userRole, specificAtt);
+    delete newUser.password;
     sendAndSignToken(newUser, res);
   } catch (err) {
     console.log(err);

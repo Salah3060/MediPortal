@@ -16,7 +16,7 @@ const registerDb = async (attributes, role, specificAtt) => {
   try {
     const query = `insert into Users(firstName, lastName, email, phoneNumber, gender, createdAt, updatedAt , userState, birthDate, password, userRole)
                   values($1 , $2 , $3 , $4 , $5 , $6 , $6 , $7 , $8 , $9 , $10)
-                  RETURNING userId , firstName , lastName , userRole ;
+                  RETURNING * ;
                   `;
 
     // attributes[5] = attributes[5].toISOString().split("T")[0];
@@ -27,7 +27,7 @@ const registerDb = async (attributes, role, specificAtt) => {
     if (role === "Patient") {
       secQuery = `insert into Patients(patientId , bloodType , chronicDisease)
                   values($1 , $2 , $3);`;
-    } else {
+    } else if (userRole === "Doctor") {
       secQuery = `insert into Doctors(doctorId , licenseNumber , specialization)
                   values($1 , $2 , $3);`;
     }
@@ -39,5 +39,4 @@ const registerDb = async (attributes, role, specificAtt) => {
   }
 };
 
-export { signUpDb, registerDb };
-export { logInDb };
+export { logInDb, registerDb };
