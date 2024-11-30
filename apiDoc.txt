@@ -27,8 +27,44 @@ Api Documentaion will here    إن شاء الله يا بتوع الفرونت
                             }
                }
     ***JWT sent as cookie 
-
-
+    
+    1.2 register
+    endPoint: 127.0.0.1:3000/auth/register
+    method : post
+    body :
+        {
+            "firstName" :"an",
+            "lastName":"example",
+            "email":"YousefIsTesting7@dum.com",
+            "phoneNumber":"01128606377",
+            "gender": "Male",
+            "birthDate": "2004-12-12",
+            "password": "yousef123",
+            "userRole": "Patient",
+            "bloodType":"o+",
+            "chronicDisease":"none"
+        }
+    response :
+        {
+            "status": "success",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzI5NzY0MDksImV4cCI6MTczMzA2MjgwOX0.fuw9uLxq6GFHJMk9UvTmnGhhUgaP3tbqQsXkhGuy-PM",
+            "date": {
+                "user": {
+                    "userid": 26,
+                    "firstname": "an",
+                    "lastname": "example",
+                    "phonenumber": "01128606377",
+                    "email": "YousefIsTesting7@dum.com",
+                    "gender": "Male",
+                    "wallet": null,
+                    "createdat": "2024-11-30T14:20:08.300Z",
+                    "updatedat": "2024-11-30T14:20:08.300Z",
+                    "birthdate": "2004-12-11T22:00:00.000Z",
+                    "userstate": "Active",
+                    "userrole": "Patient"
+                }
+            }
+        }
 
 
 2.Doctors
