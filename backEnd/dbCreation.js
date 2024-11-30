@@ -1,24 +1,23 @@
 import pool from "./server.js";
 
 const createUsersTable = `create table Users
-    (
-        userId int generated always as identity (start with 1 increment by 1)  , 
-        firstName varchar(20) not null , 
-        lastName varchar(20) not null , 
-        phoneNumber varchar(20), 
-        email varchar(30) unique , 
-        gender varchar(8),
-        wallet int , 
-        createdAt  timestamp , 
-        updatedAt timestamp , 
-        birthDate date , 
-        password varchar(32) not null default,
-        userRole varchar(15) not null default 'Patient',
-        userState varchar(10) ,
-        primary key (userId) , 
-        constraint validGender check (gender in ('Male' ,'Female'))
-        constraint validUserState check (userState in ('Active' , 'Pending' , 'Blocked')),
-    )`;
+(
+    userId int generated always as identity (start with 1 increment by 1), 
+    firstName varchar(20) not null, 
+    lastName varchar(20) not null, 
+    phoneNumber varchar(20), 
+    email varchar(30) unique, 
+    gender varchar(8) check (gender in ('Male', 'Female')),
+    wallet numeric(10, 2) default 0.00, 
+    createdAt timestamp default current_timestamp, 
+    updatedAt timestamp default current_timestamp, 
+    birthDate date, 
+    password varchar(32) not null, 
+    userRole varchar(15) not null default 'Patient',
+    userState varchar(10) default 'Pending' check (userState in ('Active', 'Pending', 'Blocked')),
+    primary key (userId)
+);
+`;
 const createPatientsTable = `create table Patients
     (
         patientId INT,
@@ -244,3 +243,5 @@ const createAppointmentsTable = `create table Appointments
 const tester = "tsting";
 
 /// hi mr aref
+
+createTable(createActiveIngrediants);
