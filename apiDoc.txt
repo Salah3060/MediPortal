@@ -3,7 +3,7 @@ Api Documentaion will here    إن شاء الله يا بتوع الفرونت
 
 1.Authentication 
     1.1 signUp 
-    endPoint: 127.0.0.1:3000/auth/signUp
+    endPoint: 127.0.0.1:3000/auth/logIn
     method : post 
     body : {
             "email":"test@test.com" , 
