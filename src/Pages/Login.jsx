@@ -2,17 +2,17 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axiosInstance from "../API/axiosInstance";
 import axios from "axios";
+import { login } from "@/API/authAPI";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [submit, setSubmit] = useState(false);
+
+  // use function login to login user
   useEffect(() => {
     async function fetchData() {
-      const resp = await axiosInstance.post("/auth/logIn", {
-        email: email,
-        password: pass,
-      });
+      const resp = await login(email, pass);
       console.log(resp);
     }
 
@@ -20,6 +20,7 @@ export default function Login() {
     fetchData();
     setSubmit((e) => !e);
   }, [submit, email, pass]);
+
   return (
     <div className="h-lvh w-full flex justify-center items-center text-primary">
       <div className="lg:w-1/3 md:w-3/5 w-2/3 border-primary border-opacity-50 border text-center  rounded-md shadow-md loginAnimation px-8 pt-6 pb-8 mb-4  backdrop-blur-3xl">
