@@ -1,4 +1,4 @@
-import { PuffLoader } from "react-spinners";
+// import { PuffLoader } from "react-spinners";
 
 const Loader = () => {
   return (

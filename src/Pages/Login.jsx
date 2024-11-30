@@ -1,6 +1,7 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
+import axiosInstance from "../API/axiosInstance";
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -8,7 +9,7 @@ export default function Login() {
   const [submit, setSubmit] = useState(false);
   useEffect(() => {
     async function fetchData() {
-      const resp = axios("127.0.0.1:3000/auth/login", {
+      const resp = await axiosInstance.post("/auth/logIn", {
         email: email,
         password: pass,
       });
@@ -35,13 +36,20 @@ export default function Login() {
           />
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            id="mail"
+            id="password"
             type="password"
             placeholder="Password"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
           />
-          <button className="btn" type="submit">
+          <button
+            className="btn"
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              setSubmit(true);
+            }}
+          >
             Login
           </button>
         </form>
