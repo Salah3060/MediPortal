@@ -8,6 +8,7 @@ import Home from "@/Pages/Home.jsx";
 import Pharmacy from "@/Pages/Pharmacy.jsx";
 import Products from "@/Pages/Products.jsx";
 import Question from "@/Pages/Question.jsx";
+import Cart from "@/Pages/Cart.jsx";
 
 import Login from "./Pages/Login.jsx";
 import Signup from "./Pages/signup.jsx";
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "pharmacy/categories/:categoryName/products/:productId",
         element: <SingleProductPage />,
+      },
+      {
+        path: "pharmacy/cart",
+        element: <Cart />,
       },
     ],
   },

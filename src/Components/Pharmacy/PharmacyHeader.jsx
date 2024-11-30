@@ -1,8 +1,10 @@
 import { PiHandbag } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 const PharmacyHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const cartLength = useSelector((state) => state.cart.totalQuantity);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -37,9 +39,14 @@ const PharmacyHeader = () => {
             Sign Up
           </Link>
           <Link
-            to={"/MediPortal/"}
-            className="hover:text-tertiary transition-all duration-300"
+            to={"/MediPortal/pharmacy/cart"}
+            className="hover:text-tertiary transition-all duration-300 relative"
           >
+            {cartLength > 0 && (
+              <span className="absolute -top-2 -right-2 bg-tertiary text-primary text-[12px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                {cartLength}
+              </span>
+            )}
             <PiHandbag className="text-2xl" />
           </Link>
         </div>

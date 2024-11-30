@@ -1,12 +1,17 @@
 import { useParams } from "react-router-dom";
 import { RiErrorWarningFill } from "react-icons/ri";
-
+import { addToCart } from "@/Store/Slices/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSingleProduct } from "@/Store/Slices/productsSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../Components/Loader";
+import { FaPlus } from "react-icons/fa6";
+import { AiOutlineMinus } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const SingleProductPage = () => {
+  const [quantity, setQuantity] = useState(1);
+
   const { productId } = useParams();
   const dispatch = useDispatch();
 
@@ -17,6 +22,11 @@ const SingleProductPage = () => {
   useEffect(() => {
     dispatch(fetchSingleProduct(productId));
   }, [dispatch, productId]);
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ selectedProduct, quantity }));
+    toast.success("Added to cart successfully!");
+  };
 
   if (isLoading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
@@ -33,13 +43,46 @@ const SingleProductPage = () => {
           />
         </div>
         <div className="info flex flex-col gap-2 w-full">
-          <h1 className="text-primary text-xl md:text-3xl font-semibold">
-            {selectedProduct?.productname}
-          </h1>
-          <h2 className="text-primary/80">{selectedProduct?.categoryname}</h2>
-          <button className="w-full md:w-[50%] self-end py-2 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-tertiary transition-all duration-300 ease-in-out">
-            Add to Cart
-          </button>
+          <div className="list flex justify-between">
+            <div className="names flex flex-col gap-2">
+              <h1 className="text-primary text-xl md:text-3xl font-semibold">
+                {selectedProduct?.productname}
+              </h1>
+              <h2 className="text-primary/80">
+                {selectedProduct?.categoryname}
+              </h2>
+            </div>
+            <div className="price">
+              <h1 className="text-primary text-xl md:text-2xl font-semibold">
+                $ {selectedProduct?.productprice}
+              </h1>
+            </div>
+          </div>
+
+          <div className="actions flex w-full justify-between gap-4">
+            <div className="quantity flex items-center justify-center bg-white gap-[37px] py-2 px-[20px] rounded-[62px] w-full md:w-[50%]">
+              <button
+                onClick={() => setQuantity(quantity - 1)} // Decrement quantity
+                className="font-bold text-[18px]"
+                disabled={quantity <= 1}
+              >
+                <AiOutlineMinus />
+              </button>
+              <span>{quantity}</span>
+              <button
+                onClick={() => setQuantity(quantity + 1)} // Increment quantity
+                className="font-bold text-[18px]"
+              >
+                <FaPlus />
+              </button>
+            </div>
+            <button
+              className="w-full md:w-[50%] self-end py-2 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-tertiary transition-all duration-300 ease-in-out"
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </button>
+          </div>
           <div className="important flex items-center gap-2 mt-2">
             <RiErrorWarningFill className="text-xl text-darkRed" />
             <p className="text-sm md:text-md text-primary/90">

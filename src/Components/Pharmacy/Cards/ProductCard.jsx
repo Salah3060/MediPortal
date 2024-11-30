@@ -1,7 +1,16 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { addToCart } from "@/Store/Slices/cartSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ selectedProduct: product, quantity: 1 }));
+    toast.success("Added to cart successfully!");
+  };
   return (
     <Link
       className="flex flex-col h-full bg-white shadow-md rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 p-5 gap-2"
@@ -28,6 +37,7 @@ const ProductCard = ({ product }) => {
         <button
           className="bg-primary hover:bg-secondary text-white font-medium py-2 px-4
         rounded-full mt-2 transition-all duration-300 w-full"
+          onClick={handleAddToCart}
         >
           Add to Cart
         </button>
