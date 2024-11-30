@@ -13,7 +13,7 @@ export default function InputField({
   type = "text",
 }) {
   return (
-    <span className={`${Maxwidth} flex flex-col items-center`}>
+    <span className={`${Maxwidth} flex flex-col items-center w-full`}>
       <span className="flex items-center gap-2 w-full relative">
         <input
           className={`border border-gray-300 text-gray-900 text-sm rounded-lg block  p-2.5 w-full 

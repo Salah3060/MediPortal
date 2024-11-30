@@ -1,25 +1,30 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import axiosInstance from "../API/axiosInstance";
-import axios from "axios";
-import { login } from "@/API/authAPI";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [password, setPass] = useState("");
   const [submit, setSubmit] = useState(false);
 
   // use function login to login user
   useEffect(() => {
     async function fetchData() {
-      const resp = await login(email, pass);
-      console.log(resp);
+      try {
+        const data = {
+          email,
+          password,
+        };
+        const resp = (await axiosInstance.post("/auth/logIn", data)).data;
+        console.log(resp);
+      } catch (err) {
+        console.log(err.message);
+      }
     }
-
     if (!submit) return;
     fetchData();
     setSubmit((e) => !e);
-  }, [submit, email, pass]);
+  }, [submit, email, password]);
 
   return (
     <div className="h-lvh w-full flex justify-center items-center text-primary">
@@ -40,7 +45,7 @@ export default function Login() {
             id="password"
             type="password"
             placeholder="Password"
-            value={pass}
+            value={password}
             onChange={(e) => setPass(e.target.value)}
           />
           <button

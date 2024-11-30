@@ -78,6 +78,7 @@ export default function Personalinfo({ user, setUser, setStep }) {
             placeholder={"First Name"}
             errorMsg={`Invalid name !`}
             isRequired={true}
+            Maxwidth="w-full"
           />
 
           <InputField
@@ -88,6 +89,7 @@ export default function Personalinfo({ user, setUser, setStep }) {
             placeholder={"Last Name"}
             errorMsg={`Invalid name !`}
             isRequired={true}
+            Maxwidth="w-full"
           />
 
           <InputField
@@ -98,6 +100,7 @@ export default function Personalinfo({ user, setUser, setStep }) {
             placeholder={"Email"}
             errorMsg={`Invalid Email!`}
             isRequired={true}
+            Maxwidth="w-full"
           />
           <InputField
             Validate={ValidataPhone}
@@ -107,6 +110,7 @@ export default function Personalinfo({ user, setUser, setStep }) {
             placeholder={"Phone number"}
             errorMsg={`Invalid phone number!`}
             isRequired={true}
+            Maxwidth="w-full"
           />
           <InputField
             Validate={ValidataPassword}
@@ -117,6 +121,7 @@ export default function Personalinfo({ user, setUser, setStep }) {
             errorMsg={`Invalid Password!`}
             isRequired={true}
             type="Password"
+            Maxwidth="w-full"
           />
           <select
             name="gender"
