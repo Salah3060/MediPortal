@@ -10,9 +10,10 @@ import LoginForm from "../Components/Login/LoginForm";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispath = useDispatch();
-  const { loading, error, status } = useSelector((state) => state.user); // Select the necessary state
+  const { error: errorMsg, status } = useSelector((state) => state.user); // Select the necessary state
 
   // use function login to login user
   useEffect(() => {
@@ -25,6 +26,14 @@ export default function Login() {
   }, [status, navigate]);
   function handleSubmit(e) {
     e.preventDefault();
+    if (!email) {
+      setError("you have to enter email!");
+      return;
+    }
+    if (!password) {
+      setError("you have to enter password!");
+      return;
+    }
     dispath(userLogin({ email, password }));
   }
   return (
@@ -38,16 +47,25 @@ export default function Login() {
           handleSubmit={handleSubmit}
         />
       )}
-      {loading && <Loader />}
+      {status === "pending" && <Loader />}
       {status === "success" && <SuccessPopup Header="login Successfully" />}
       {status === "failed" && (
         <ErrorPopup
           Header="couldn't login"
-          Msg={error}
+          Msg={errorMsg}
           closePopup={() => {
             dispath(clearUser());
             setEmail("");
             setPass("");
+          }}
+        />
+      )}
+      {error && (
+        <ErrorPopup
+          Header="Missing data"
+          Msg={error}
+          closePopup={() => {
+            setError("");
           }}
         />
       )}
