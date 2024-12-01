@@ -22,16 +22,17 @@ const registerDb = async (attributes, role, specificAtt) => {
     // attributes[5] = attributes[5].toISOString().split("T")[0];
     attributes[5] = new Date(new Date(attributes[5]).toISOString());
     const newUser = await pool.query(query, [...attributes, role]);
-    console.log(newUser.rows[0]);
+    // console.log(newUser.rows[0]);
     let secQuery;
     if (role === "Patient") {
       secQuery = `insert into Patients(patientId , bloodType , chronicDisease)
                   values($1 , $2 , $3);`;
-    } else if (userRole === "Doctor") {
+    } else if (role === "Doctor") {
       secQuery = `insert into Doctors(doctorId , licenseNumber , specialization)
                   values($1 , $2 , $3);`;
     }
-    await pool.query(secQuery, [newUser.rows[0].userid, ...specificAtt]);
+
+    await pool.query(secQuery, [newUser.rows[0].userid, ...specificAtt]); //id,c1,c2
     if (newUser.rowCount) return newUser.rows[0];
     return false;
   } catch (err) {

@@ -10,6 +10,7 @@ import doctorRouter from "./routes/doctorRouter.js";
 import patientRouter from "./routes/patientRouter.js";
 import categoryRouter from "./routes/categoryRouter.js";
 import productRouter from "./routes/productRouter.js";
+import workspaceRouter from "./routes/workspaceRouter.js";
 import pkg from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import { AppError, globalErrorHandler } from "./utilities.js";
@@ -34,11 +35,12 @@ app.use(express.json());
 //   });
 //   res.end("hello");
 // });
-app.use("/auth", authRouter);
-app.use("/doctors", doctorRouter);
-app.use("/patients", patientRouter);
-app.use("/categories", categoryRouter);
-app.use("/products", productRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/doctors", doctorRouter);
+app.use("/api/v1/patients", patientRouter);
+app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/workspace", workspaceRouter);
 app.use("/", (req, res, next) =>
   next(new AppError("No such Route Founded....", 404))
 );

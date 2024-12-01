@@ -1,7 +1,7 @@
 import pkg from "jsonwebtoken";
 import dotenv from "dotenv";
 import { logInDb, registerDb } from "../databases/authDatabase.js";
-import { AppError } from "../utilities.js";
+import { AppError, formatString } from "../utilities.js";
 const { data, JsonWebToken } = pkg;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -16,7 +16,7 @@ const createToken = (id) => {
 };
 const sendAndSignToken = async (user, res) => {
   const token = createToken(user.userId);
-  res.cookie("JWT", jwt, {
+  res.cookie("JWT", token, {
     maxAge: 1 * 24 * 60 * 60 * 1000,
     httpOnly: true,
   });
@@ -84,19 +84,17 @@ const registerController = async (req, res, next) => {
       !birthDate ||
       !password ||
       !userRole ||
-      !((bloodType && chronicDisease) || (licenseNumber && specialization)) //either patient or doctor
+      !(bloodType || (licenseNumber && specialization)) //either patient or doctor
     ) {
       return next(new AppError("Missing data", 400));
     }
     // preparing attributes
-    firstName = firstName.trim();
-    lastName = lastName.trim();
+    firstName = formatString(firstName);
+    lastName = formatString(lastName);
+    gender = formatString(gender);
+    userRole = formatString(userRole);
     phoneNumber = phoneNumber.replaceAll(" ", ""); //removing all spaces
     email = email.trim();
-    gender = gender.trim();
-    gender = gender[0].toUpperCase() + gender.slice(1).toLowerCase();
-    userRole = userRole.trim();
-    userRole = userRole[0].toUpperCase() + userRole.slice(1).toLowerCase();
 
     // validating attributes
     if (!validator.isAlpha(firstName) || !validator.isAlpha(lastName)) {

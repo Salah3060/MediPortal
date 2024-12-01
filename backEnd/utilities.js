@@ -72,6 +72,12 @@ const validateLogIn = (req, res, next) => {
   console.log(req.cookies);
   next();
 };
+const formatString = (string) => {
+  string = string.trim();
+  string = string[0].toUpperCase() + string.slice(1).toLowerCase();
+  return string;
+};
+
 export {
   AppError,
   globalErrorHandler,
@@ -80,4 +86,5 @@ export {
   fieldsQueryHandler,
   orderQueryHandler,
   validateLogIn,
+  formatString,
 };

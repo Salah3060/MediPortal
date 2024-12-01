@@ -12,7 +12,7 @@ const createUsersTable = `create table Users
     createdAt timestamp default current_timestamp, 
     updatedAt timestamp default current_timestamp, 
     birthDate date, 
-    password varchar(32) not null, 
+    password varchar(110) not null, 
     userRole varchar(15) not null default 'Patient',
     userState varchar(10) default 'Pending' check (userState in ('Active', 'Pending', 'Blocked')),
     primary key (userId)
@@ -129,7 +129,7 @@ const createWorkspacesTable = `create table Workspaces
     workspaceName varchar(120) not null unique,
     workspaceType varchar(10) not null,
     primary key (workspaceId),
-    constraint validateWorkspaceType check (workspaceType in ('Hospital','clinic'))
+    constraint validateWorkspaceType check (workspaceType in ('Hospital','Clinic'))
 );
 `;
 const createWorkspaceContacts = `create table WorkspaceContacts
