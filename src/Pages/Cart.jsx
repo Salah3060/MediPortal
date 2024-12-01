@@ -148,9 +148,12 @@ const Cart = () => {
             </div>
 
             <div className="checkout w-full">
-              <button className="bg-[#9db4c0] hover:bg-primary hover:text-tertiary text-primary font-medium py-[12px] md:py-[15px] rounded-[62px] w-full transition-all duration-300">
+              <Link
+                className="bg-[#9db4c0] hover:bg-primary hover:text-tertiary text-primary font-medium py-[12px] md:py-[15px] rounded-[62px] w-full transition-all duration-300 flex justify-center items-center"
+                to="/MediPortal/pharmacy/checkout"
+              >
                 Go To CheckOut <span className="font-bold">→</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
