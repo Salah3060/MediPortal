@@ -1,9 +1,17 @@
 import pool from "../server.js";
 
-const logInDb = async (email, password) => {
+const logInDb = async (email, password, id) => {
   try {
-    const query = `select * from Users where email=$1 and password=$2`;
-    const res = await pool.query(query, [email, password]);
+    console.log(email, password, id);
+    let query = "select * from Users   ";
+    let res;
+    if (id) {
+      query += `where userId=$1`;
+      res = await pool.query(query, [id]);
+    } else {
+      query += `where email=$1 and password=$2`;
+      res = await pool.query(query, [email, password]);
+    }
     if (res.rowCount) return res.rows[0];
     return false;
   } catch (error) {

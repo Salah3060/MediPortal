@@ -1,4 +1,8 @@
 import { query } from "express";
+import pkg from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config("../../BE.env");
 
 class AppError extends Error {
   constructor(message, statusCode) {
