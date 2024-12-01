@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { login } from "../../API/authAPI";
+import Cookies from "js-cookie";
+
 const initialState = {
   birthdate: "",
   createdAt: "",
@@ -17,6 +18,14 @@ const initialState = {
   wallet: "",
   status: "empty",
 };
+import { login } from "../../API/authAPI";
+function loadUserFromCookies() {
+  const savedUser = Cookies.get("user");
+  return savedUser ? JSON.parse(savedUser) : initialState;
+}
+function saveUserToCookies(user) {
+  Cookies.set("user", JSON.stringify(user), { expires: 7 });
+}
 export const userLogin = createAsyncThunk(
   "user/login",
   async (payload, thunkAPI) => {
@@ -30,12 +39,13 @@ export const userLogin = createAsyncThunk(
 );
 const userSlice = createSlice({
   name: "user", // Name of the slice
-  initialState, // Initial state defined earlier
+  initialState: loadUserFromCookies(), // Initial state defined earlier
   reducers: {
     clearUser: (state) => {
       state.status = "Empty";
       state.error = "";
       state.loading = "false";
+      saveUserToCookies(state);
     },
   },
   extraReducers: (builder) =>
@@ -43,6 +53,7 @@ const userSlice = createSlice({
       .addCase(userLogin.pending, (state) => {
         state.loading = true;
         state.status = "pending";
+        saveUserToCookies(state);
       })
       .addCase(userLogin.fulfilled, (state, action) => {
         state.firstname = action.payload.firstname;
@@ -66,11 +77,14 @@ const userSlice = createSlice({
         state.error = "";
         state.loading = false;
         state.status = "success";
+        saveUserToCookies(state);
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
         state.status = "failed";
+        // resetUser
+        saveUserToCookies(state);
       }),
 });
 export const { clearUser } = userSlice.actions;
