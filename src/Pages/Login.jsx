@@ -44,7 +44,11 @@ export default function Login() {
         <ErrorPopup
           Header="couldn't login"
           Msg={error}
-          closePopup={() => dispath(clearUser())}
+          closePopup={() => {
+            dispath(clearUser());
+            setEmail("");
+            setPass("");
+          }}
         />
       )}
     </div>

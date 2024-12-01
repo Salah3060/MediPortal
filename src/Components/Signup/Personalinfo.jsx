@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import {
   ValidataMail,
   ValidataName,
@@ -7,10 +6,8 @@ import {
   ValidataPhone,
 } from "../../Utils/null";
 import InputField from "./InputField";
-import ErrorPopup from "../Errorpopup";
 
-export default function Personalinfo({ user, setUser, setStep }) {
-  const [error, setError] = useState("");
+export default function Personalinfo({ user, setUser, setStep, setError }) {
   function StepsValidation(e) {
     e.preventDefault();
 
@@ -46,6 +43,10 @@ export default function Personalinfo({ user, setUser, setStep }) {
       setError("Phone number is required");
       return;
     }
+    if (!user.birthdate) {
+      setError("Birthdate is required");
+      return;
+    }
     setError("");
     ValidataMail(user.email) &&
       user.email.length &&
@@ -62,13 +63,6 @@ export default function Personalinfo({ user, setUser, setStep }) {
   return (
     <form className="flex flex-col justify-between">
       <div className=" flex justify-evenly my-10">
-        {error && (
-          <ErrorPopup
-            Header="Missing Data"
-            Msg={error}
-            closePopup={() => setError("")}
-          />
-        )}
         <span className="grid sm:grid-cols-2 grid-cols-1 gap-5 w-full ">
           <InputField
             Validate={ValidataName}
