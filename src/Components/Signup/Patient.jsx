@@ -3,7 +3,7 @@ import { useState } from "react";
 import { DiseaseVaidator } from "../../Utils/null";
 import InputField from "./InputField";
 import Multiselector from "./MultiSelector";
-import Popup from "../popup";
+import ErrorPopup from "../Errorpopup";
 
 export default function Patient({ user, setUser, setStep }) {
   const [error, setState] = useState(false);
@@ -21,7 +21,7 @@ export default function Patient({ user, setUser, setStep }) {
   return (
     <>
       {error && (
-        <Popup
+        <ErrorPopup
           Header={"Invalid Data"}
           Msg={"You have to choose a blood type"}
           closePopup={() => setState(false)}

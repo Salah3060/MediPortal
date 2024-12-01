@@ -1,7 +1,7 @@
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 // eslint-disable-next-line react/prop-types
-export default function Popup({ Header, Msg, closePopup }) {
+export default function ErrorPopup({ Header, Msg, closePopup }) {
   return (
     <>
       <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">

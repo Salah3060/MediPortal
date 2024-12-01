@@ -7,7 +7,7 @@ import {
   ValidataPhone,
 } from "../../Utils/null";
 import InputField from "./InputField";
-import Popup from "../popup";
+import ErrorPopup from "../Errorpopup";
 
 export default function Personalinfo({ user, setUser, setStep }) {
   const [error, setError] = useState("");
@@ -63,7 +63,7 @@ export default function Personalinfo({ user, setUser, setStep }) {
     <form className="flex flex-col justify-between">
       <div className=" flex justify-evenly my-10">
         {error && (
-          <Popup
+          <ErrorPopup
             Header="Missing Data"
             Msg={error}
             closePopup={() => setError("")}

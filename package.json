@@ -32,6 +32,7 @@
     "react-router-dom": "^7.0.1",
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.6",
+    "redux-logger": "^3.0.6",
     "swiper": "^11.1.15",
     "use-debounce": "^8.0.0"
   },

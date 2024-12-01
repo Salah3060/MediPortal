@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import LicenseValidator from "../../Utils/null";
-import Popup from "../popup";
 import InputField from "./InputField";
+import ErrorPopup from "../Errorpopup";
 
 export default function Doctor({ user, setUser, setStep }) {
   const [error, setError] = useState("");
@@ -22,7 +22,7 @@ export default function Doctor({ user, setUser, setStep }) {
   return (
     <>
       {error && (
-        <Popup
+        <ErrorPopup
           Header={"Invalid Data"}
           Msg={error}
           closePopup={() => setError(false)}
