@@ -16,7 +16,7 @@ export default function Signup() {
     lastname: "",
     phonenumber: "",
     email: "",
-    gender: " ",
+    gender: "",
     birthdate: "",
     role: "",
     otherDisease: "",

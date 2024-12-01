@@ -35,3 +35,7 @@
 .btn {
   @apply hover:bg-primary border bg-blue-500 text-white hover:text-tertiary font-bold py-2 px-4  transition-all duration-300 rounded-xl;
 }
+
+.sliderElement {
+  @apply w-full flex items-center gap-4 ps-5 py-5  border-b-[1px] border-b-white border-opacity-30 sm:text-lg hover:text-tertiary cursor-pointer hover:bg-gray-700;
+}

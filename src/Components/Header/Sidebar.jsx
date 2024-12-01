@@ -1,10 +1,10 @@
 import { IoHomeOutline } from "react-icons/io5";
-import { IoIosLogIn } from "react-icons/io";
+import { IoIosLogIn, IoIosLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { CiPhone } from "react-icons/ci";
 import { Link } from "react-router-dom";
 // eslint-disable-next-line react/prop-types
-export default function Sidebar({ isOpen, toogleSideBar }) {
+export default function Sidebar({ isOpen, toogleSideBar, status }) {
   return (
     <div
       className={`bg-primary fixed top-0 bottom-0 right-0 w-1/2 sm:w-[350px] 
@@ -21,24 +21,33 @@ export default function Sidebar({ isOpen, toogleSideBar }) {
       </button>
       <ul className="flex flex-col gap-y-5 h-full">
         <Link to={"/MediPortal/"}>
-          <li className="w-full flex items-center gap-4 ps-5 py-5  border-b-[1px] border-b-white border-opacity-30 sm:text-lg hover:text-tertiary cursor-pointer hover:bg-gray-700">
+          <li className="sliderElement">
             <IoHomeOutline className="text-2xl" /> Home
           </li>
         </Link>
         <Link to={"/MediPortal/signup/"}>
-          <li className="w-full flex items-center gap-4 ps-5 py-5  border-b-[1px] border-b-white border-opacity-30 sm:text-lg hover:text-tertiary cursor-pointer hover:bg-gray-700">
+          <li className="sliderElement">
             <FaRegUser className="text-2xl" />
             join now as a user
           </li>
         </Link>
-        <Link to={"/MediPortal/login/"}>
-          <li className="w-full flex items-center gap-4 ps-5 py-5  border-b-[1px] border-b-white border-opacity-30 sm:text-lg hover:text-tertiary cursor-pointer hover:bg-gray-700">
-            <IoIosLogIn className="text-3xl" />
-            Login
-          </li>
-        </Link>
+        {status !== "success" ? (
+          <Link to={"/MediPortal/login/"}>
+            <li className="sliderElement">
+              <IoIosLogIn className="text-3xl" />
+              Login
+            </li>
+          </Link>
+        ) : (
+          <Link to={"/"}>
+            <li className="sliderElement">
+              <IoIosLogOut className="text-3xl" />
+              Logout
+            </li>
+          </Link>
+        )}
         <Link to={"/MediPortal/contact/"}>
-          <li className="w-full flex items-center gap-4 ps-5 py-5  border-b-[1px] border-b-white border-opacity-30 sm:text-lg hover:text-tertiary cursor-pointer hover:bg-gray-700">
+          <li className="sliderElement">
             <CiPhone className="text-3xl" />
             contact us
           </li>

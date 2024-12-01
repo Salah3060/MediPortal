@@ -43,7 +43,7 @@ export const userSignup = createAsyncThunk(
   "user/Signup",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
+      // console.log(payload);
       const userData = await signUp(payload);
       return userData.date.user;
     } catch (err) {
