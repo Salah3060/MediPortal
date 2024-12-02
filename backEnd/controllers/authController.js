@@ -149,7 +149,15 @@ const registerController = async (req, res, next) => {
 };
 
 const validateLoggedIn = catchAsyncError(async (req, res, next) => {
-  const { jwt: token } = req.cookies;
+  console.log(req.headers.authorization);
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+  // const { jwt: token } = req.cookies;
   if (!token)
     return next(
       new AppError("Protected Path , Plesase login to get access", 401)

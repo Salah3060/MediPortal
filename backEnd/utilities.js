@@ -71,11 +71,6 @@ const orderQueryHandler = (query, validAttributes) => {
   return orders;
 };
 
-const validateLogIn = (req, res, next) => {
-  console.log("test");
-  console.log(req.cookies);
-  next();
-};
 const formatString = (string) => {
   string = string.trim();
   string = string[0].toUpperCase() + string.slice(1).toLowerCase();
@@ -89,6 +84,5 @@ export {
   filterQueryHandler,
   fieldsQueryHandler,
   orderQueryHandler,
-  validateLogIn,
   formatString,
 };
