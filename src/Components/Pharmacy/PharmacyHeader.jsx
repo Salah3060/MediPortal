@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, logout } from "../../Store/Slices/userSlice";
-import { IoIosLogOut } from "react-icons/io";
+import LogoutHeader from "../LogoutItemsHeader";
 
 const PharmacyHeader = () => {
   const dispath = useDispatch();
@@ -35,13 +35,11 @@ const PharmacyHeader = () => {
         {/* Desktop Buttons */}
         <div className="buttons hidden md:flex items-center gap-8 font-medium text-[16px]">
           {status === "success" ? (
-            <div className="hidden md:flex gap-x-5 items-center">
-              welcome {firstname}
-              <IoIosLogOut
-                className="text-xl hover:text-tertiary cursor-pointer "
-                onClick={handleLogout}
-              />
-            </div>
+            <LogoutHeader
+              handleLogout={handleLogout}
+              firstname={firstname}
+              id={firstname}
+            />
           ) : (
             <>
               <Link

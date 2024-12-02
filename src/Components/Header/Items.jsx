@@ -4,8 +4,8 @@ import BelowmdLayout from "./BelowmdItems";
 import Overlay from "./Overlay";
 import Sidebar from "./Sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { IoIosLogOut } from "react-icons/io";
 import { clearUser, logout } from "../../Store/Slices/userSlice";
+import LogoutHeader from "../LogoutItemsHeader";
 
 export default function Items() {
   const dispath = useDispatch();
@@ -22,13 +22,11 @@ export default function Items() {
     <>
       {/* big screens */}
       {status === "success" ? (
-        <div className="hidden md:flex gap-x-5 items-center">
-          welcome {firstname}
-          <IoIosLogOut
-            className="text-xl hover:text-tertiary cursor-pointer "
-            onClick={handleLogout}
-          />
-        </div>
+        <LogoutHeader
+          handleLogout={handleLogout}
+          firstname={firstname}
+          id={firstname}
+        />
       ) : (
         <>
           <AbovemdLayout />
