@@ -23,11 +23,12 @@ const retrieveAllProducts = async (fields, filters, orders) => {
               from MedicalProducts p  
               left join ActiveIngredients a  on p.productId = a.productId  
               left join Categories c on c.categoryId = p.productCategory
+              where p.productstackquantity > 0
              `;
 
     if (filters)
       query += `
-                where ${filters.join(" and ")}
+                and ${filters.join(" and ")}
                 `;
 
     query += `
@@ -35,7 +36,6 @@ const retrieveAllProducts = async (fields, filters, orders) => {
               c.categoryName   
              `;
     if (orders) query += `order by ${orders.join(" , ")}`;
-    console.log(query);
     const res = await pool.query(query);
     return res.rows;
   } catch (err) {
