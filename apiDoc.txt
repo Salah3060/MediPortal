@@ -191,3 +191,47 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                   }
 
                   
+5.workspace
+    5.1 Create workspace
+        endPoint: http://127.0.0.1:3000/api/v1/workspace/
+        method : post
+        body :
+        {
+            "workspaceName":"8th of october",
+            "workspaceType":"clIniC",
+            "workspacePhone":"0235441235",
+            "workspaceLocation": "242 Corniche Roshdy, ROUSHDY Alexandria"
+        }
+        response:
+        {
+            "status": "success",
+            "data": {
+                "workspace": {
+                    "workspaceid": 10,
+                    "workspacename": "8th of october",
+                    "workspacetype": "Clinic",
+                    "workspacephone": "0235441235",
+                    "workspaceLocation": "242 Corniche Roshdy, ROUSHDY Alexandria"
+                }
+            }
+        }
+    5.2 Edit workspace
+        endPoint: http://127.0.0.1:3000/api/v1/workspace/9/1/2  -- :id/:secId/:thirdId  // {workspaceId , (contact or loc) , loc -if third exist-} 
+        method: patch
+        body:
+        {
+            "workspacePhone":"0222222222",
+            "workspaceName":"mediportal official",
+            "workspaceLocation":"Nourth US 6th street on the right"
+        }
+        response:
+        {
+            "status": "success",
+            "data": {
+                "updatedWorkspace": {
+                    "workspacephone": "0222222222",
+                    "workspacename":"mediportal official",
+                    "workspacelocation": "Nourth US 6th street on the right"
+                }
+            }
+        }

@@ -8,6 +8,8 @@ import {
 const router = express.Router();
 
 router.post("/", createWorkspace);
-router.route("/:id").patch(editWorkspace);
+router
+  .route(["/:id", "/:id/:secId", "/:id/:secId/:thirdId"])
+  .patch(editWorkspace);
 
 export default router;

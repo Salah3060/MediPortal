@@ -57,12 +57,18 @@ const createWorkspace = async (req, res, next) => {
     }
     // preparation
     workspaceName = workspaceName.trim();
-    workspaceType = formactString(workspaceType);
+    workspaceType = formatString(workspaceType);
     workspaceLocation = workspaceLocation.trim();
     workspacePhone = workspacePhone.replaceAll(" ", "");
 
-    validateAttributes(workspaceName, workspaceType, workspacePhone, next);
-
+    const potentialErr = validateAttributes(
+      workspaceName,
+      workspaceType,
+      workspacePhone
+    );
+    if (potentialErr) {
+      return next(potentialErr);
+    }
     const workspace = await createWorkspaceDb(
       workspaceName,
       workspaceType,
@@ -84,7 +90,9 @@ const editWorkspace = async (req, res, next) => {
   try {
     let { workspaceName, workspaceType, workspacePhone, workspaceLocation } =
       req.body;
-    const workspaceId = req.params.id;
+    const workspaceId = req.params.id; // {workspaceId , (contact or loc) , loc} -if third exist-
+    const { secId } = req.params;
+    const { thirdId } = req.params;
     if (!workspaceId) {
       return next(
         new AppError("An id must be provided to update an entity", 400)
@@ -101,7 +109,40 @@ const editWorkspace = async (req, res, next) => {
     toBeEdited.workspaceType = workspaceType;
     toBeEdited.workspacePhone = workspacePhone;
     toBeEdited.workspaceLocation = workspaceLocation;
-    console.log(workspaceName);
+
+    // handling passing correct number of attributes to be edited
+    if (secId && !thirdId) {
+      if (
+        (workspacePhone && workspaceLocation) ||
+        (!workspacePhone && !workspaceLocation)
+      ) {
+        return next(
+          new AppError(
+            "Please provide exactly one, either contact or location",
+            400
+          )
+        );
+      }
+    }
+    if (thirdId && thirdId) {
+      if (!workspacePhone || !workspaceLocation) {
+        return next(
+          new AppError("Please provide both contact and location", 400)
+        );
+      }
+    }
+    //hadling passing correct number of ids
+    if (workspacePhone && workspaceLocation) {
+      if (secId && !thirdId) {
+        return next(new AppError("Please provide correct ids to update", 400));
+      }
+    }
+    if (workspacePhone || workspaceLocation) {
+      if (!secId) {
+        return next(new AppError("Please provide correct ids to update", 400));
+      }
+    }
+
     const potentialErr = validateAttributes(
       workspaceName,
       workspaceType,
@@ -111,7 +152,12 @@ const editWorkspace = async (req, res, next) => {
       return next(potentialErr);
     }
 
-    const updatedWorkspace = await editWorkspaceDb(workspaceId, toBeEdited); //included [1,1,1,1] means all included
+    const updatedWorkspace = await editWorkspaceDb(
+      workspaceId,
+      secId,
+      thirdId,
+      toBeEdited
+    );
 
     if (!updatedWorkspace)
       return next(
