@@ -28,11 +28,17 @@ function loadUserFromCookies() {
 function saveUserToCookies(user) {
   Cookies.set("user", JSON.stringify(user), { expires: 7 });
 }
+
+function saveTokenToCookies(token) {
+  Cookies.set("token", token, { expires: 7 });
+}
+
 export const userLogin = createAsyncThunk(
   "user/login",
   async (payload, thunkAPI) => {
     try {
       const userData = await login(payload.email, payload.password);
+      saveTokenToCookies(userData.token);
       return userData.date.user;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

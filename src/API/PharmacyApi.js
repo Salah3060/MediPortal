@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance";
+import Cookies from "js-cookie";
 
 // get Single Product from id
 export const getSingleProduct = async (id) => {
@@ -15,12 +16,16 @@ export const getSingleProduct = async (id) => {
 //get All Products
 export const getAllProducts = async () => {
   try {
-    const response = await axiosInstance.get("/products/allProducts");
+    const response = await axiosInstance.get("/products/allProducts", {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
   }
-}
+};
 
 // get Products form category id
 export const getProductsByCategory = async (catName) => {

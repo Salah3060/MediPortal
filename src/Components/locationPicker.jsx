@@ -117,7 +117,7 @@ const LocationPicker = ({ onLocationSelect }) => {
       {/* Search Bar */}
       <div
         style={{ marginBottom: "10px", position: "relative" }}
-        className="z-0"
+        className="z-10"
       >
         <input
           type="text"
