@@ -15,6 +15,7 @@ import Login from "./Pages/Login.jsx";
 import Signup from "./Pages/signup.jsx";
 
 import SingleProductPage from "@/Pages/SingleProductPage.jsx";
+import Search from "@/Pages/Search.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "search",
+        element: <Search />,
       },
       {
         path: "pharmacy",
@@ -62,7 +67,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <Provider store={store} >
+  <Provider store={store}>
     <RouterProvider router={router} />
   </Provider>
 );
