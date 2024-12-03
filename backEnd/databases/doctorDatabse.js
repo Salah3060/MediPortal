@@ -27,9 +27,10 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
             ELSE 0 
           END AS overallRating
           `;
-    query += `   from Users u  
-                join Doctors d on u .userId = d.doctorId     
-                left join Reviews r on r.doctorId= d.doctorId  
+    query += `  
+          from Users u  
+          join Doctors d on u .userId = d.doctorId     
+          left join Reviews r on r.doctorId= d.doctorId  
                 `;
 
     if (filters) query += `where ${filters.join(" and ")}       `;
@@ -53,7 +54,6 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
               `;
     if (orders) query += `order by ${orders.join(" , ")}       `;
     query += ` LIMIT ${limit} OFFSET ${page - 1} * ${limit} ; `;
-    console.log(query);
     const res = await pool.query(query);
     return res.rows;
   } catch (err) {
@@ -61,4 +61,90 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
   }
 };
 
-export { retrieveAllDoctors };
+const retrieveDoctor = async (id) => {
+  try {
+    const query = `
+   SELECT 
+    u.userId, 
+    u.firstName, 
+    u.lastName, 
+    u.phoneNumber,
+    u.email, 
+    u.gender, 
+    u.wallet, 
+    u.createdAt, 
+    u.updatedAt, 
+    u.birthDate,  
+    d.licenseNumber,  
+    d.specialization, 
+    d.yearsOfExperience, 
+    d.about,
+    d.fees,
+    JSON_AGG(
+      JSON_BUILD_OBJECT(
+        'workspaceId', da.workspaceId,
+        'workingDay', da.workingDay,
+        'startTime', da.startTime,
+        'endTime', da.endTime
+      )
+    ) AS availability, 
+    JSON_AGG(
+      JSON_BUILD_OBJECT(
+        'rate', r.rate,
+        'review', r.review,
+        'reviewDate', r.reviewDate,
+        'patient', (
+          SELECT 
+            JSON_BUILD_OBJECT(
+              'userId', u.userId,
+              'firstName', u.firstName,
+              'lastName', u.lastName
+            )
+          FROM 
+            Users u
+          JOIN 
+            Patients p ON u.userId = p.patientId
+          WHERE 
+            p.patientId = r.patientId
+          LIMIT 1
+        )
+      )
+    ) AS reviews
+    FROM 
+        Users u  
+    JOIN 
+        Doctors d ON u.userId = d.doctorId     
+    LEFT JOIN 
+        Reviews r ON r.doctorId = d.doctorId  
+    LEFT JOIN 
+        DoctorAvailability da ON da.doctorId = d.doctorId
+    WHERE 
+        d.doctorId = $1
+    GROUP BY 
+        u.userId, 
+        u.firstName, 
+        u.lastName, 
+        u.phoneNumber,
+        u.email, 
+        u.gender, 
+        u.wallet, 
+        u.createdAt, 
+        u.updatedAt, 
+        u.birthDate,  
+        d.licenseNumber,  
+        d.specialization, 
+        d.yearsOfExperience, 
+        d.about,
+        d.fees;
+
+  `;
+
+    const res = await pool.query(query, [id]);
+
+    return res.rows;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { retrieveAllDoctors, retrieveDoctor };
