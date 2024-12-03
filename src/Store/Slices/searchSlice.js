@@ -61,6 +61,7 @@ const searchSlice = createSlice({
       state.selectedSpecialty = action.payload;
     },
     setFilteredDoctors: (state, action) => {
+      console.log(action.payload);
       state.filteredDoctors = action.payload;
     },
     setSelectedDoctor: (state, action) => {

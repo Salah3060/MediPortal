@@ -16,6 +16,7 @@ import Signup from "./Pages/signup.jsx";
 
 import SingleProductPage from "@/Pages/SingleProductPage.jsx";
 import Search from "@/Pages/Search.jsx";
+import SingleDoctor from "@/Pages/SingleDoctor.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "search",
         element: <Search />,
+      },
+      {
+        path: "search/doctors/:doctorId",
+        element: <SingleDoctor />,
       },
       {
         path: "pharmacy",

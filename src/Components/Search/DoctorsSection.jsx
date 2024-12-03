@@ -1,38 +1,25 @@
 import { useState } from "react";
 import DoctorCard from "./Cards/DoctorCard";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import {
-  fetchAllDoctors,
-  fetchDoctorsBySpecialty,
-} from "@/Store/Slices/searchSlice";
+import { useSelector } from "react-redux";
+import Loader from "@/Components/Loader";
 
 const DoctorsSection = () => {
-  const dispatch = useDispatch();
-
-  const { filteredDoctors, loading, error } = useSelector(
+  const { filteredDoctors, loading, error, selectedSpecialty } = useSelector(
     (state) => state.search
   );
 
-  useEffect(() => {
-    dispatch(fetchAllDoctors());
-  }, [dispatch]);
-
   const [sortOption, setSortOption] = useState("default");
   return (
-    <div className="flex flex-col gap-4 py-2 w-full">
-      <div className="header flex justify-between items-center w-full">
-        <div className="text flex items-baseline gap-2 text-primary">
-          <h1 className="text-xl font-bold">
-            All Specialties
-            {/* Change later to select Spec */}
-          </h1>
-          <span className="text-sm text-primary/80">
-            1500 Doctor
-            {/* Change later to number of doctors */}
+    <div className="flex flex-col gap-6 py-4 w-full md:px-4 lg:px-8">
+      {/* Header Section */}
+      <div className="header flex flex-col lg:flex-row justify-between items-start lg:items-center w-full gap-4">
+        <div className="text flex flex-col lg:flex-row items-start lg:items-baseline gap-2 text-primary">
+          <h1 className="text-xl lg:text-2xl font-bold">{selectedSpecialty}</h1>
+          <span className="text-sm lg:text-base text-primary/80">
+            {filteredDoctors?.length}
           </span>
         </div>
-        <div className="sorting mt-4 lg:mt-0 flex gap-4 items-center w-full lg:w-auto text-primary">
+        <div className="sorting flex gap-4 items-center w-full lg:w-auto text-primary">
           <label htmlFor="sort" className="text-sm font-bold">
             Sort By:
           </label>
@@ -52,7 +39,24 @@ const DoctorsSection = () => {
         </div>
       </div>
 
-      <div className="doctors"></div>
+      {/* Doctors Section */}
+      <div className="doctors w-full">
+        {loading ? (
+          <div className="loading flex justify-center items-center h-64">
+            <Loader />
+          </div>
+        ) : error ? (
+          <div className="error text-center text-primary text-xl font-bold">
+            {error}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4">
+            {filteredDoctors?.slice(0, 10).map((doctor) => (
+              <DoctorCard key={doctor.userid} doctor={doctor} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

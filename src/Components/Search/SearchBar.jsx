@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FaAngleDown } from "react-icons/fa6";
+import { useSelector, useDispatch } from "react-redux";
+import { setFilteredDoctors } from "@/Store/Slices/searchSlice";
 
 // DropdownMenu Component
 const DropdownMenu = ({ title, data, isOpen, onToggle }) => {
@@ -67,13 +69,45 @@ DropdownMenu.propTypes = {
   onToggle: PropTypes.func.isRequired,
 };
 
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
 // Parent SearchBar Component
 const SearchBar = () => {
+  const dispatch = useDispatch();
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [query, setQuery] = useState("");
+  const { doctors } = useSelector((state) => state.search);
 
   const handleToggleDropdown = (dropdownName) => {
     setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
   };
+
+  const debouncedQuery = useDebounce(query, 500);
+
+  useEffect(() => {
+    if (debouncedQuery) {
+      console.log(debouncedQuery);
+      const filtered = doctors.filter((doctor) =>
+        doctor.firstname.toLowerCase().startsWith(debouncedQuery.toLowerCase())
+      );
+      console.log(filtered);
+      dispatch(setFilteredDoctors(filtered));
+    } else {
+      dispatch(setFilteredDoctors(doctors));
+    }
+  }, [debouncedQuery, doctors, dispatch]);
 
   const specialtiesData = [
     {
@@ -140,8 +174,10 @@ const SearchBar = () => {
       <div className="relative w-full">
         <input
           type="text"
-          placeholder="Doctor name or hospital"
+          placeholder="or Search by Name"
           className="w-full px-4 py-2 text-sm rounded-md outline-none"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
       </div>
 
