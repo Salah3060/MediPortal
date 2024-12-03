@@ -67,6 +67,10 @@ const userSlice = createSlice({
       state.loading = "false";
       saveUserToCookies(state);
     },
+    logout: () => {
+      Cookies.remove("user");
+      Cookies.remove("token");
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -142,5 +146,5 @@ const userSlice = createSlice({
         saveUserToCookies(state);
       }),
 });
-export const { clearUser } = userSlice.actions;
+export const { clearUser, logout } = userSlice.actions;
 export default userSlice.reducer;

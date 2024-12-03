@@ -1,10 +1,15 @@
+/* eslint-disable react/prop-types */
 import { IoHomeOutline } from "react-icons/io5";
 import { IoIosLogIn, IoIosLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { CiPhone } from "react-icons/ci";
 import { Link } from "react-router-dom";
-// eslint-disable-next-line react/prop-types
-export default function Sidebar({ isOpen, toogleSideBar, status }) {
+export default function Sidebar({
+  isOpen,
+  toogleSideBar,
+  status,
+  handleLogout,
+}) {
   return (
     <div
       className={`bg-primary fixed top-0 bottom-0 right-0 w-1/2 sm:w-[350px] 
@@ -20,33 +25,37 @@ export default function Sidebar({ isOpen, toogleSideBar, status }) {
         &rarr;
       </button>
       <ul className="flex flex-col gap-y-5 h-full">
-        <Link to={"/MediPortal/"}>
+        <Link to={"/MediPortal/"} onClick={toogleSideBar}>
           <li className="sliderElement">
             <IoHomeOutline className="text-2xl" /> Home
           </li>
         </Link>
-        <Link to={"/MediPortal/signup/"}>
+        <Link to={"/MediPortal/signup/"} onClick={toogleSideBar}>
           <li className="sliderElement">
             <FaRegUser className="text-2xl" />
             join now as a user
           </li>
         </Link>
         {status !== "success" ? (
-          <Link to={"/MediPortal/login/"}>
+          <Link to={"/MediPortal/login/"} onClick={toogleSideBar}>
             <li className="sliderElement">
-              <IoIosLogIn className="text-3xl" />
+              <IoIosLogIn className="text-3xl" onClick={toogleSideBar} />
               Login
             </li>
           </Link>
         ) : (
-          <Link to={"/"}>
-            <li className="sliderElement">
-              <IoIosLogOut className="text-3xl" />
-              Logout
-            </li>
-          </Link>
+          <li
+            className="sliderElement"
+            onClick={() => {
+              toogleSideBar();
+              handleLogout();
+            }}
+          >
+            <IoIosLogOut className="text-3xl" />
+            Logout
+          </li>
         )}
-        <Link to={"/MediPortal/contact/"}>
+        <Link to={"/MediPortal/contact/"} onClick={toogleSideBar}>
           <li className="sliderElement">
             <CiPhone className="text-3xl" />
             contact us

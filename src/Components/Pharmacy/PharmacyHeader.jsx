@@ -1,11 +1,19 @@
 import { PiHandbag } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser, logout } from "../../Store/Slices/userSlice";
+import LogoutHeader from "../LogoutItemsHeader";
+
 const PharmacyHeader = () => {
+  const dispath = useDispatch();
+  const { status, firstname } = useSelector((state) => state.user); // Select the necessary state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const cartLength = useSelector((state) => state.cart.totalQuantity);
-
+  function handleLogout() {
+    dispath(clearUser());
+    dispath(logout());
+  }
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
@@ -26,18 +34,29 @@ const PharmacyHeader = () => {
 
         {/* Desktop Buttons */}
         <div className="buttons hidden md:flex items-center gap-8 font-medium text-[16px]">
-          <Link
-            to={"/MediPortal/login"}
-            className="hover:text-tertiary transition-all duration-300"
-          >
-            Login
-          </Link>
-          <Link
-            to={"/MediPortal/signup"}
-            className="hover:text-tertiary transition-all duration-300"
-          >
-            Sign Up
-          </Link>
+          {status === "success" ? (
+            <LogoutHeader
+              handleLogout={handleLogout}
+              firstname={firstname}
+              id={firstname}
+            />
+          ) : (
+            <>
+              <Link
+                to={"/MediPortal/login"}
+                className="hover:text-tertiary transition-all duration-300"
+              >
+                Login
+              </Link>
+              <Link
+                to={"/MediPortal/signup"}
+                className="hover:text-tertiary transition-all duration-300"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
+
           <Link
             to={"/MediPortal/pharmacy/cart"}
             className="hover:text-tertiary transition-all duration-300 relative"
