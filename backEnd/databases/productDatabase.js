@@ -1,6 +1,6 @@
 import pool from "../server.js";
 
-const retrieveAllProducts = async (fields, filters, orders) => {
+const retrieveAllProducts = async (fields, filters, orders, limit, page) => {
   try {
     let query = "select ";
     if (fields) {
@@ -35,7 +35,8 @@ const retrieveAllProducts = async (fields, filters, orders) => {
               group by p.productid ,
               c.categoryName   
              `;
-    if (orders) query += `order by ${orders.join(" , ")}`;
+    if (orders) query += `order by ${orders.join(" , ")}    `;
+    query += ` LIMIT ${limit} OFFSET ${page - 1} * ${limit} ; `;
     const res = await pool.query(query);
     return res.rows;
   } catch (err) {

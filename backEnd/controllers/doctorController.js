@@ -35,8 +35,13 @@ const getAllDoctors = catchAsyncError(async (req, res, next) => {
     if (!orders) return next(new AppError("Invalid query atrributes", 400));
     if (orders.length == 0) orders = undefined;
   }
-
   delete req.query.order;
+
+  let limit = req.query.limit || 50;
+  let page = req.query.page || 1;
+
+  delete req.query.limit;
+  delete req.query.page;
 
   let filters;
   if (req.query) {
@@ -45,7 +50,13 @@ const getAllDoctors = catchAsyncError(async (req, res, next) => {
     if (filters.length == 0) filters = undefined;
   }
 
-  const doctors = await retrieveAllDoctors(fields, filters, orders);
+  const doctors = await retrieveAllDoctors(
+    fields,
+    filters,
+    orders,
+    limit,
+    page
+  );
   res.status(200).json({
     status: "succes",
     ok: true,

@@ -46,6 +46,12 @@ const getAllOffers = catchAsyncError(async (req, res, next) => {
 
   delete req.query.order;
 
+  let limit = req.query.limit || 50;
+  let page = req.query.page || 1;
+
+  delete req.query.limit;
+  delete req.query.page;
+
   let filters;
   if (req.query) {
     filters = filterQueryHandler(req.query, validAttributes);
@@ -56,7 +62,7 @@ const getAllOffers = catchAsyncError(async (req, res, next) => {
       filters = filters.join(",").replaceAll("work", " w.work").split(",");
     }
   }
-  const offers = await retrieveAllOffers(fields, filters, orders);
+  const offers = await retrieveAllOffers(fields, filters, orders, limit, page);
   res.status(200).json({
     status: "success",
     ok: true,

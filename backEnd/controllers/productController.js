@@ -40,6 +40,12 @@ const getAllProducts = catchAsyncError(async (req, res, next) => {
 
   delete req.query.order;
 
+  let limit = req.query.limit || 50;
+  let page = req.query.page || 1;
+
+  delete req.query.limit;
+  delete req.query.page;
+
   let filters;
   if (req.query) {
     filters = filterQueryHandler(req.query, validAttributes);
@@ -48,7 +54,13 @@ const getAllProducts = catchAsyncError(async (req, res, next) => {
     if (filters) filters = filters.join(",").replaceAll("p", "p.p").split(",");
   }
 
-  const products = await retrieveAllProducts(fields, filters, orders);
+  const products = await retrieveAllProducts(
+    fields,
+    filters,
+    orders,
+    limit,
+    page
+  );
 
   res.status(200).json({
     status: "success",
