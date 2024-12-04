@@ -1,4 +1,7 @@
-import { retrieveAllDoctors } from "../databases/doctorDatabse.js";
+import {
+  retrieveAllDoctors,
+  retrieveDoctor,
+} from "../databases/doctorDatabse.js";
 import {
   AppError,
   catchAsyncError,
@@ -35,8 +38,13 @@ const getAllDoctors = catchAsyncError(async (req, res, next) => {
     if (!orders) return next(new AppError("Invalid query atrributes", 400));
     if (orders.length == 0) orders = undefined;
   }
-
   delete req.query.order;
+
+  let limit = req.query.limit || 50;
+  let page = req.query.page || 1;
+
+  delete req.query.limit;
+  delete req.query.page;
 
   let filters;
   if (req.query) {
@@ -45,12 +53,29 @@ const getAllDoctors = catchAsyncError(async (req, res, next) => {
     if (filters.length == 0) filters = undefined;
   }
 
-  const doctors = await retrieveAllDoctors(fields, filters, orders);
+  const doctors = await retrieveAllDoctors(
+    fields,
+    filters,
+    orders,
+    limit,
+    page
+  );
   res.status(200).json({
     status: "succes",
     ok: true,
     data: { doctors },
   });
 });
-
-export { getAllDoctors };
+const getDoctor = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) return next(new AppError("Please provide doctor Id", 400));
+  const doctor = await retrieveDoctor(id);
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: {
+      doctor,
+    },
+  });
+});
+export { getAllDoctors, getDoctor };

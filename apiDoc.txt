@@ -191,3 +191,84 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                   }
 
                   
+5.offers
+    5.1 allOffers
+        endPoint: 127.0.0.1:3000/api/v1/offers/allOffers?specialization=Cardiologist&&fields=percentage,startDate,endDate&&order=-percentage
+        queryOption: fields , productId=2 (filter) , order
+        validAttributes for query = [
+                            "percentage",
+                            "startDate",
+                            "endDate",
+                            "specialization",
+                            "workspaceName",
+                            "workspaceType",
+                            "doctorId",
+                            "firstName",
+                            "lastName",
+                        ];
+        method : get 
+        body : {
+            }
+        response : {
+                    "status": "success",
+                    ok:true 
+                    "date": {
+                                offers  [    {
+                                                "percentage": 10,
+                                                "startdate": "2024-12-01T07:00:00.000Z",
+                                                "enddate": "2024-12-31T16:00:00.000Z",
+                                                "doctorid": 6,
+                                                "workspaceid": 8,
+                                                "specialization": "General Practitioner",
+                                                "firstname": "Diana",
+                                                "lastname": "Garcia",
+                                                "workspacename": "Mediportal group ASAY 1",
+                                                "workspacetype": "Hospital"
+                                            },
+                                        ]
+                                }
+                }
+6.workspace
+    6.1 Create workspace
+        endPoint: http://127.0.0.1:3000/api/v1/workspace/
+        method : post
+        body :
+        {
+            "workspaceName":"8th of october",
+            "workspaceType":"clIniC",
+            "workspacePhone":"0235441235",
+            "workspaceLocation": "242 Corniche Roshdy, ROUSHDY Alexandria"
+        }
+        response:
+        {
+            "status": "success",
+            "data": {
+                "workspace": {
+                    "workspaceid": 10,
+                    "workspacename": "8th of october",
+                    "workspacetype": "Clinic",
+                    "workspacephone": "0235441235",
+                    "workspaceLocation": "242 Corniche Roshdy, ROUSHDY Alexandria"
+                }
+            }
+        }
+    6.2 Edit workspace
+        endPoint: http://127.0.0.1:3000/api/v1/workspace/9/1/2  -- :id/:secId/:thirdId  // {workspaceId , (contact or loc) , loc -if third exist-} 
+        method: patch
+        body:
+        {
+            "workspacePhone":"0222222222",
+            "workspaceName":"mediportal official",
+            "workspaceLocation":"Nourth US 6th street on the right"
+        }
+        response:
+        {
+            "status": "success",
+            "data": {
+                "updatedWorkspace": {
+                    "workspacephone": "0222222222",
+                    "workspacename":"mediportal official",
+                    "workspacelocation": "Nourth US 6th street on the right"
+                }
+            }
+        }

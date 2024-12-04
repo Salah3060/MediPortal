@@ -6,26 +6,29 @@ import {
   orderQueryHandler,
 } from "../utilities.js";
 
-import { retrieveAllProducts } from "../databases/productDatabase.js";
+import { retrieveAllOffers } from "../databases/offerDatabase.js";
 
 const validAttributes = [
-  "productId",
-  "productName",
-  "productCategory",
-  "manufacture",
-  "productPrice",
-  "productDescription",
-  "categoryName",
+  "percentage",
+  "startDate",
+  "endDate",
+  "specialization",
+  "workspaceName",
+  "workspaceType",
+  "doctorId",
+  "firstName",
+  "lastName",
 ];
-
-const getAllProducts = catchAsyncError(async (req, res, next) => {
+const getAllOffers = catchAsyncError(async (req, res, next) => {
   let fields;
   if (req.query.fields) {
     fields = fieldsQueryHandler(req.query, validAttributes);
     if (!fields) return next(new AppError("Invalid query atrributes", 400));
     if (fields.length == 0) fields = undefined;
-    if (fields)
-      fields = fields.join(",").replaceAll("product", " p.product").split(",");
+    if (fields) {
+      fields = fields.join(",").replaceAll("doctor", " d.doctor").split(",");
+      fields = fields.join(",").replaceAll("work", " w.work").split(",");
+    }
   }
   delete req.query.fields;
 
@@ -35,7 +38,10 @@ const getAllProducts = catchAsyncError(async (req, res, next) => {
     orders = orderQueryHandler(req.query, validAttributes);
     if (!orders) return next(new AppError("Invalid query atrributes", 400));
     if (orders.length == 0) orders = undefined;
-    if (orders) orders = orders.join(",").replaceAll("p", "p.p").split(",");
+    if (orders) {
+      orders = orders.join(",").replaceAll("doctor", " d.doctor").split(",");
+      orders = orders.join(",").replaceAll("work", " w.work").split(",");
+    }
   }
 
   delete req.query.order;
@@ -51,22 +57,17 @@ const getAllProducts = catchAsyncError(async (req, res, next) => {
     filters = filterQueryHandler(req.query, validAttributes);
     if (!filters) return next(new AppError("Invalid query atrributes", 400));
     if (filters.length == 0) filters = undefined;
-    if (filters) filters = filters.join(",").replaceAll("p", "p.p").split(",");
+    if (filters) {
+      filters = filters.join(",").replaceAll("doctor", " d.doctor").split(",");
+      filters = filters.join(",").replaceAll("work", " w.work").split(",");
+    }
   }
-
-  const products = await retrieveAllProducts(
-    fields,
-    filters,
-    orders,
-    limit,
-    page
-  );
-
+  const offers = await retrieveAllOffers(fields, filters, orders, limit, page);
   res.status(200).json({
     status: "success",
     ok: true,
-    data: { products },
+    data: { offers },
   });
 });
 
-export { getAllProducts };
+export { getAllOffers };

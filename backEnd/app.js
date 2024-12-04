@@ -11,6 +11,7 @@ import patientRouter from "./routes/patientRouter.js";
 import categoryRouter from "./routes/categoryRouter.js";
 import productRouter from "./routes/productRouter.js";
 import workspaceRouter from "./routes/workspaceRouter.js";
+import offerRouter from "./routes/offerRouter.js";
 import pkg from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import { AppError, globalErrorHandler } from "./utilities.js";
@@ -21,7 +22,8 @@ app.use(cookieparser());
 
 app.use(
   cors({
-    credentials: true, // Allow cookies to be sent
+    origin: "*",
+    credentials: true,
   })
 );
 
@@ -41,6 +43,7 @@ app.use("/api/v1/patients", patientRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/workspace", workspaceRouter);
+app.use("/api/v1/offers", offerRouter);
 app.use("/", (req, res, next) =>
   next(new AppError("No such Route Founded....", 404))
 );

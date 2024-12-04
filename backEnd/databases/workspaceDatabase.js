@@ -23,12 +23,7 @@ const createWorkspaceDb = async (name, type, phone, location) => {
     console.log(error);
   }
 };
-const editWorkspaceDb = async (
-  workspaceId,
-  contactId,
-  locationId,
-  toBeEdited
-) => {
+const editWorkspaceDb = async (workspaceId, secId, thirdId, toBeEdited) => {
   try {
     let query = `update Workspaces
                 SET `;
@@ -49,19 +44,45 @@ const editWorkspaceDb = async (
     query += `where workspaceId = $${attCnt}
               returning *;`;
     columns.push(workspaceId);
+    if (attCnt == 1) {
+      // to be able to update only phone or loc
+      query = ``;
+    }
     const updatedWorkspace = await pool.query(query, columns);
-
+    console.log(updatedWorkspace);
+    if (updatedWorkspace.rowCount == 0) {
+      // used == 0 not "!" to distinguish between updating failure and updating neither name nor type
+      //gard clause to make sure that we updated correctlly
+      return false;
+    }
+    if (updatedWorkspace.rows.length == 0) updatedWorkspace.rows[0] = {}; //to be able to put properties in it
     if (toBeEdited.workspacePhone) {
+      // if phone made it to this point, so definitly there's a secId
       let secQuery = `update WorkspaceContacts
                       SET workspacePhone = $1
                       where contactId = $2
                       returning *`;
-      const res = await pool.query(secQuery, [, secId]);
+      const res = await pool.query(secQuery, [
+        toBeEdited.workspacePhone,
+        secId,
+      ]);
+      updatedWorkspace.rows[0].workspacephone = res.rows[0].workspacephone;
     }
-    if (updatedWorkspace.rowCount)
-      // console.log(updatedWorkspace);
-      return updatedWorkspace.rows[0];
-    return false;
+    if (toBeEdited.workspaceLocation) {
+      const usedId = thirdId ? thirdId : secId; // if there is thirdId,it's locations id
+      let secQuery = `update WorkspaceLocations
+                      SET workspacesLocation = $1
+                      where locationId = $2
+                      returning *`;
+      const res = await pool.query(secQuery, [
+        toBeEdited.workspaceLocation,
+        usedId,
+      ]);
+      updatedWorkspace.rows[0].workspacelocation =
+        res.rows[0].workspaceslocation;
+    }
+
+    return updatedWorkspace.rows[0];
   } catch (error) {
     console.log(error);
   }
