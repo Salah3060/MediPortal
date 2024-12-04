@@ -1,5 +1,28 @@
+import SearchHeader from "@/Components/Search/SearchHeader";
+import DoctorInfo from "@/Components/Search/DoctorInfo";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchDoctorById } from "@/Store/Slices/searchSlice";
+
+
 const SingleDoctor = () => {
-  return <div></div>;
+  const { doctorId } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchDoctorById(doctorId));
+  }, [dispatch, doctorId]);
+
+  return (
+    <div className="flex flex-col">
+      <SearchHeader />
+
+      <div className="bg-gradient-to-r from-[#c2dfe3] to-[#9db4c0]">
+        <DoctorInfo />
+      </div>
+    </div>
+  );
 };
 
 export default SingleDoctor;

@@ -11,7 +11,6 @@ export const fetchAllDoctors = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const doctors = await getAllDoctors();
-      console.log(doctors);
       return doctors.data.doctors;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -38,7 +37,7 @@ export const fetchDoctorById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const doctor = await getDoctorById(id);
-      return doctor.doctors[0];
+      return doctor.data.doctor[0];
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
@@ -61,7 +60,6 @@ const searchSlice = createSlice({
       state.selectedSpecialty = action.payload;
     },
     setFilteredDoctors: (state, action) => {
-      console.log(action.payload);
       state.filteredDoctors = action.payload;
     },
     setSelectedDoctor: (state, action) => {

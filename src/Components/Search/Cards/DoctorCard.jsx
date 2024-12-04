@@ -13,7 +13,7 @@ const DoctorCard = ({ doctor }) => {
       className="flex flex-col md:flex-row justify-between px-4 py-6 w-full bg-white rounded-t-xl text-primary hover:bg-gray-200 transition-all duration-300 shadow-lg"
       to={`/MediPortal/search/doctors/${doctor.userid}`}
     >
-      <div className="info flex flex-col md:flex-row gap-4 md:gap-8 w-full md:w-[60%]">
+      <div className="info flex flex-col md:flex-row gap-4 md:gap-8 w-full md:w-full">
         <div className="image w-full md:w-[35%] flex justify-center md:justify-start">
           <img
             src="./doctor.png"
@@ -35,34 +35,32 @@ const DoctorCard = ({ doctor }) => {
           <div className="rating flex justify-center md:justify-start gap-1 mt-4">
             {renderStars(4.2)}
           </div>
-
-          <div className="feats flex flex-col gap-2 mt-6">
-            <div className="feat flex items-center gap-2 justify-center md:justify-start">
-              <FaUserDoctor className="text-lg text-darkRed" />
-              <p className="text-[14px]">{doctor.specialization}</p>
-            </div>
-            <div className="feat flex items-center gap-2 justify-center md:justify-start">
-              <MdOutlineLocationOn className="text-lg text-darkRed" />
-              <p className="text-[14px]">RedSea : Hurghada</p>
-            </div>
-            <div className="feat flex items-center gap-2 justify-center md:justify-start">
-              <BsCashStack className="text-lg text-darkRed" />
-              <p className="text-[14px]">Fees: {doctor.wallet} EGP</p>
-            </div>
-            <div className="feat flex items-center gap-2 justify-center md:justify-start">
-              <FaRegClock className="text-lg text-darkRed" />
-              <p className="text-[14px] text-tertiary/90">
-                Waiting Time: To Be Updated Later
-              </p>
-            </div>
-            <div className="feat flex items-center gap-2 justify-center md:justify-start">
-              <IoCallOutline className="text-lg text-darkRed" />
-              <p className="text-[14px]">16676 - Cost of regular Call</p>
-            </div>
+        </div>
+        <div className="feats flex flex-col gap-2 w-full">
+          <div className="feat flex items-center gap-2 justify-center md:justify-start">
+            <FaUserDoctor className="text-lg text-darkRed" />
+            <p className="text-[14px]">{doctor.specialization}</p>
+          </div>
+          <div className="feat flex items-center gap-2 justify-center md:justify-start">
+            <MdOutlineLocationOn className="text-lg text-darkRed" />
+            <p className="text-[14px]">RedSea : Hurghada</p>
+          </div>
+          <div className="feat flex items-center gap-2 justify-center md:justify-start">
+            <BsCashStack className="text-lg text-darkRed" />
+            <p className="text-[14px]">Fees: {doctor.wallet} EGP</p>
+          </div>
+          <div className="feat flex items-center gap-2 justify-center md:justify-start">
+            <FaRegClock className="text-lg text-darkRed" />
+            <p className="text-[14px] text-tertiary/90">
+              Waiting Time: To Be Updated Later
+            </p>
+          </div>
+          <div className="feat flex items-center gap-2 justify-center md:justify-start">
+            <IoCallOutline className="text-lg text-darkRed" />
+            <p className="text-[14px]">16676 - Cost of regular Call</p>
           </div>
         </div>
       </div>
-      <div className="time hidden md:block"></div>
     </Link>
   );
 };

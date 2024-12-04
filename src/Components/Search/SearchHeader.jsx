@@ -2,7 +2,6 @@ import SearchBar from "./SearchBar";
 import { IoCall } from "react-icons/io5";
 
 const SearchHeader = () => {
-  
   return (
     <div className="container max-w-[1300px] mx-auto px-4 py-4 flex flex-col gap-6 lg:gap-8">
       {/* Text Section */}

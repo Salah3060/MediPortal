@@ -26,3 +26,25 @@ export const renderStars = (rating) => {
 
   return stars;
 };
+
+export const formatDate = (dateString) => {
+  if (!dateString) return "Invalid date";
+
+  // Parse the input string to a JavaScript Date object
+  const date = new Date(dateString);
+
+  // Check if the date is valid
+  if (isNaN(date)) return "Invalid date";
+
+  // Format the date parts
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
+
+  return date.toLocaleString("en-US", options);
+};

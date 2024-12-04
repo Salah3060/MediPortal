@@ -10,16 +10,16 @@ const DoctorsSection = () => {
 
   const [sortOption, setSortOption] = useState("default");
   return (
-    <div className="flex flex-col gap-6 py-4 w-full md:px-4 lg:px-8">
+    <div className="flex flex-col gap-6 pb-4 w-full md:px-4 lg:px-8">
       {/* Header Section */}
-      <div className="header flex flex-col lg:flex-row justify-between items-start lg:items-center w-full gap-4">
-        <div className="text flex flex-col lg:flex-row items-start lg:items-baseline gap-2 text-primary">
-          <h1 className="text-xl lg:text-2xl font-bold">{selectedSpecialty}</h1>
+      <div className="header flex justify-between items-end w-full gap-4">
+        <div className="text flex flex-col lg:flex-ro items-start lg:items-baseline gap-2 text-primary">
+          <h1 className="text-lg lg:text-2xl font-bold">{selectedSpecialty}</h1>
           <span className="text-sm lg:text-base text-primary/80">
             {filteredDoctors?.length}
           </span>
         </div>
-        <div className="sorting flex gap-4 items-center w-full lg:w-auto text-primary">
+        <div className="sorting flex gap-4 items-center w-[fit-content] lg:w-auto text-primary">
           <label htmlFor="sort" className="text-sm font-bold">
             Sort By:
           </label>
