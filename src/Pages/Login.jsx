@@ -4,14 +4,12 @@ import { clearUser, userLogin } from "../Store/Slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Components/Loader";
 import SuccessPopup from "../Components/Successpopup";
-import { useNavigate } from "react-router-dom";
 import LoginForm from "../Components/Login/LoginForm";
 import ErrorPopup from "../Components/ErrorPopup";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const dispath = useDispatch();
   const { error: errorMsg, status } = useSelector((state) => state.user); // Select the necessary state
 
@@ -23,7 +21,7 @@ export default function Login() {
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [status, navigate]);
+  }, [status]);
   function handleSubmit(e) {
     e.preventDefault();
     if (!email) {

@@ -7,8 +7,7 @@ import Loader from "../Components/Loader";
 import { clearUser, userSignup } from "../Store/Slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SuccessPopup from "../Components/Successpopup";
-import ErrorPopup from "../Components/Errorpopup";
-import { useNavigate } from "react-router-dom";
+import ErrorPopup from "../Components/ErrorPopup";
 export default function Signup() {
   const dispath = useDispatch();
   const [user, setUser] = useState({
@@ -28,7 +27,6 @@ export default function Signup() {
   });
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const { error: errorMsg, status } = useSelector((state) => state.user); // Select the necessary state
   Loader;
   function fetchData() {
@@ -55,7 +53,7 @@ export default function Signup() {
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [status, navigate]);
+  }, [status]);
   return (
     <div className="min-h-dvh">
       {
