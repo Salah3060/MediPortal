@@ -4,7 +4,7 @@ import ShowOffers from "./AlloffersSlider";
 
 export default function OffersSection({ header, data, expandHandler }) {
   return (
-    <div className="section ">
+    <div className="section border-t pt-10">
       <div className="headder flex justify-between mb-3 items-center">
         <h2 className="text-secondary text-3xl font-bold mb-5">{header}</h2>
         <button
