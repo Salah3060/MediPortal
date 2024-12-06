@@ -32,9 +32,6 @@ const offersSlice = createSlice({
   name: "offers",
   initialState: {
     offers: [],
-    specialties: [],
-    filteredOffers: [],
-    selectedOffer: {},
     selectedSpecialty: "All Specialties",
     loading: false,
     error: null,

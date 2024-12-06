@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FaCircleArrowRight } from "react-icons/fa6";
 import ShowOffers from "./AlloffersSlider";
-import { Link } from "react-router-dom";
 
 export default function OffersSection({ header, data, expandHandler }) {
   return (
