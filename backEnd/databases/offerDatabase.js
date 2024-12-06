@@ -5,12 +5,15 @@ const retrieveAllOffers = async (fields, filters, orders, limit, page) => {
     let query = "select ";
     if (fields) query += fields;
     else
-      query += `    percentage , 
+      query += `    offerId,
+                    offerName,
+                    offerDescription,
+                    percentage , 
                     startdate , 
                     enddate , 
                     d.doctorId , 
+                    d.fees,
                     w.workspaceid ,
-                    offerId,
                     specialization ,  
                     firstname ,
                     lastname ,
@@ -25,6 +28,7 @@ const retrieveAllOffers = async (fields, filters, orders, limit, page) => {
     if (filters) query += `where ${filters.join(" and ")}      `;
     if (orders) query += `order by ${orders.join(" , ")}       `;
     query += ` LIMIT ${limit} OFFSET ${page - 1} * ${limit} ; `;
+    console.log(query);
     const res = await pool.query(query);
     return res.rows;
   } catch (error) {

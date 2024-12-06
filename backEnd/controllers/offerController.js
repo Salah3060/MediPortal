@@ -15,9 +15,11 @@ const validAttributes = [
   "specialization",
   "workspaceName",
   "workspaceType",
+  "offerId",
   "doctorId",
   "firstName",
   "lastName",
+  "offerName",
 ];
 const getAllOffers = catchAsyncError(async (req, res, next) => {
   let fields;
