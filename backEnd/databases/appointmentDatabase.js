@@ -1,4 +1,6 @@
+import app from "../app.js";
 import pool from "../server.js";
+import { catchAsyncError } from "../utilities.js";
 
 const retrieveAllAppointments = async (
   fields,
@@ -48,4 +50,20 @@ const retrieveAllAppointments = async (
   }
 };
 
-export { retrieveAllAppointments };
+const createAppointmentDb = async (attributes) => {
+  try {
+    const query = `insert into Appointments
+                   (appointmentDate, appointmentStatus, fees, paymentStatus, bookingDate, patientId, doctorId, workspaceId) 
+                   values($1,$2,$3,$4,$5,$6,$7,$8)
+                   returning *`;
+    attributes[4] = new Date(new Date(attributes[4]).toISOString());
+    const appointment = await pool.query(query, attributes);
+    // console.log(appointment);
+    if (appointment.rowCount) return appointment.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { retrieveAllAppointments, createAppointmentDb };

@@ -149,7 +149,6 @@ const registerController = async (req, res, next) => {
 };
 
 const validateLoggedIn = catchAsyncError(async (req, res, next) => {
-  console.log(req.headers.authorization);
   let token;
   if (
     req.headers.authorization &&
@@ -170,7 +169,6 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
     );
   const user = await logInDb(undefined, undefined, id);
   if (!user) new AppError("Protected Path , Plesase login to get access", 401);
-  console.log(user);
   req.user = user;
   next();
 });
