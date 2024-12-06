@@ -4,7 +4,7 @@ import {
   ValidataName,
   ValidataPassword,
   ValidataPhone,
-} from "../../Utils/null";
+} from "../../Utils/signValidators";
 import InputField from "./InputField";
 
 export default function Personalinfo({ user, setUser, setStep, setError }) {

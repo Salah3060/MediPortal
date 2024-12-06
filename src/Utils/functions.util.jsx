@@ -48,3 +48,10 @@ export const formatDate = (dateString) => {
 
   return date.toLocaleString("en-US", options);
 };
+export function formatPrice(price) {
+  const options = {
+    style: "currency",
+    currency: "USD",
+  };
+  return price.toLocaleString("en-US", options);
+}

@@ -136,7 +136,7 @@ const HomeOffers = () => {
         </h1>
         <Link
           className="px-4 py-2 font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out flex items-center"
-          to={"/MediPortal/"}
+          to={"/MediPortal/offers"}
         >
           All Offers
           <FaCircleArrowRight className="text-xl ml-2" />
