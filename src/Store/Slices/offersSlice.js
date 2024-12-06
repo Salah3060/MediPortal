@@ -7,6 +7,7 @@ export const fetchAllOffers = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const offers = await getAllOffers();
+      console.log(offers.data.offers);
       return offers.data.offers;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -20,6 +21,7 @@ export const fetchOffersBySpecialty = createAsyncThunk(
   async (specialty, thunkAPI) => {
     try {
       const offers = await getOffersBySpecialty(specialty);
+
       return offers.offers;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -60,25 +62,12 @@ const offersSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
       })
-      // .addCase(fetchDoctorById.pending, (state) => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
-      // .addCase(fetchDoctorById.fulfilled, (state, action) => {
-      //   state.selectedDoctor = action.payload;
-      //   state.loading = false;
-      // })
-      // .addCase(fetchDoctorById.rejected, (state, action) => {
-      //   state.error = action.payload;
-      //   state.loading = false;
-      // })
       .addCase(fetchAllOffers.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchAllOffers.fulfilled, (state, action) => {
-        state.doctors = action.payload;
-        state.filteredDoctors = action.payload;
+        state.offers = action.payload;
         state.loading = false;
       })
       .addCase(fetchAllOffers.rejected, (state, action) => {

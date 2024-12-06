@@ -9,6 +9,7 @@ export const getAllOffers = async () => {
     console.error(error);
   }
 };
+
 export const getOffersBySpecialty = async (specialty) => {
   try {
     const response = await axiosInstance.get(
