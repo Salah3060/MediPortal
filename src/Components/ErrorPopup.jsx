@@ -12,7 +12,7 @@ export default function ErrorPopup({ Header, Msg, closePopup = null }) {
           <button
             onClick={closePopup}
             className={`bg-red-500 text-white p-2 rounded hover:bg-red-700 ${
-              !closePopup ? "hidden" : "hidden"
+              closePopup ? "" : "hidden"
             }`}
           >
             Close

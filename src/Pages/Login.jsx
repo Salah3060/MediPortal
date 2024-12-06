@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Components/Loader";
 import SuccessPopup from "../Components/Successpopup";
 import { useNavigate } from "react-router-dom";
-import ErrorPopup from "../Components/Errorpopup";
 import LoginForm from "../Components/Login/LoginForm";
+import ErrorPopup from "../Components/ErrorPopup";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
