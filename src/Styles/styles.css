@@ -49,3 +49,6 @@
 .discount-value {
   @apply absolute top-10 left-2 bg-secondary font-semibold text-white px-2 py-1 rounded-md text-xs line-through;
 }
+.btn-2 {
+  @apply px-4 py-2 font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out flex items-center;
+}

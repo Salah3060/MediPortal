@@ -6,6 +6,8 @@ import { renderStars } from "@/Utils/functions.util";
 import { FaInfo } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import ReviewCard from "./Cards/ReviewCard";
+import { BsCashStack } from "react-icons/bs";
+import { MdOutlineTimelapse } from "react-icons/md";
 
 const DoctorInfo = () => {
   const { selectedDoctor, loading, error } = useSelector(
@@ -112,11 +114,37 @@ const DoctorInfo = () => {
         </div>
 
         {/* Booking Section */}
-        <div className="booking w-full lg:w-[40%] bg-white p-6 rounded-xl">
-          {/* Placeholder for booking UI */}
-          <h2 className="text-lg font-semibold text-primary">
-            Booking Section Coming Soon
-          </h2>
+        <div className="booking w-full lg:w-[40%] bg-white rounded-xl flex flex-col gap-3">
+          <div className="header bg-primary w-full text-center py-3 rounded-t-xl">
+            <h1 className="text-tertiary">Booking Information</h1>
+          </div>
+
+          <div className="info flex flex-col justify-center items-center border-b pb-4">
+            <h1 className="text-primary/60">Book</h1>
+            <span className="text-darkRed">Examination</span>
+          </div>
+
+          <div className="examination_info flex justify-around items-center gap-2 border-b pb-4">
+            <div className="fees flex flex-col justify-center items-center gap-2">
+              <BsCashStack className="text-3xl -rotate-45 text-darkRed" />
+              <p className="text-primary text-[14px]">
+                Fees:{" "}
+                <span className="font-semibold">{selectedDoctor?.fees}</span>{" "}
+                EGP
+              </p>
+            </div>
+            <div className="waitingTime flex flex-col justify-center items-center gap-2">
+              <MdOutlineTimelapse className="text-3xl -rotate-45 text-darkRed" />
+              <p className="text-primary text-[14px]">
+                Waiting Time: <span className="font-semibold">{15}</span> Min
+              </p>
+            </div>
+          </div>
+
+          <div className="locations flex flex-col gap-2">
+            <div className="header"></div>
+            <div className="av-locations"></div>
+          </div>
         </div>
       </div>
     </div>

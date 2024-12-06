@@ -47,7 +47,7 @@ const DoctorCard = ({ doctor }) => {
           </div>
           <div className="feat flex items-center gap-2 justify-center md:justify-start">
             <BsCashStack className="text-lg text-darkRed" />
-            <p className="text-[14px]">Fees: {doctor.wallet} EGP</p>
+            <p className="text-[14px]">Fees: {doctor.fees} EGP</p>
           </div>
           <div className="feat flex items-center gap-2 justify-center md:justify-start">
             <FaRegClock className="text-lg text-darkRed" />

@@ -7,6 +7,7 @@ export const fetchAllOffers = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const offers = await getAllOffers();
+      console.log(offers.data.offers);
       return offers.data.offers;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);

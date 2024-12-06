@@ -4,12 +4,42 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "../Styles/offersSlider.css";
 import Card from "../Components/Offers/card";
 import { Link } from "react-router-dom";
-import { FaCircleArrowRight } from "react-icons/fa6";
+import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "@/Components/Loader";
+import { fetchAllOffers } from "../Store/Slices/offersSlice";
+import { useEffect, useState } from "react";
+import ErrorPopup from "../Components/ErrorPopup";
+import AllOffers from "../Components/Offers/AlloffersSlider";
+import OffersSection from "../Components/Offers/OffersSection";
+import Expandit from "../Components/Offers/ShowAll";
 export default function Offers() {
   const images = [
     "/MediPortal/Offers/offer1.jpg",
     "/MediPortal/Offers/offer2.jpg",
   ];
+  const [cat, setCat] = useState("");
+  const [Beauty, setBeautyData] = useState([]);
+  const [Eye, setEyeData] = useState([]);
+  const [Hair, setHairData] = useState([]);
+  const [Dental, setDentalData] = useState([]);
+
+  const { offers, loading, error } = useSelector((state) => state.offers);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!offers.length) dispatch(fetchAllOffers());
+    setBeautyData(
+      offers.filter((el) => el.specialization === "Orthopedic Surgeon")
+    );
+    setEyeData(offers.filter((el) => el.specialization === "Pediatrician"));
+    setHairData(
+      offers.filter((el) => el.specialization === "General Practitioner")
+    );
+    setDentalData(offers.filter((el) => el.specialization === "Cardiologist"));
+  }, [dispatch, offers]);
+  function BackHandler() {
+    setCat("");
+  }
   return (
     <div className="flex flex-col justify-center items-center gap-y-10 my-8">
       <Swiper
@@ -32,58 +62,53 @@ export default function Offers() {
           );
         })}
       </Swiper>
-      <div className="flex flex-col justify-center container">
-        <div className="section mb-52">
-          <div className="headder flex justify-between mb-3 items-center">
-            <h2 className="text-secondary text-3xl font-bold mb-5">
-              All Offers
-            </h2>
-            <Link
-              className="px-4 py-2 font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out flex items-center"
-              to={"/MediPortal/offers"}
-            >
-              Show All
-              <FaCircleArrowRight className="text-xl ml-2" />
-            </Link>
-          </div>
-          <Swiper
-            spaceBetween={30}
-            pagination={{
-              clickable: true,
-            }}
-            modules={[Pagination]}
-            breakpoints={{
-              480: { slidesPerView: 1 },
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-              1200: { slidesPerView: 4 },
-            }}
-            className="mySwiper"
-          >
-            <SwiperSlide>
-              <Card />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card />
-            </SwiperSlide>
-          </Swiper>
+
+      {cat === "All" ? (
+        <Expandit data={offers} backHandler={BackHandler} />
+      ) : cat === "Dental" ? (
+        <Expandit data={Dental} backHandler={BackHandler} />
+      ) : cat === "Hair" ? (
+        <Expandit data={Hair} backHandler={BackHandler} />
+      ) : cat === "Beauty" ? (
+        <Expandit data={Beauty} backHandler={BackHandler} />
+      ) : cat === "Eye" ? (
+        <Expandit data={Eye} backHandler={BackHandler} />
+      ) : error ? (
+        <ErrorPopup
+          Msg="Couldn't load offers, please check your connection"
+          Header="Error"
+        />
+      ) : loading ? (
+        <Loader />
+      ) : (
+        <div className="flex flex-col justify-center container gap-y-10">
+          <OffersSection
+            header="All Offers"
+            data={offers}
+            expandHandler={() => setCat("All")}
+          />
+          <OffersSection
+            header="Beauty"
+            data={Beauty}
+            expandHandler={() => setCat("Beauty")}
+          />
+          <OffersSection
+            header="Eye"
+            data={Eye}
+            expandHandler={() => setCat("Eye")}
+          />
+          <OffersSection
+            header="Hair"
+            data={Hair}
+            expandHandler={() => setCat("Hair")}
+          />
+          <OffersSection
+            header="Dental"
+            data={Dental}
+            expandHandler={() => setCat("Dental")}
+          />
         </div>
-      </div>
+      )}
     </div>
   );
 }
