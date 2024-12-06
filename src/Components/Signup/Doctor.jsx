@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import LicenseValidator from "../../Utils/null";
+import LicenseValidator from "../../Utils/signValidators";
 import InputField from "./InputField";
 
 export default function Doctor({ user, setUser, setStep, submit, setError }) {

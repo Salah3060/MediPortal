@@ -2,7 +2,6 @@
 import { IoIosLogOut } from "react-icons/io";
 
 export default function LogoutHeader({ handleLogout, firstname, id }) {
-  console.log(id);
 
   return (
     <div className="hidden md:flex gap-x-5 items-center">

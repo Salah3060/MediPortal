@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllOffers } from "@/API/OffersApi";
+import { getAllOffers, getOffersBySpecialty } from "@/API/OffersApi";
 
 // Async thunk to fetch all offers
 export const fetchAllOffers = createAsyncThunk(
@@ -14,28 +14,80 @@ export const fetchAllOffers = createAsyncThunk(
   }
 );
 
+// Async thunk to fetch offers by specialty
+export const fetchOffersBySpecialty = createAsyncThunk(
+  "offers/fetchOffersBySpecialty",
+  async (specialty, thunkAPI) => {
+    try {
+      const offers = await getOffersBySpecialty(specialty);
+      return offers.offers;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const offersSlice = createSlice({
   name: "offers",
   initialState: {
     offers: [],
+    specialties: [],
+    selectedOffer: {},
+    selectedSpecialty: "All Specialties",
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setSelectedSpecialty: (state, action) => {
+      state.selectedSpecialty = action.payload;
+    },
+    setSelectedOffer: (state, action) => {
+      state.selectedOffer = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
+      //Get Doctor by Specialty
+      .addCase(fetchOffersBySpecialty.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOffersBySpecialty.fulfilled, (state, action) => {
+        state.filteredDoctors = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchOffersBySpecialty.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      // .addCase(fetchDoctorById.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(fetchDoctorById.fulfilled, (state, action) => {
+      //   state.selectedDoctor = action.payload;
+      //   state.loading = false;
+      // })
+      // .addCase(fetchDoctorById.rejected, (state, action) => {
+      //   state.error = action.payload;
+      //   state.loading = false;
+      // })
       .addCase(fetchAllOffers.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchAllOffers.fulfilled, (state, action) => {
+        state.doctors = action.payload;
+        state.filteredDoctors = action.payload;
         state.loading = false;
-        state.offers = action.payload;
       })
       .addCase(fetchAllOffers.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload;
+        state.loading = false;
       });
   },
 });
+
+export const { setSelectedSpecialty, setSelectedOffer } = offersSlice.actions;
 
 export default offersSlice.reducer;

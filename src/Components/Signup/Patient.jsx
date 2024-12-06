@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { DiseaseVaidator } from "../../Utils/null";
+import { DiseaseVaidator } from "../../Utils/signValidators";
 import InputField from "./InputField";
 import Multiselector from "./MultiSelector";
 
