@@ -182,7 +182,7 @@ const SearchBar = () => {
       </div>
 
       {/* Search Button */}
-      <button className="px-6 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 flex items-center h-full ">
+      <button className="px-6 py-2 text-white bg-darkRed rounded-md hover:bg-darkRed/80 flex items-center h-full ">
         <span className="mr-2">🔍</span> Search
       </button>
     </div>
