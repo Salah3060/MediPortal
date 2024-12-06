@@ -1,18 +1,59 @@
 import LocationPicker from "@/Components/locationPicker";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BsCashCoin } from "react-icons/bs";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { Link } from "react-router-dom";
 
-const Checkout = () => {
+const CheckoutOverlay = () => {
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white px-12 py-8 rounded-lg shadow-lg text-center">
+        <h2 className="text-xl font-bold text-darkRed">
+          You must be logged in to Check Out
+        </h2>
+        <p className="text-gray-700 mt-2">
+          Please log in to proceed to the checkout page.
+        </p>
+
+        <div className="flex w-full justify-around">
+          <Link to={"/MediPortal/login"}>
+            <button className="bg-primary text-white px-8 py-2 rounded-xl mt-4">
+              Log In
+            </button>
+          </Link>
+          <Link to={"/MediPortal/"}>
+            <button className="bg-primary text-white px-8 py-2 rounded-xl mt-4">
+              Home
+            </button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const OrderCheckout = () => {
   const [location, setLocation] = useState(null);
+  const [phone, setPhone] = useState("");
   const delivery = 25;
   const discount = 0;
   const { totalPrice } = useSelector((state) => state.cart);
+  const { firstname, lastname, email, phonenumber, status } = useSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    setPhone(phonenumber);
+  }, [phonenumber]);
 
   const handleLocationSelect = (selectedLocation) => {
     setLocation(selectedLocation);
     console.log("Selected Location:", selectedLocation);
   };
+
+  if (status !== "success") return <CheckoutOverlay />;
 
   return (
     <div className="container max-w-[1400px] mx-auto px-4 py-6 flex flex-col gap-8 rounded-xl">
@@ -67,6 +108,41 @@ const Checkout = () => {
               </span>
             </div>
           </div>
+
+          <div className="customerInfo flex flex-col gap-4 pb-4 border-b">
+            <div className="names flex justify-between">
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstname}
+                className="w-[48%] py-2 px-4 border rounded-lg"
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastname}
+                className="w-[48%] py-2 px-4 border rounded-lg"
+              />
+            </div>
+            <div className="email">
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={email}
+                className="w-full py-2 px-4 border rounded-lg"
+              />
+            </div>
+            <div className="phoneNumber w-full">
+              <PhoneInput
+                country={"eg"}
+                value={phone}
+                onChange={(value) => setPhone(value)}
+                inputClass="w-full py-2 px-4 border rounded-lg"
+                containerClass="w-full"
+                buttonClass="border-l"
+              />
+            </div>
+          </div>
           <button className="bg-[#9db4c0] hover:bg-primary hover:text-tertiary text-primary font-medium py-3 rounded-lg w-full transition-all duration-300 flex justify-center items-center">
             Place Order
           </button>
@@ -82,4 +158,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default OrderCheckout;

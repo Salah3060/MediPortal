@@ -1,27 +1,30 @@
-import { GrSchedule } from "react-icons/gr";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
     <div className="container max-w-[1500px] mx-auto flex justify-between px-4 py-6 flex-col gap-8">
-      <div className="headerText">
-        <h1 className="text-3xl text-primary font-bold">
+      <div className="headerText mt-16 bg-white/40 w-[fit-content] p-6 rounded-xl">
+        <h1 className="text-4xl text-primary font-bold">
           Better Healthcare for a better life
         </h1>
-        <p className="text-lightGrayText mt-3 text-xl">
+        <p className="text-secondary mt-6 text-2xl">
           Clinics are now much closer
         </p>
-      </div>
-      <div className="searchBar bg-white py-4 flex flex-col gap-4 rounded-xl shadow-2xl">
-        <div className="tab flex gap-4 items-center justify-center border-b-[3px] border-primary pb-5 ">
-          <div className="logo">
-            <GrSchedule className="text-4xl text-primary" />
-          </div>
-          <div className="text flex flex-col">
-            <h1>Book a doctor</h1>
-            <h1>Examination or procedure</h1>
-          </div>
+
+        <div className="buttons mt-4 w-full p-6 rounded-xl flex flex-col md:flex-row gap-4 justify-around items-center">
+          <Link
+            className="bg-[#c2dfe3] px-6 py-4 rounded-xl"
+            to="/MediPortal/search"
+          >
+            Find A Doctor
+          </Link>
+          <Link
+            className="bg-[#c2dfe3] px-6 py-4 rounded-xl"
+            to={"/MediPortal/pharmacy"}
+          >
+            Purchase a Product
+          </Link>
         </div>
-        <div className="options"></div>
       </div>
     </div>
   );

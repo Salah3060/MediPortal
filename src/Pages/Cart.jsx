@@ -5,16 +5,26 @@ import {
   increaseQuantity,
 } from "../Store/Slices/cartSlice";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineMinus } from "react-icons/ai";
 import { useState } from "react";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [discount, setDiscount] = useState(0);
   const [delivery, setDelivery] = useState(25);
   const { items: products, totalPrice } = useSelector((state) => state.cart);
+  const { status } = useSelector((state) => state.user);
+
+  const handleCheckout = () => {
+    if (status === "success") {
+      navigate("/MediPortal/pharmacy/checkout");
+    } else {
+      navigate("/MediPortal/login");
+    }
+  };
 
   return (
     <div className="py-6 px-6">
@@ -148,12 +158,12 @@ const Cart = () => {
             </div>
 
             <div className="checkout w-full">
-              <Link
+              <button
                 className="bg-[#9db4c0] hover:bg-primary hover:text-tertiary text-primary font-medium py-[12px] md:py-[15px] rounded-[62px] w-full transition-all duration-300 flex justify-center items-center"
-                to="/MediPortal/pharmacy/checkout"
+                onClick={handleCheckout}
               >
                 Go To CheckOut <span className="font-bold">→</span>
-              </Link>
+              </button>
             </div>
           </div>
         </div>

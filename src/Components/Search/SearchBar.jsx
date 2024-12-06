@@ -99,12 +99,39 @@ const SearchBar = () => {
   useEffect(() => {
     if (debouncedQuery) {
       console.log(debouncedQuery);
-      const filtered = doctors.filter((doctor) =>
-        doctor.firstname.toLowerCase().startsWith(debouncedQuery.toLowerCase())
-      );
-      console.log(filtered);
+
+      // Split the query into parts by spaces
+      const queryParts = debouncedQuery.trim().split(" ");
+
+      let filtered;
+
+      if (queryParts.length > 1) {
+        // If the query has a space, compare the first part with `firstname` and the second part with `lastname`
+        filtered = doctors.filter(
+          (doctor) =>
+            doctor.firstname
+              .toLowerCase()
+              .startsWith(queryParts[0].toLowerCase()) &&
+            doctor.lastname
+              .toLowerCase()
+              .startsWith(queryParts[1].toLowerCase())
+        );
+      } else {
+        // If there is only one word, compare it with both `firstname` and `lastname`
+        filtered = doctors.filter(
+          (doctor) =>
+            doctor.firstname
+              .toLowerCase()
+              .startsWith(debouncedQuery.toLowerCase()) ||
+            doctor.lastname
+              .toLowerCase()
+              .startsWith(debouncedQuery.toLowerCase())
+        );
+      }
+
       dispatch(setFilteredDoctors(filtered));
     } else {
+      // If the query is empty, show all doctors
       dispatch(setFilteredDoctors(doctors));
     }
   }, [debouncedQuery, doctors, dispatch]);

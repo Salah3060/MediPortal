@@ -51,7 +51,7 @@ export default function Signup() {
   useEffect(() => {
     if (status === "success") {
       const timer = setTimeout(() => {
-        navigate("/MediPortal/");
+        history.back();
       }, 2000);
       return () => clearTimeout(timer);
     }

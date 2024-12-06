@@ -10,7 +10,9 @@ import Products from "@/Pages/Products.jsx";
 import Question from "@/Pages/Question.jsx";
 import Offers from "@/Pages/Offers.jsx";
 import Cart from "@/Pages/Cart.jsx";
-import Checkout from "@/Pages/Checkout.jsx";
+import OrderCheckout from "@/Pages/OrderCheckout.jsx";
+import PaymentError from "@/Pages/paymentError.jsx";
+import Error from "@/Pages/Error.jsx";
 
 import Login from "./Pages/Login.jsx";
 import Signup from "./Pages/signup.jsx";
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "*",
+        element: <Error />,
+      },
+      {
+        path: "paymenterror",
+        element: <PaymentError />,
       },
       {
         path: "search",
@@ -67,7 +77,7 @@ const router = createBrowserRouter([
       },
       {
         path: "pharmacy/checkout",
-        element: <Checkout />,
+        element: <OrderCheckout />,
       },
       {
         path: "offers",

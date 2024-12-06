@@ -19,7 +19,7 @@ export default function Login() {
   useEffect(() => {
     if (status === "success") {
       const timer = setTimeout(() => {
-        navigate("/MediPortal/");
+        history.back();
       }, 2000);
       return () => clearTimeout(timer);
     }

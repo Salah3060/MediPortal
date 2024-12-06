@@ -8,6 +8,7 @@ import { FaRegStarHalfStroke } from "react-icons/fa6";
 import ReviewCard from "./Cards/ReviewCard";
 import { BsCashStack } from "react-icons/bs";
 import { MdOutlineTimelapse } from "react-icons/md";
+import { ImLocation2 } from "react-icons/im";
 
 const DoctorInfo = () => {
   const { selectedDoctor, loading, error } = useSelector(
@@ -141,8 +142,13 @@ const DoctorInfo = () => {
             </div>
           </div>
 
-          <div className="locations flex flex-col gap-2">
-            <div className="header"></div>
+          <div className="locations flex flex-col gap-2 px-6 py-2 pb-4 border-b">
+            <div className="header flex gap-2">
+              <ImLocation2 className="text-darkRed text-xl" />
+              <h1 className="text-primary font-semibold text-[14px]">
+                Available Locations
+              </h1>
+            </div>
             <div className="av-locations"></div>
           </div>
         </div>
