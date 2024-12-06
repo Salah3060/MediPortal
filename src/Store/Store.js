@@ -4,6 +4,7 @@ import productsReducer from "@/Store/Slices/productsSlice";
 import userReducer from "@/Store/Slices/userSlice";
 import cartReducer from "@/Store/Slices/cartSlice";
 import searchReducer from "@/Store/Slices/searchSlice";
+import offersReducer from "@/Store/Slices/offersSlice";
 import logger from "redux-logger";
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
     user: userReducer,
     cart: cartReducer,
     search: searchReducer,
+    offers: offersReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

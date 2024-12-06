@@ -4,8 +4,16 @@ import NewServices from "@/Components/Home/NewServices";
 import HomeOffers from "@/Components/Home/HomeOffers";
 import Specialities from "@/Components/Home/Specialties";
 import Features from "@/Components/Home/Features";
+import { useDispatch } from "react-redux";
+import { fetchAllOffers } from "@/Store/Slices/offersSlice";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllOffers());
+  }, [dispatch]);
+
   const images = [
     "/MediPortal/Home/back1.jpg",
     "/MediPortal/Home/back2.jpg",
