@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllOffers, getOffersBySpecialty } from "@/API/offersApi";
+import { getAllOffers, getOffersBySpecialty } from "@/API/OffersApi";
 
 // Async thunk to fetch all offers
 export const fetchAllOffers = createAsyncThunk(
@@ -88,7 +88,6 @@ const offersSlice = createSlice({
   },
 });
 
-export const { setSelectedSpecialty, setFilteredDoctors, setSelectedDoctor } =
-  offersSlice.actions;
+export const { setSelectedSpecialty, setSelectedOffer } = offersSlice.actions;
 
 export default offersSlice.reducer;
