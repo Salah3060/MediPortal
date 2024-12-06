@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 
 const SingleProductPage = () => {
   const [quantity, setQuantity] = useState(1);
-
   const { productId } = useParams();
   const dispatch = useDispatch();
 

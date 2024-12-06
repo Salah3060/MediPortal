@@ -19,14 +19,10 @@ export default function Offers() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (!offers.length) dispatch(fetchAllOffers());
-    setBeautyData(
-      offers.filter((el) => el.specialization === "Orthopedic Surgeon")
-    );
-    setEyeData(offers.filter((el) => el.specialization === "Pediatrician"));
-    setHairData(
-      offers.filter((el) => el.specialization === "General Practitioner")
-    );
-    setDentalData(offers.filter((el) => el.specialization === "Cardiologist"));
+    setBeautyData(offers.filter((el) => el.specialization === "Skin"));
+    setEyeData(offers.filter((el) => el.specialization === "Eye"));
+    setHairData(offers.filter((el) => el.specialization === "Hair"));
+    setDentalData(offers.filter((el) => el.specialization === "Dentist"));
   }, [dispatch, offers]);
 
   function BackHandler() {

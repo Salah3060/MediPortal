@@ -18,6 +18,7 @@ import Signup from "./Pages/signup.jsx";
 import SingleProductPage from "@/Pages/SingleProductPage.jsx";
 import Search from "@/Pages/Search.jsx";
 import SingleDoctor from "@/Pages/SingleDoctor.jsx";
+import SingleOfferPage from "./Pages/SingleOfferPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "offers",
         element: <Offers />,
+      },
+      {
+        path: "offers/:offerid/",
+        element: <SingleOfferPage />,
       },
     ],
   },

@@ -20,3 +20,13 @@ export const getOffersBySpecialty = async (specialty) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+
+export const getOffersById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/offers/allOffers?offerId=${id}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};

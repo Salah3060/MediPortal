@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../Utils/functions.util";
@@ -30,7 +29,7 @@ export default function Card({
         <div className="flex justify-between items-center">
           <Link
             className="px-4 py-2 font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out flex items-center"
-            to={"/MediPortal/offers"}
+            to={`/MediPortal/offers/${id}`}
           >
             Book
           </Link>
