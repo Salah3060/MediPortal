@@ -32,6 +32,7 @@ const offersSlice = createSlice({
   initialState: {
     offers: [],
     specialties: [],
+    filteredOffers: [],
     selectedOffer: {},
     selectedSpecialty: "All Specialties",
     loading: false,
@@ -47,38 +48,25 @@ const offersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      //Get Doctor by Specialty
       .addCase(fetchOffersBySpecialty.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchOffersBySpecialty.fulfilled, (state, action) => {
-        state.filteredDoctors = action.payload;
+        state.filteredOffers = action.payload;
         state.loading = false;
       })
       .addCase(fetchOffersBySpecialty.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       })
-      // .addCase(fetchDoctorById.pending, (state) => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
-      // .addCase(fetchDoctorById.fulfilled, (state, action) => {
-      //   state.selectedDoctor = action.payload;
-      //   state.loading = false;
-      // })
-      // .addCase(fetchDoctorById.rejected, (state, action) => {
-      //   state.error = action.payload;
-      //   state.loading = false;
-      // })
       .addCase(fetchAllOffers.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchAllOffers.fulfilled, (state, action) => {
-        state.doctors = action.payload;
-        state.filteredDoctors = action.payload;
+        state.offers = action.payload;
+        state.filteredOffers = action.payload;
         state.loading = false;
       })
       .addCase(fetchAllOffers.rejected, (state, action) => {
