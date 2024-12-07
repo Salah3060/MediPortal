@@ -91,7 +91,7 @@ const retrieveDoctor = async (id) => {
               JSON_AGG(
                 JSON_BUILD_OBJECT(
                   'locationId', l.locationId,
-                  ' workspacesLocation',  workspacesLocation
+                  'workspacesLocation',  workspacesLocation
                 )
               )
             FROM 

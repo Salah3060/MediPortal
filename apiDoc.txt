@@ -584,3 +584,94 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 }
             }
         }
+
+
+
+9.insuarnces And Providers 
+    9.1 getAllInsurances
+    endPoint:127.0.0.1:3000/api/v1/insurancess/allInsurances?i.insuranceId=7
+    method:get 
+    validAttributes:[
+                        "i.insuranceId",
+                        "i.startDate",
+                        "i.duration",
+                        "i.providerId",
+                    ];
+    body :
+    {
+
+    }
+    response :
+    {
+    "status": "succes",
+    "ok": true,
+    "data": 
+    {
+        "Insurances": 
+        [
+            {
+                "insuranceid": 7,
+                "startdate": "2024-03-01T07:00:00.000Z",
+                "duration": {
+                    "years": 2
+                },
+                "providerid": 4,
+                "workspaces": 
+                [
+                    {
+                        "workSpaceId": 9,
+                        "workSpaceName": "7th of october updated",
+                        "workSpaceType": "Clinic"
+                    },
+                    {
+                        "workSpaceId": 10,
+                        "workSpaceName": "8th of october",
+                        "workSpaceType": "Clinic"
+                    }
+                ]
+            }
+        ]
+    }
+    }
+
+    9.2 getAllProviders
+    endPoint:127.0.0.1:3000/api/v1/providers/allProviders
+    method:get 
+    validAttributes:[];
+    body :
+    {
+
+    }
+    response :
+    {
+    "status": "succes",
+    "ok": true,
+    "data": 
+    {
+        "providers": 
+        [
+            {
+                "providerid": 3,
+                "providername": "test",
+                "providerlocation": "Giza",
+                "contacts": [
+                    {
+                        "contactId": 1,
+                        "providerPhone": "122222333"
+                    }
+                ]
+            },
+            {
+                "providerid": 4,
+                "providername": "test2",
+                "providerlocation": "Cairo",
+                "contacts": [
+                    {
+                        "contactId": 2,
+                        "providerPhone": "111111111"
+                    }
+                ]
+            }
+        ]
+    }
+    }

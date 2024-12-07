@@ -14,6 +14,8 @@ import workspaceRouter from "./routes/workspaceRouter.js";
 import offerRouter from "./routes/offerRouter.js";
 import appointmentRouter from "./routes/appointmentRouter.js";
 import questionRouter from "./routes/questionRouter.js";
+import providerRouter from "./routes/providerRouter.js";
+import insuranceRouter from "./routes/insuranceRouter.js";
 
 import pkg from "jsonwebtoken";
 import jwt from "jsonwebtoken";
@@ -49,6 +51,8 @@ app.use("/api/v1/workspace", workspaceRouter);
 app.use("/api/v1/offers", offerRouter);
 app.use("/api/v1/appointments", appointmentRouter);
 app.use("/api/v1/questions", questionRouter);
+app.use("/api/v1/providers", providerRouter);
+app.use("/api/v1/insurancess", insuranceRouter);
 app.use("/", (req, res, next) =>
   next(new AppError("No such Route Founded....", 404))
 );

@@ -102,6 +102,9 @@ const createQuestionsTable = `create table Questions
 (
     questionId int generated always as identity,
     patientId int,
+    gender vatchar(10),
+    age int , 
+    doctorId int , 
     speciality varchar(50) not null,
     question varchar(250) not null,
     answer varchar(400),
@@ -109,6 +112,7 @@ const createQuestionsTable = `create table Questions
     answerDate timestamp,
     primary key (questionId , patientId),
     foreign key (patientId) references Patients(patientId) on delete cascade
+    foreign key (doctorId) references doctors (doctorId) 
 );
 `;
 const createReviewsTable = `create table Reviews
