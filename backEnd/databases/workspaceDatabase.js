@@ -88,4 +88,37 @@ const editWorkspaceDb = async (workspaceId, secId, thirdId, toBeEdited) => {
   }
 };
 
-export { createWorkspaceDb, editWorkspaceDb };
+const retrieveAllWorkSpaces = async (fields, filters, orders, limit, page) => {
+  try {
+    let query = "select ";
+    if (fields) query += fields;
+    else
+      query += ` w.workSpaceId,
+                 w.workspaceName,
+                 w.workspaceType,
+                 JSON_AGG(wl.workspacesLocation) as locations ,
+                 JSON_AGG(wc.workspacePhone) as phones
+               `;
+    query += `  
+                from Workspaces  w   
+                LEFT JOIN 
+                  WorkspaceLocations wl ON wl.workSpaceId = w.workSpaceId
+                LEFT JOIN 
+                  WorkspaceContacts wc ON wc.workSpaceId = w.workSpaceId                  
+
+                `;
+    query += `
+                group by 
+                 w.workSpaceId,
+                 w.workspaceName,
+                 w.workspaceType
+             `;
+    if (orders) query += `order by ${orders.join(" , ")}       `;
+    query += ` LIMIT ${limit} OFFSET ${page - 1} * ${limit} ; `;
+    const res = await pool.query(query);
+    return res.rows;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export { createWorkspaceDb, editWorkspaceDb, retrieveAllWorkSpaces };

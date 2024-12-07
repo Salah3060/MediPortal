@@ -196,15 +196,19 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         endPoint: 127.0.0.1:3000/api/v1/offers/allOffers?specialization=Cardiologist&&fields=percentage,startDate,endDate&&order=-percentage
         queryOption: fields , productId=2 (filter) , order
         validAttributes for query = [
-                            "percentage",
-                            "startDate",
-                            "endDate",
-                            "specialization",
-                            "workspaceName",
-                            "workspaceType",
-                            "doctorId",
-                            "firstName",
-                            "lastName",
+                         const validAttributes = [
+                                                "percentage",
+                                                "startDate",
+                                                "endDate",
+                                                "specialization",
+                                                "workspaceName",
+                                                "workspaceType",
+                                                "offerId",
+                                                "doctorId",
+                                                "firstName",
+                                                "lastName",
+                                                "offerName",
+                                                ];
                         ];
         method : get 
         body : {
@@ -272,6 +276,40 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 }
             }
         }
+    6.3 getAllWorkSpaces 
+         endPoint: 127.0.0.1:3000/api/v1/workspace/allWorkSpaces?w.workSpaceId=5
+         method: get 
+         queyAttributes:["w.workSpaceId", "w.workspaceName", "w.workspaceType"];
+         body:
+        {
+
+        }
+        response:
+        {
+            "status": "success",
+            ok:true
+            "data": {
+               "workSpaces":
+                [:     
+                   {
+                    "workspaceid": 8,
+                    "workspacename": "Mediportal group ASAY 1",
+                    "workspacetype": "Hospital",
+                    "locations": [
+                        "Doctor_6_Location_3",
+                        "Doctor_6_Location_2",
+                        "Doctor_6_Location_1"
+                    ],
+                    "phones": [
+                        "0222222222",
+                        "0222222222",
+                        "0222222222"
+                    ]
+                   },
+                ]
+            }
+        }
+         
 7.Appointment
     7.1 Book Appointment
         endPoint: http://127.0.0.1:3000/api/v1/appointments/:doctorId/:workspaceId
@@ -403,3 +441,38 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             }
         }
     Publishable key: pk_test_51QSgbWDCPB1zCmR3dCA8lpR7G211680TnxBZvOzxMLBysBUNrT0QTIesMkSqssVGfXRkAy265P91ufO0cql2ZOMP00vrDWtziR
+
+
+
+8.Question 
+    8.1 getAllQuestion 
+    endPoint:127.0.0.1:3000/api/v1/questions/allQuestions?doctorId=7
+    method:get 
+    validAttributes : ["questionId", "patientId", "speciality", "doctorId"]; 
+    body :
+    {
+
+    }
+    response :
+    {
+    "status": "succes",
+    "ok": true,
+    "data": 
+    {
+        "Question": 
+        [
+            {
+                "questionid": 12,
+                "patientid": 1,
+                "patientname": "John Doe",
+                "speciality": "Neurology",
+                "question": "Can stress cause long-term memory issues?",
+                "answer": null,
+                "questiondate": "2024-12-07T10:28:32.581Z",
+                "answerdate": null,
+                "doctorid": 7,
+                "doctorname": " "
+            }
+        ]
+    }
+    }   

@@ -37,10 +37,11 @@ const filterQueryHandler = (query, validAttributes) => {
 
   const filters = Object.entries(query).map((el) => {
     if (el[0].slice(-2) === "Id") return `${el[0]} = ${Number(el[1])}`;
-    if (el[0].slice(-4) === "Name" || el[0].slice(-4) === "Name")
-      return `${el[0]} ='${
-        el[1][0].toUpperCase() + el[1].slice(1).toLowerCase()
-      }'`;
+    if (el[0].slice(-4) === "Name" || el[0].slice(-4) === "Name") {
+      const s = el[1].replaceAll(" ", "");
+      console.log(s);
+      return `${el[0]} ='${s[0].toUpperCase() + s.slice(1).toLowerCase()}'`;
+    }
     return `${el[0]}='${el[1]}'`;
   });
   return filters;

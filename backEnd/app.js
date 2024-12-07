@@ -13,6 +13,7 @@ import productRouter from "./routes/productRouter.js";
 import workspaceRouter from "./routes/workspaceRouter.js";
 import offerRouter from "./routes/offerRouter.js";
 import appointmentRouter from "./routes/appointmentRouter.js";
+import questionRouter from "./routes/questionRouter.js";
 
 import pkg from "jsonwebtoken";
 import jwt from "jsonwebtoken";
@@ -47,6 +48,7 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/workspace", workspaceRouter);
 app.use("/api/v1/offers", offerRouter);
 app.use("/api/v1/appointments", appointmentRouter);
+app.use("/api/v1/questions", questionRouter);
 app.use("/", (req, res, next) =>
   next(new AppError("No such Route Founded....", 404))
 );
