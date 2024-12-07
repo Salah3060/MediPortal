@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import validator from "validator";
 import { promisify } from "util";
+import { appendFile } from "fs";
 dotenv.config("../../BE.env");
 
 const createToken = (id) => {
@@ -47,7 +48,7 @@ const logInController = async (req, res, next) => {
   }
 };
 
-const registerController = async (req, res, next) => {
+const registerController = catchAsyncError(async (req, res, next) => {
   try {
     let {
       firstName,
@@ -141,12 +142,19 @@ const registerController = async (req, res, next) => {
     }
 
     const newUser = await registerDb(attributes, userRole, specificAtt);
+    if (newUser.severity === "ERROR") {
+      const message =
+        newUser.code == "23505"
+          ? "This email already exists"
+          : "something wronge happened!";
+      return next(new AppError(message, 400));
+    }
     delete newUser.password;
     sendAndSignToken(newUser, res);
   } catch (err) {
     console.log(err);
   }
-};
+});
 
 const validateLoggedIn = catchAsyncError(async (req, res, next) => {
   let token;
