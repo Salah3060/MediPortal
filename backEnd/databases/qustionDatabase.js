@@ -21,7 +21,7 @@ const retrieveAllQuestions = async (fields, filters, orders, limit, page) => {
             LEFT JOIN 
                 Users up ON up.userId = patientId
             LEFT JOIN 
-                Users ud ON up.userId = doctorId                 
+                Users ud ON ud.userId = doctorId                 
     `;
     if (filters) query += `where ${filters.join(" and ")}       `;
     if (orders) query += `order by ${orders.join(" , ")}       `;
