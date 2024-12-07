@@ -15,13 +15,13 @@ export default function Expandit({ data, backHandler }) {
       {data.map((el, i) => (
         <Card
           key={i}
+          myClass="max-w-80"
           ratio={el.percentage}
           id={el.offerid}
-          myClass="max-w-80"
-          // header=""
-          // description=""
-          // previousPrice=
-          // currentPrice=
+          header={el.offername}
+          description={el.offerdescription}
+          previousPrice={el.fees}
+          currentPrice={el.fees - (el.percentage * el.fees) / 100}
         />
       ))}
     </div>

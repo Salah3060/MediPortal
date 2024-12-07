@@ -7,12 +7,17 @@ import ErrorPopup from "../Components/ErrorPopup";
 import ReviewCard from "../Components/Search/Cards/ReviewCard";
 import { ImLocation2 } from "react-icons/im";
 import { MdOutlineTimelapse } from "react-icons/md";
-import { FaInfo } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaInfo } from "react-icons/fa";
+import { CiClock1 } from "react-icons/ci";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { BsCashStack } from "react-icons/bs";
 import { renderStars } from "@/Utils/functions.util";
 import OffersBreadcrumb from "../Components/Offers/singleOfferPage/OfferBreadcrumb";
 import { formatPrice } from "../Utils/functions.util";
+import { IoCloseSharp } from "react-icons/io5";
+import Card from "../Components/Offers/singleOfferPage/BookingCard";
+import { Navigation, Pagination } from "swiper/modules";
+import { SwiperSlide, Swiper } from "swiper/react";
 export default function SingleOfferPage() {
   const { offerid } = useParams();
   const [reviewMax, setMax] = useState(4);
@@ -173,17 +178,17 @@ export default function SingleOfferPage() {
                     <h1 className="text-tertiary">Booking Information</h1>
                   </div>
 
-                  <div className="info flex flex-col justify-center items-center border-b pb-4">
-                    <h1 className="text-primary/60">Book</h1>
-                    <span className="text-darkRed">Examination</span>
-                  </div>
-
                   <div className="examination_info flex justify-around items-center gap-2 border-b pb-4">
                     <div className="fees flex flex-col justify-center items-center gap-2">
+                      <IoCloseSharp className="text-3xl text-darkRed" />
+                      <span className="text-xl font-semibold text-primary/70 line-through">
+                        {formatPrice(selectedOffer?.fees)}
+                      </span>
+                    </div>
+                    <div className="fees flex flex-col justify-center items-center gap-2">
                       <BsCashStack className="text-3xl -rotate-45 text-darkRed" />
-                      <p className="text-primary text-[14px]">
-                        Fees:{" "}
-                        <span className="font-semibold">
+                      <p>
+                        <span className="text-xl font-bold text-primary">
                           {formatPrice(calcFees())}
                         </span>
                       </p>
@@ -191,18 +196,75 @@ export default function SingleOfferPage() {
                     <div className="waitingTime flex flex-col justify-center items-center gap-2">
                       <MdOutlineTimelapse className="text-3xl -rotate-45 text-darkRed" />
                       <p className="text-primary text-[14px]">
-                        Waiting Time:{" "}
-                        <span className="font-semibold">{15}</span> Min
+                        <span className="text-xl font-bold text-primary">
+                          {15}
+                        </span>
+                        Min
                       </p>
                     </div>
                   </div>
-
+                  <div className="info flex flex-col justify-center items-center border-b pb-4">
+                    <h1 className="text-green-600 text-2xl font-semibold">
+                      Save {selectedOffer?.percentage}%
+                    </h1>
+                  </div>
                   <div className="locations flex flex-col gap-2 px-6 py-2 pb-4 border-b">
-                    <div className="header flex gap-2">
+                    <div className="header flex gap-2 items-center">
                       <ImLocation2 className="text-darkRed text-xl" />
+
+                      <p className=" text-xl font-bold ">
+                        {selectedOffer?.workspacename}
+                      </p>
+                    </div>
+
+                    <div className="av-locations"></div>
+                  </div>
+                  <div className="locations flex flex-col gap-2 px-6 py-2 pb-4 border-b relative">
+                    <div className="header flex gap-2">
+                      <CiClock1 className="text-darkRed text-xl" />
                       <h1 className="text-primary font-semibold text-[14px]">
-                        Available Locations
+                        Choose your appointment
                       </h1>
+                    </div>
+                    <div className="relative">
+                      <Swiper
+                        spaceBetween={30}
+                        pagination={{
+                          clickable: true,
+                        }}
+                        modules={[Pagination, Navigation]}
+                        breakpoints={{
+                          480: { slidesPerView: 1 },
+                          640: { slidesPerView: 1 },
+                          1024: { slidesPerView: 1 },
+                          1200: { slidesPerView: 2 },
+                        }}
+                        navigation={{
+                          nextEl: ".custom-next",
+                          prevEl: ".custom-previous",
+                        }}
+                        className="mySwiper"
+                      >
+                        <SwiperSlide className="!h-72 !w-52">
+                          <Card />
+                        </SwiperSlide>
+                        <SwiperSlide className="!h-72 !w-52">
+                          <Card />
+                        </SwiperSlide>
+                        <SwiperSlide className="!h-72 !w-52">
+                          <Card />
+                        </SwiperSlide>
+                        <SwiperSlide className="!h-72 !w-52">
+                          <Card />
+                        </SwiperSlide>
+                        <SwiperSlide className="!h-72 !w-52">
+                          <Card />
+                        </SwiperSlide>
+                      </Swiper>
+                      <div className="absolute top-1/2 flex justify-between w-full -translate-y-1/2 z-10">
+                        <FaArrowLeft className="custom-previous  text-2xl text-primary" />
+                        <FaArrowRight className=" custom-next text-2xl text-primary" />
+                      </div>
                     </div>
                     <div className="av-locations"></div>
                   </div>

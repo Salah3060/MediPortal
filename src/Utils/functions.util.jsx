@@ -53,5 +53,5 @@ export function formatPrice(price) {
     style: "currency",
     currency: "USD",
   };
-  return price.toLocaleString("en-US", options);
+  return price?.toLocaleString("en-US", options) || 0;
 }
