@@ -7,6 +7,8 @@ const retrieveAllQuestions = async (fields, filters, orders, limit, page) => {
     else
       query += `q.questionId,
                 q.patientId,
+                q.age ,
+                q.gender,
                 CONCAT(up.firstName, ' ', up.lastName) AS patientName,
                 q.speciality,
                 q.question,
