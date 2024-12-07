@@ -10,7 +10,7 @@ const retrieveAllProviders = async (fields, filters, orders, limit, page) => {
                  p.providerLocation ,
                  JSON_AGG(
                         JSON_BUILD_OBJECT(
-                            'contactId',pc.contactId
+                            'contactId',pc.contactId ,
                             'providerPhone' ,pc.providerPhone
                         )
                     ) As contacts

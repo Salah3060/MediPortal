@@ -1,3 +1,4 @@
+import { retrieveAllInsurances } from "../databases/insuranceDatabase.js";
 import {
   AppError,
   catchAsyncError,
@@ -5,10 +6,15 @@ import {
   fieldsQueryHandler,
   orderQueryHandler,
 } from "../utilities.js";
-import { retrieveAllProviders } from "../databases/providersDatabase.js";
-const validAttributes = [];
 
-const getAllProviders = catchAsyncError(async (req, res, next) => {
+const validAttributes = [
+  "i.insuranceId",
+  "i.startDate",
+  "i.duration",
+  "i.providerId",
+];
+
+const getAllInsurances = catchAsyncError(async (req, res, next) => {
   let fields;
   if (req.query.fields) {
     fields = fieldsQueryHandler(req.query, validAttributes);
@@ -40,7 +46,7 @@ const getAllProviders = catchAsyncError(async (req, res, next) => {
     if (filters.length == 0) filters = undefined;
   }
 
-  const providers = await retrieveAllProviders(
+  const Insurances = await retrieveAllInsurances(
     fields,
     filters,
     orders,
@@ -50,8 +56,8 @@ const getAllProviders = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     status: "succes",
     ok: true,
-    data: { providers },
+    data: { Insurances },
   });
 });
 
-export { getAllProviders };
+export { getAllInsurances };
