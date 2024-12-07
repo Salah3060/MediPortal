@@ -1,40 +1,64 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { askQuestion } from "@/API/questionsApi";
+import SuccessPopup from "@/Components/SuccessPopup";
+import ErrorPopup from "@/Components/ErrorPopup";
+import Loader from "@/Components/Loader";
 
 const AskQuestion = () => {
   const [selectedStatus, setSelectedStatus] = useState("myself"); // Default selection
   const [selectedGender, setSelectedGender] = useState("male"); // Default selection
   const [questionData, setQuestionData] = useState({
     question: "",
-    description: "",
+    speciality: "General",
     age: "",
-    status: "myself",
     gender: "male",
   });
+  const [loading, setLoading] = useState(false); // To track loading state
+  const [success, setSuccess] = useState(false); // To track success state
+  const [error, setError] = useState(false); // To track error state
 
   const handleStatusChange = (type) => {
     setSelectedStatus(type);
-    setQuestionData((prev) => ({ ...prev, status: type })); // Update questionData with selected status
   };
 
   const handleGenderChange = (gender) => {
     setSelectedGender(gender);
-    setQuestionData((prev) => ({ ...prev, gender })); // Update questionData with selected gender
+    setQuestionData((prev) => ({ ...prev, gender }));
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setQuestionData((prev) => ({ ...prev, [name]: value })); // Dynamically update questionData
+    setQuestionData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAgeChange = (e) => {
-    const value = Math.min(100, Math.max(0, Number(e.target.value))); // Clamp the value between 0 and 100
-    setQuestionData((prev) => ({ ...prev, age: value })); // Update age in questionData
-    e.target.value = value; // Update the input value
-  };
+  const handleSubmit = async () => {
+    setLoading(true); // Start loading
+    try {
+      // Call the askQuestion API function
+      const response = await askQuestion(questionData);
+      console.log("Response:", response);
 
-  const handleSubmit = () => {
-    console.log("Submitted Question Data:", questionData);
-    // You can send questionData to an API or handle it as needed
+      // Set success state and reset loading
+      setSuccess(true);
+      setLoading(false);
+
+      // Hide the success popup after 3 seconds
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    } catch (error) {
+      console.error("Error Submitting Question:", error);
+
+      // Set error state and reset loading
+      setError(true);
+      setLoading(false);
+
+      // Hide the error popup after 3 seconds
+      setTimeout(() => {
+        setError(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -50,15 +74,15 @@ const AskQuestion = () => {
           </div>
           <input
             type="text"
-            name="question"
-            value={questionData.question}
+            name="speciality"
+            value={questionData.speciality}
             onChange={handleInputChange}
             className="bg-transparent border-primary border rounded-xl px-4 py-2 outline-none placeholder:text-primary/80"
-            placeholder="Example: What are the causes of acne?"
+            placeholder="Specialty: General, Cardiology, etc."
           />
           <textarea
-            name="description"
-            value={questionData.description}
+            name="question"
+            value={questionData.question}
             onChange={handleInputChange}
             className="bg-transparent border-primary border rounded-xl px-4 py-2 outline-none placeholder:text-primary/80 h-[120px] resize-none"
             placeholder="Question Description (Explanation of medical symptoms)"
@@ -126,26 +150,47 @@ const AskQuestion = () => {
             <span className="text-sm text-gray-600">{"(years old)"}</span>
           </div>
           <input
-            type="number"
+            type="text"
             name="age"
             value={questionData.age}
-            onChange={handleAgeChange}
+            onChange={handleInputChange}
             className="bg-transparent border-primary border rounded-xl px-4 py-2 outline-none placeholder:text-primary/80"
             placeholder="Add Age"
-            max={100}
           />
         </div>
 
         {/* Submit Button */}
         <div className="SubmitButton w-full mt-8">
-          <button
-            onClick={handleSubmit}
-            className="bg-white text-primary/80 hover:text-tertiary hover:bg-primary font-semibold py-3 rounded-xl w-full transition-all duration-300"
-          >
-            Submit
-          </button>
+          {loading ? (
+            <button
+              className="bg-white text-primary/80 font-semibold py-3 rounded-xl w-full transition-all duration-300"
+              disabled={loading}
+            >
+              <Loader />
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              className="bg-white text-primary/80 hover:text-tertiary hover:bg-primary font-semibold py-3 rounded-xl w-full transition-all duration-300"
+            >
+              Submit
+            </button>
+          )}
+        </div>
+
+        {/* Link to View Asked Questions */}
+        <div className="SubmitButton w-full mt-2">
+          <Link to={"/MediPortal/questions"}>
+            <button className="bg-white text-primary/80 hover:text-tertiary hover:bg-primary font-semibold py-3 rounded-xl w-full transition-all duration-300">
+              Or See Asked Questions
+            </button>
+          </Link>
         </div>
       </div>
+
+      {/* Display Success or Error Popup based on submission outcome */}
+      {success && <SuccessPopup Header="Question Submitted Successfully" />}
+      {error && <ErrorPopup Header="Error Submitting Question" />}
     </div>
   );
 };

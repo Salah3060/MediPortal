@@ -47,7 +47,7 @@ const QuestionsGroup = () => {
           <>
             {Array.isArray(selectedQuestions) &&
             selectedQuestions.length > 0 ? (
-              <div className="grid grid-cols-1">
+              <div className="grid grid-cols-1 gap-4">
                 {selectedQuestions.map((question, index) => (
                   <QuestionCard key={index} question={question} />
                 ))}
