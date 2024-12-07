@@ -476,3 +476,56 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         ]
     }
     }   
+    8.2 ask Question
+        endPoint:127.0.0.1:3000/api/v1/questions/
+        method:post
+        body:
+        {
+            "speciality":"Dentist",
+            "question":"r u kiddin' me ?",
+            "gender":"male",
+            "age":"20"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "questionRes": {
+                    "questionid": 21,
+                    "patientid": 68,
+                    "speciality": "Dentist",
+                    "question": "r u kiddin' me ?",
+                    "answer": null,
+                    "questiondate": "2024-12-07T14:30:00.374Z",
+                    "answerdate": null,
+                    "doctorid": null,
+                    "age": 20,
+                    "gender": "Male"
+                }
+            }
+        }
+    8.3 answer Question -restricted to doctors only-
+        endPoint:127.0.0.1:3000/api/v1/questions/:doctorId
+        method:patch
+        body:
+        {
+            "answer":"I'm not kiddin' little boy"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "answerRes": {
+                    "questionid": 21,
+                    "patientid": 68,
+                    "speciality": "Dentist",
+                    "question": "r u kiddin' me ?",
+                    "answer": "I'm not kiddin' little boy",
+                    "questiondate": "2024-12-07T14:30:00.374Z",
+                    "answerdate": "2024-12-07T15:01:37.522Z",
+                    "doctorid": 104,
+                    "age": 20,
+                    "gender": "Male"
+                }
+            }
+        }

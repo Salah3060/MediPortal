@@ -35,4 +35,35 @@ const retrieveAllQuestions = async (fields, filters, orders, limit, page) => {
   }
 };
 
-export { retrieveAllQuestions };
+const createQuestion = async (attributes) => {
+  try {
+    const query = `insert into Questions(patientId,speciality,question,questionDate,age,gender)
+    values($1,$2,$3,$4,$5,$6)
+    returning *;
+    `;
+    attributes[3] = new Date(new Date(attributes[3]).toISOString());
+    const question = await pool.query(query, attributes);
+    if (question.rowCount) return question.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+const answerQuestionDb = async (attributes) => {
+  try {
+    const query = `update questions
+                   SET answer = $1 ,answerDate = $2,doctorId=$4
+                   where questionId = $3
+                   returning *;`;
+    attributes[1] = new Date(new Date(attributes[1]).toISOString());
+    const answer = await pool.query(query, attributes);
+    if (answer.rowCount) return answer.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export { retrieveAllQuestions, createQuestion, answerQuestionDb };
