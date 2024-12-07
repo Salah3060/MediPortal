@@ -59,7 +59,7 @@ const QuestionsSectionLargeScreen = () => {
       </p>
       <Link
         className="px-[24px] py-[10px] text-lg font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out"
-        to={"/MediPortal/question"}
+        to={"/MediPortal/askquestion"}
       >
         Ask Now
       </Link>

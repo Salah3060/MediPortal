@@ -9,11 +9,28 @@ import ReviewCard from "./Cards/ReviewCard";
 import { BsCashStack } from "react-icons/bs";
 import { MdOutlineTimelapse } from "react-icons/md";
 import { ImLocation2 } from "react-icons/im";
+import { useEffect, useState } from "react";
+import ClinicCard from "./Cards/ClinicCard";
 
 const DoctorInfo = () => {
   const { selectedDoctor, loading, error } = useSelector(
     (state) => state.search
   );
+
+  const [availability, setAvailability] = useState([]);
+  const [selectedClinic, setSelectedClinic] = useState("");
+
+  useEffect(() => {
+    if (selectedDoctor && selectedDoctor.availability) {
+      // Take the availability and store the objects with unique workspaceId
+      const uniqueWorkspaces = [
+        ...new Map(
+          selectedDoctor.availability.map((item) => [item.workspaceId, item])
+        ).values(),
+      ];
+      setAvailability(uniqueWorkspaces);
+    }
+  }, [selectedDoctor]);
 
   if (loading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
@@ -115,7 +132,7 @@ const DoctorInfo = () => {
         </div>
 
         {/* Booking Section */}
-        <div className="booking w-full lg:w-[40%] bg-white rounded-xl flex flex-col gap-3">
+        <div className="booking w-full lg:w-[40%] bg-white rounded-xl flex flex-col gap-3 h-[fit-content]">
           <div className="header bg-primary w-full text-center py-3 rounded-t-xl">
             <h1 className="text-tertiary">Booking Information</h1>
           </div>
@@ -142,14 +159,32 @@ const DoctorInfo = () => {
             </div>
           </div>
 
-          <div className="locations flex flex-col gap-2 px-6 py-2 pb-4 border-b">
+          <div className="locations flex flex-col gap-2 px-6 py-2">
             <div className="header flex gap-2">
               <ImLocation2 className="text-darkRed text-xl" />
               <h1 className="text-primary font-semibold text-[14px]">
-                Available Locations
+                Available Times and Locations
               </h1>
             </div>
-            <div className="av-locations"></div>
+            <div className="av-locations flex w-full">
+              <div className="clinics flex flex-col gap-2 items-start mt-6 w-full">
+                {availability && Array.isArray(availability) ? (
+                  availability.length > 0 ? (
+                    availability.map((clinic) => (
+                      <ClinicCard
+                        key={clinic.workspaceId}
+                        workspace={clinic}
+                        setSelectedClinic={setSelectedClinic}
+                      />
+                    ))
+                  ) : (
+                    <p>No available time</p>
+                  )
+                ) : (
+                  <p>No available time</p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
