@@ -148,7 +148,7 @@ const retrieveDoctor = async (id) => {
         d.specialization, 
         d.yearsOfExperience, 
         d.about,
-        d.fees,
+        d.fees
   `;
 
     const res = await pool.query(query, [id]);
