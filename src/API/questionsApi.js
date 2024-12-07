@@ -1,20 +1,20 @@
 import axiosInstance from "./axiosInstance";
 
-// gat all doctors
-export const getAllDoctors = async () => {
+// get all questions
+export const getAllQuestions = async () => {
   try {
-    const response = await axiosInstance.get("/doctors/allDoctors");
+    const response = await axiosInstance.get(`/questions/allQuestions`);
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
 
-// get doctors by specialty
-export const getDoctorsBySpecialty = async (specialty) => {
+// get all questions by speciality
+export const getAllQuestionsBySpeciality = async (speciality) => {
   try {
     const response = await axiosInstance.get(
-      `/doctors/allDoctors?specialization=${specialty}`
+      `/questions/allQuestions?speciality=${speciality}`
     );
     return response.data;
   } catch (error) {
@@ -22,10 +22,12 @@ export const getDoctorsBySpecialty = async (specialty) => {
   }
 };
 
-// get doctor by id
-export const getDoctorById = async (id) => {
+// get question by patientId
+export const getQuestionByPatientId = async (patientId) => {
   try {
-    const response = await axiosInstance.get(`/doctors/${id}`);
+    const response = await axiosInstance.get(
+      `/questions/allQuestions?patientId=${patientId}`
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Question = () => {
+const AskQuestion = () => {
   const [selectedStatus, setSelectedStatus] = useState("myself"); // Default selection
   const [selectedGender, setSelectedGender] = useState("male"); // Default selection
   const [questionData, setQuestionData] = useState({
@@ -150,4 +150,4 @@ const Question = () => {
   );
 };
 
-export default Question;
+export default AskQuestion;

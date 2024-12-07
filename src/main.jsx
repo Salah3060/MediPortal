@@ -7,12 +7,14 @@ import { Provider } from "react-redux";
 import Home from "@/Pages/Home.jsx";
 import Pharmacy from "@/Pages/Pharmacy.jsx";
 import Products from "@/Pages/Products.jsx";
-import Question from "@/Pages/Question.jsx";
+import AskQuestion from "@/Pages/AskQuestion.jsx";
 import Offers from "@/Pages/Offers.jsx";
 import Cart from "@/Pages/Cart.jsx";
 import OrderCheckout from "@/Pages/OrderCheckout.jsx";
 import PaymentError from "@/Pages/paymentError.jsx";
 import Error from "@/Pages/Error.jsx";
+import QuestionsCats from "@/Pages/QuestionsCats.jsx";
+import QuestionsGroup from "@/Pages/QuestionsGroup.jsx";
 
 import Login from "./Pages/Login.jsx";
 import Signup from "./Pages/signup.jsx";
@@ -52,8 +54,16 @@ const router = createBrowserRouter([
         element: <Pharmacy />,
       },
       {
-        path: "question",
-        element: <Question />,
+        path: "askquestion",
+        element: <AskQuestion />,
+      },
+      {
+        path: "questions",
+        element: <QuestionsCats />,
+      },
+      {
+        path: "questions/:speciality",
+        element: <QuestionsGroup />,
       },
       {
         path: "pharmacy/categories/:categoryName/products",
