@@ -181,4 +181,16 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
   next();
 });
 
-export { logInController, registerController, validateLoggedIn };
+const restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.userrole)) {
+      throw new AppError(
+        "You don't have the permission to perform this action",
+        403
+      );
+    }
+    next();
+  };
+};
+
+export { logInController, registerController, validateLoggedIn, restrictTo };

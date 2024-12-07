@@ -36,4 +36,41 @@ const retrieveAllOffers = async (fields, filters, orders, limit, page) => {
   }
 };
 
-export { retrieveAllOffers };
+const createOfferDb = async (attributes) => {
+  try {
+    const query = `insert into Offers(percentage,startDate,endDate,doctorId,workspaceId,offerDescription,offerName)
+                  values($1,$2,$3,$4,$5,$6,$7)
+                  returning *;
+    `;
+    const offer = await pool.query(query, attributes);
+    if (offer.rowCount) return offer.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+const updateOfferDb = async (offerId, attributes) => {
+  try {
+    let query = `update Offers SET `;
+    let cnt = 0;
+    Object.entries(attributes).forEach(([k, v]) => {
+      if (cnt && v) query += " , ";
+      if (v) {
+        query += k + " = " + `$${++cnt}`;
+      }
+    });
+
+    query += ` where offerId = $${++cnt}
+              returning *;`;
+    const readyAtt = Object.values(attributes).filter((val) => val);
+    // console.log([...readyAtt, offerId]);
+    const offer = await pool.query(query, [...readyAtt, offerId]);
+    if (offer.rowCount) return offer.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export { retrieveAllOffers, createOfferDb, updateOfferDb };

@@ -4,9 +4,16 @@ import {
   filterQueryHandler,
   fieldsQueryHandler,
   orderQueryHandler,
+  formatString,
 } from "../utilities.js";
 
-import { retrieveAllOffers } from "../databases/offerDatabase.js";
+import {
+  retrieveAllOffers,
+  createOfferDb,
+  updateOfferDb,
+} from "../databases/offerDatabase.js";
+import app from "../app.js";
+import validator from "validator";
 
 const validAttributes = [
   "percentage",
@@ -72,4 +79,90 @@ const getAllOffers = catchAsyncError(async (req, res, next) => {
   });
 });
 
-export { getAllOffers };
+const createOffer = catchAsyncError(async (req, res, next) => {
+  try {
+    let { percentage, startDate, endDate, offerDescription, offerName } =
+      req.body;
+    const workspaceId = req.params.id;
+    const doctor = req.user;
+    if (
+      !percentage ||
+      !startDate ||
+      !endDate ||
+      !workspaceId ||
+      !offerDescription ||
+      !offerName
+    ) {
+      return next(new AppError("Missing data", 400));
+    }
+    if (!doctor) {
+      return next(new AppError("Please login to preceed", 401));
+    }
+    if (!validator.isNumeric(percentage)) {
+      return next(new AppError("percentage must be a number", 400));
+    }
+    offerDescription = offerDescription.trim();
+    offerName = formatString(offerName);
+    const attributes = [
+      percentage,
+      startDate,
+      endDate,
+      doctor.userid,
+      workspaceId,
+      offerDescription,
+      offerName,
+    ];
+    const offer = await createOfferDb(attributes);
+    if (offer.severity === "ERROR") {
+      return next(new AppError("Somthing went very wrong", 400));
+    }
+    res.status(200).json({
+      status: "success",
+      data: { offer },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+const updateOffer = catchAsyncError(async (req, res, next) => {
+  try {
+    let {
+      percentage,
+      startDate,
+      endDate,
+      workspaceId,
+      offerDescription,
+      offerName,
+    } = req.body;
+    const offerId = req.params.id;
+    if (!offerId) {
+      return next(
+        new AppError("An id must be provided to update an offer", 400)
+      );
+    }
+    offerDescription = offerDescription ? offerDescription.trim() : null;
+    offerName = offerName ? formatString(offerName) : null;
+
+    let toBeEdited = {};
+    toBeEdited.percentage = percentage;
+    toBeEdited.startDate = startDate;
+    toBeEdited.endDate = endDate;
+    toBeEdited.workspaceId = workspaceId;
+    toBeEdited.offerDescription = offerDescription;
+    toBeEdited.offerName = offerName;
+
+    const updatedOffer = await updateOfferDb(offerId, toBeEdited);
+    if (updatedOffer.severity === "ERROR") {
+      return next(new AppError("Somthing went very wrong", 400));
+    }
+    res.status(200).json({
+      status: "success",
+      data: { updatedOffer },
+    });
+    // console.log(updatedOffer);
+  } catch (error) {
+    console.log(error);
+  }
+});
+export { getAllOffers, createOffer, updateOffer };

@@ -153,11 +153,14 @@ const createWorkspaceLocations = `create table WorkspaceLocations
 `;
 const createOffersTable = `create table Offers
 (
+    offerId int always generated as identity,
     percentage int not null check (percentage between 0 and 100),
     startDate timestamp not null,
     endDate timestamp not null,
     doctorId int,
     workspaceId int,
+    offerDescription varchar(100),
+    offerName varchar(100) not null,
     constraint validateDates check (startDate < endDate),
     primary key (doctorId,workspaceId),
     foreign key (doctorId) references Doctors(doctorId) on delete cascade,

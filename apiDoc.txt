@@ -232,6 +232,61 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                                         ]
                                 }
                 }
+    5.2 create offer
+        endPoint: 127.0.0.1:3000/api/v1/offers/workspaceId
+        method: post
+        body:
+        {
+            "percentage":"30",
+            "startDate":"2048-11-11",
+            "endDate":"2049-11-11",
+            "offerDescription":"an offer to test the routes",
+            "offerName":"testing offer"
+        }
+        response:
+        {
+            "status": "success",
+            "data": {
+                "offer": {
+                    "percentage": 30,
+                    "startdate": "2048-11-10T22:00:00.000Z",
+                    "enddate": "2049-11-10T22:00:00.000Z",
+                    "doctorid": 104,
+                    "workspaceid": 20,
+                    "offerid": 12,
+                    "offerdescription": "an offer to test the routes",
+                    "offername": "Testing offer"
+                }
+            }
+        }
+    5.3 Update offer
+        endPoint: 127.0.0.1:3000/api/v1/offers/offerId
+        method: patch
+        body:           //any attrubites that u want
+        {
+            "percentage":"30",
+            "startDate":"2048-11-11",
+            "workspaceId":"8",
+            "offerDescription":"test the routes but updated",
+            "offerName":"testing update offer"
+        }
+        response:
+        {
+            "status": "success",
+            "data": {
+                "updatedOffer": {
+                    "percentage": 30,
+                    "startdate": "2048-11-10T22:00:00.000Z",
+                    "enddate": "2049-11-10T22:00:00.000Z",
+                    "doctorid": 104,
+                    "workspaceid": 8,
+                    "offerid": 12,
+                    "offerdescription": "test the routes but updated",
+                    "offername": "Testing update offer"
+                }
+            }
+        }
+
 6.workspace
     6.1 Create workspace
         endPoint: http://127.0.0.1:3000/api/v1/workspace/
