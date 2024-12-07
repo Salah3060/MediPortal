@@ -67,7 +67,10 @@ const userSlice = createSlice({
       state.loading = "false";
       saveUserToCookies(state);
     },
-    logout: () => {
+    logout: (state) => {
+      state.status = "Empty";
+      state.loading = "false";
+      state.error = "";
       Cookies.remove("user");
       Cookies.remove("token");
     },
@@ -77,7 +80,6 @@ const userSlice = createSlice({
       .addCase(userLogin.pending, (state) => {
         state.loading = true;
         state.status = "pending";
-        saveUserToCookies(state);
       })
       .addCase(userLogin.fulfilled, (state, action) => {
         state.firstname = action.payload.firstname;
@@ -113,7 +115,6 @@ const userSlice = createSlice({
       .addCase(userSignup.pending, (state) => {
         state.loading = true;
         state.status = "pending";
-        saveUserToCookies(state);
       })
       .addCase(userSignup.fulfilled, (state, action) => {
         state.firstname = action.payload.firstname;

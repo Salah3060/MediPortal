@@ -28,7 +28,7 @@ export default function ShowOffers({ offers = [] }) {
               header={el.offername}
               description={el.offerdescription}
               previousPrice={el.fees}
-              currentPrice={el.fees + (el.percentage * el.fees) / 100}
+              currentPrice={el.fees - (el.percentage * el.fees) / 100}
             />
           </SwiperSlide>
         );
