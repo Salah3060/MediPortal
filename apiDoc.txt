@@ -276,6 +276,40 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 }
             }
         }
+    6.3 getAllWorkSpaces 
+         endPoint: 127.0.0.1:3000/api/v1/workspace/allWorkSpaces?w.workSpaceId=5
+         method: get 
+         queyAttributes:["w.workSpaceId", "w.workspaceName", "w.workspaceType"];
+         body:
+        {
+
+        }
+        response:
+        {
+            "status": "success",
+            ok:true
+            "data": {
+               "workSpaces":
+                [:     
+                   {
+                    "workspaceid": 8,
+                    "workspacename": "Mediportal group ASAY 1",
+                    "workspacetype": "Hospital",
+                    "locations": [
+                        "Doctor_6_Location_3",
+                        "Doctor_6_Location_2",
+                        "Doctor_6_Location_1"
+                    ],
+                    "phones": [
+                        "0222222222",
+                        "0222222222",
+                        "0222222222"
+                    ]
+                   },
+                ]
+            }
+        }
+         
 7.Appointment
     7.1 Book Appointment
         endPoint: http://127.0.0.1:3000/api/v1/appointments/:doctorId/:workspaceId

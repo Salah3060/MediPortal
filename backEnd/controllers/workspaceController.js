@@ -1,9 +1,19 @@
 import validator from "validator";
-import { AppError, formatString } from "../utilities.js";
+import {
+  AppError,
+  catchAsyncError,
+  filterQueryHandler,
+  fieldsQueryHandler,
+  orderQueryHandler,
+  formatString,
+} from "../utilities.js";
 import {
   createWorkspaceDb,
   editWorkspaceDb,
+  retrieveAllWorkSpaces,
 } from "../databases/workspaceDatabase.js";
+
+const validAttributes = ["w.workSpaceId", "w.workspaceName", "w.workspaceType"];
 
 const validateAttributes = (workspaceName, workspaceType, workspacePhone) => {
   if (workspaceName) {
@@ -174,5 +184,49 @@ const editWorkspace = async (req, res, next) => {
     console.log(error);
   }
 };
+const getAllWorkSpaces = catchAsyncError(async (req, res, next) => {
+  let fields;
+  if (req.query.fields) {
+    fields = fieldsQueryHandler(req.query, validAttributes);
+    if (!fields) return next(new AppError("Invalid query atrributes", 400));
+    if (fields.length == 0) fields = undefined;
+  }
+  delete req.query.fields;
 
-export { createWorkspace, editWorkspace };
+  let orders;
+
+  if (req.query.order) {
+    orders = orderQueryHandler(req.query, validAttributes);
+    console.log(orders);
+    if (!orders) return next(new AppError("Invalid query atrributes", 400));
+    if (orders.length == 0) orders = undefined;
+  }
+  delete req.query.order;
+
+  let limit = req.query.limit || 50;
+  let page = req.query.page || 1;
+
+  delete req.query.limit;
+  delete req.query.page;
+
+  let filters;
+  if (req.query) {
+    filters = filterQueryHandler(req.query, validAttributes);
+    if (!filters) return next(new AppError("Invalid query atrributes", 400));
+    if (filters.length == 0) filters = undefined;
+  }
+  const workSpaces = await retrieveAllWorkSpaces(
+    fields,
+    filters,
+    orders,
+    limit,
+    page
+  );
+  res.status(200).json({
+    status: "succes",
+    ok: true,
+    data: { workSpaces },
+  });
+});
+
+export { createWorkspace, editWorkspace, getAllWorkSpaces };
