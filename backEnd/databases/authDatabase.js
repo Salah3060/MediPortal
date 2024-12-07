@@ -1,4 +1,5 @@
 import pool from "../server.js";
+import { AppError, catchAsyncError } from "../utilities.js";
 
 const logInDb = async (email, password, id) => {
   try {
@@ -30,6 +31,9 @@ const registerDb = async (attributes, role, specificAtt) => {
     // attributes[5] = attributes[5].toISOString().split("T")[0];
     attributes[5] = new Date(new Date(attributes[5]).toISOString());
     const newUser = await pool.query(query, [...attributes, role]);
+    if (!newUser) {
+      return new AppError("Something wrong happend", 400);
+    }
     // console.log(newUser.rows[0]);
     let secQuery;
     if (role === "Patient") {
@@ -44,7 +48,8 @@ const registerDb = async (attributes, role, specificAtt) => {
     if (newUser.rowCount) return newUser.rows[0];
     return false;
   } catch (err) {
-    console.log(err.mesaage);
+    console.log(err);
+    return err;
   }
 };
 
