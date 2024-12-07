@@ -4,8 +4,14 @@ import {
   filterQueryHandler,
   fieldsQueryHandler,
   orderQueryHandler,
+  formatString,
 } from "../utilities.js";
-import { retrieveAllQuestions } from "../databases/qustionDatabase.js";
+import {
+  retrieveAllQuestions,
+  createQuestion,
+  answerQuestionDb,
+} from "../databases/questionDatabase.js";
+import validator from "validator";
 
 const validAttributes = ["questionId", "patientId", "speciality", "doctorId"];
 
@@ -55,4 +61,63 @@ const getAllQuestion = catchAsyncError(async (req, res, next) => {
   });
 });
 
-export { getAllQuestion };
+const askQuestion = catchAsyncError(async (req, res, next) => {
+  try {
+    let { speciality, question, gender, age } = req.body;
+    const { user } = req;
+    if (!speciality || !question || !gender || !age) {
+      return next(new AppError("Missing data", 400));
+    }
+    if (!user) {
+      return next(new AppError("Please login to proceed", 401));
+    }
+    speciality = formatString(speciality);
+    gender = formatString(gender);
+    if (!validator.isNumeric(age)) {
+      return next(new AppError("The age must be a number", 400));
+    }
+    let attributes = [
+      user.userid,
+      speciality,
+      question,
+      Date.now(),
+      age,
+      gender,
+    ];
+    const questionRes = await createQuestion(attributes);
+    if (questionRes.serverity === "ERROR")
+      return next(new AppError("Something went wrong", 400));
+    res.status(200).json({
+      status: "successful",
+      data: {
+        questionRes,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+const answerQuestion = catchAsyncError(async (req, res, next) => {
+  const { answer } = req.body;
+  const { user } = req;
+  const questionId = req.params.id;
+  if (!answer) {
+    return next(new AppError("Missing data", 400));
+  }
+  if (!user) {
+    return next(new AppError("Please login to proceed", 401));
+  }
+  let attributes = [answer, Date.now(), questionId, user.userid];
+  const answerRes = await answerQuestionDb(attributes);
+  if (answerRes.severity === "ERROR") {
+    return next(new AppError("Something went wrong", 400));
+  }
+  res.status(200).json({
+    status: "successful",
+    data: {
+      answerRes,
+    },
+  });
+});
+
+export { getAllQuestion, askQuestion, answerQuestion };

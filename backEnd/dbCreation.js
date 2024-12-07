@@ -170,6 +170,7 @@ const createInsuranceProvidersTable = `create table InsurancesProviders
 (
     providerId int generated always as identity,
     providerName varchar(100) not null unique,
+    providerLocation varchar(150) not null unique,
     primary key (providerId)
 )
 `;
@@ -182,7 +183,9 @@ const createInsuranceProviderContacts = `create table InsuranceProviderContacts
     foreign key (providerId) references InsurancesProviders(providerId) on delete cascade
 );
 `;
-const createInsuranceProviderLocations = `create table InsuranceProviderLocations
+const createInsuranceProviderLocations = `
+--droped for simplicity
+create table InsuranceProviderLocations
 (
     locationId int generated always as identity,
     providerLocation varchar(150) not null unique,
