@@ -441,3 +441,38 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             }
         }
     Publishable key: pk_test_51QSgbWDCPB1zCmR3dCA8lpR7G211680TnxBZvOzxMLBysBUNrT0QTIesMkSqssVGfXRkAy265P91ufO0cql2ZOMP00vrDWtziR
+
+
+
+8.Question 
+    8.1 getAllQuestion 
+    endPoint:127.0.0.1:3000/api/v1/questions/allQuestions?doctorId=7
+    method:get 
+    validAttributes : ["questionId", "patientId", "speciality", "doctorId"]; 
+    body :
+    {
+
+    }
+    response :
+    {
+    "status": "succes",
+    "ok": true,
+    "data": 
+    {
+        "Question": 
+        [
+            {
+                "questionid": 12,
+                "patientid": 1,
+                "patientname": "John Doe",
+                "speciality": "Neurology",
+                "question": "Can stress cause long-term memory issues?",
+                "answer": null,
+                "questiondate": "2024-12-07T10:28:32.581Z",
+                "answerdate": null,
+                "doctorid": 7,
+                "doctorname": " "
+            }
+        ]
+    }
+    }   
