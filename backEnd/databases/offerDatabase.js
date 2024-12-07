@@ -50,6 +50,7 @@ const createOfferDb = async (attributes) => {
     return error;
   }
 };
+
 const updateOfferDb = async (offerId, attributes) => {
   try {
     let query = `update Offers SET `;
