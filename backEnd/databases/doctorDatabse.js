@@ -64,52 +64,65 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
 const retrieveDoctor = async (id) => {
   try {
     const query = `
-   SELECT 
-    u.userId, 
-    u.firstName, 
-    u.lastName, 
-    u.phoneNumber,
-    u.email, 
-    u.gender, 
-    u.wallet, 
-    u.createdAt, 
-    u.updatedAt, 
-    u.birthDate,  
-    d.licenseNumber,  
-    d.specialization, 
-    d.yearsOfExperience, 
-    d.about,
-    d.fees,
-    JSON_AGG(
-      JSON_BUILD_OBJECT(
-        'workspaceId', da.workspaceId,
-        'workingDay', da.workingDay,
-        'startTime', da.startTime,
-        'endTime', da.endTime
-      )
-    ) AS availability, 
-    JSON_AGG(
-      JSON_BUILD_OBJECT(
-        'rate', r.rate,
-        'review', r.review,
-        'reviewDate', r.reviewDate,
-        'patient', (
-          SELECT 
-            JSON_BUILD_OBJECT(
-              'userId', u.userId,
-              'firstName', u.firstName,
-              'lastName', u.lastName
-            )
-          FROM 
-            Users u
-          JOIN 
-            Patients p ON u.userId = p.patientId
-          WHERE 
-            p.patientId = r.patientId
-          LIMIT 1
+    SELECT 
+      u.userId, 
+      u.firstName, 
+      u.lastName, 
+      u.phoneNumber,
+      u.email, 
+      u.gender, 
+      u.wallet, 
+      u.createdAt, 
+      u.updatedAt, 
+      u.birthDate,  
+      d.licenseNumber,  
+      d.specialization, 
+      d.yearsOfExperience, 
+      d.about,
+      d.fees,
+      JSON_AGG(
+        JSON_BUILD_OBJECT(
+          'workspaceId', da.workspaceId,
+          'workingDay', da.workingDay,
+          'startTime', da.startTime,
+          'endTime', da.endTime,
+          'locations', (
+            SELECT 
+              JSON_AGG(
+                JSON_BUILD_OBJECT(
+                  'locationId', l.locationId,
+                  ' workspacesLocation',  workspacesLocation
+                )
+              )
+            FROM 
+              WorkspaceLocations l
+            WHERE 
+              l.workspaceId = da.workspaceId 
+          )
         )
-      )
-    ) AS reviews
+      ) AS availability, 
+      JSON_AGG(
+        JSON_BUILD_OBJECT(
+          'rate', r.rate,
+          'review', r.review,
+          'reviewDate', r.reviewDate,
+          'patient', (
+            SELECT 
+              JSON_BUILD_OBJECT(
+                'userId', u2.userId,
+                'firstName', u2.firstName,
+                'lastName', u2.lastName
+              )
+            FROM 
+              Users u2
+            JOIN 
+              Patients p ON u2.userId = p.patientId
+            WHERE 
+              p.patientId = r.patientId
+            LIMIT 1
+          )
+        )
+      ) AS reviews
     FROM 
         Users u  
     JOIN 
@@ -135,8 +148,7 @@ const retrieveDoctor = async (id) => {
         d.specialization, 
         d.yearsOfExperience, 
         d.about,
-        d.fees;
-
+        d.fees,
   `;
 
     const res = await pool.query(query, [id]);
