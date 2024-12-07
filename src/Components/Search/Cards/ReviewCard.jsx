@@ -14,7 +14,7 @@ const ReviewCard = ({ review }) => {
         <p className="mt-2 text-lg text-primary/80">{`"${review.review}"`}</p>
 
         <span className="text-[12px] mt-2 text-secondary font-medium">
-          {review.patient.firstName}
+          {review?.patient?.firstName}
         </span>
         <span className="text-[12px] -mt-2 text-secondary">
           {formatDate(review.reviewDate)}

@@ -7,7 +7,7 @@ import ErrorPopup from "../Components/ErrorPopup";
 import ReviewCard from "../Components/Search/Cards/ReviewCard";
 import { ImLocation2 } from "react-icons/im";
 import { MdOutlineTimelapse } from "react-icons/md";
-import { FaArrowLeft, FaArrowRight, FaInfo } from "react-icons/fa";
+import { FaInfo } from "react-icons/fa";
 import { CiClock1 } from "react-icons/ci";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { BsCashStack } from "react-icons/bs";
@@ -15,12 +15,14 @@ import { renderStars } from "@/Utils/functions.util";
 import OffersBreadcrumb from "../Components/Offers/singleOfferPage/OfferBreadcrumb";
 import { formatPrice } from "../Utils/functions.util";
 import { IoCloseSharp } from "react-icons/io5";
-import Card from "../Components/Offers/singleOfferPage/BookingCard";
-import { Navigation, Pagination } from "swiper/modules";
-import { SwiperSlide, Swiper } from "swiper/react";
+import Booking from "../Components/BookingSwiper";
+
 export default function SingleOfferPage() {
   const { offerid } = useParams();
   const [reviewMax, setMax] = useState(4);
+  const [availability, setAvail] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [BookDetails, setBookDetials] = useState({ time: null, day: null });
   const dispatch = useDispatch();
   const step = 4;
   const {
@@ -63,6 +65,51 @@ export default function SingleOfferPage() {
   useEffect(() => {
     dispatch(getOfferById(offerid));
   }, [dispatch, offerid]);
+  useEffect(() => {
+    const days = [
+      "Saturday",
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+    ];
+    const UniqueTimes = [];
+    const validForOffer = doctor?.availability?.filter(
+      (el) => el.workspaceId === selectedOffer.workspaceid
+    );
+    for (let i = 0; i < 7; i++) {
+      const today = [];
+      const todaysApps = validForOffer?.filter(
+        (el) => el.workingDay === days[i]
+      );
+      console.log(todaysApps);
+      todaysApps?.forEach((el, index) =>
+        todaysApps.findLastIndex(
+          (x) => x.startTime === el.startTime && x.endTime === el.endTime
+        ) === index && todaysApps.length > 1
+          ? today.push(el)
+          : false
+      );
+      today.length
+        ? UniqueTimes.push(
+            today.sort(
+              (a, b) => a.startTime.slice(0, 2) - b.startTime.slice(0, 2)
+            )
+          )
+        : "";
+    }
+    setAvail(UniqueTimes);
+  }, [doctor?.availability, selectedOffer?.workspaceid]);
+
+  useEffect(() => {
+    const fn = () => {
+      console.log(availability);
+    };
+    document.addEventListener("click", fn);
+    return () => document.removeEventListener("click", fn);
+  }, [availability]);
 
   const seeMoreClickHandler = function () {
     if (reviewMax + step >= doctor?.reviews?.length) {
@@ -173,12 +220,12 @@ export default function SingleOfferPage() {
                 </div>
 
                 {/* Booking Section */}
-                <div className="booking w-full lg:w-[40%] bg-white rounded-xl flex flex-col gap-3 -order-1 lg:order-1">
+                <div className="booking w-full lg:w-[40%] bg-white rounded-xl flex flex-col gap-3 -order-1 lg:order-1 h-fit">
                   <div className="header bg-primary w-full text-center py-3 rounded-t-xl">
                     <h1 className="text-tertiary">Booking Information</h1>
                   </div>
 
-                  <div className="examination_info flex justify-around items-center gap-2 border-b pb-4">
+                  <div className="examination_info flex justify-around items-center gap-2 border-b py-4">
                     <div className="fees flex flex-col justify-center items-center gap-2">
                       <IoCloseSharp className="text-3xl text-darkRed" />
                       <span className="text-xl font-semibold text-primary/70 line-through">
@@ -203,15 +250,14 @@ export default function SingleOfferPage() {
                       </p>
                     </div>
                   </div>
-                  <div className="info flex flex-col justify-center items-center border-b pb-4">
+                  <div className="info flex flex-col justify-center items-center border-b py-4">
                     <h1 className="text-green-600 text-2xl font-semibold">
                       Save {selectedOffer?.percentage}%
                     </h1>
                   </div>
-                  <div className="locations flex flex-col gap-2 px-6 py-2 pb-4 border-b">
+                  <div className="locations flex flex-col gap-2 px-6  py-4 border-b">
                     <div className="header flex gap-2 items-center">
                       <ImLocation2 className="text-darkRed text-xl" />
-
                       <p className=" text-xl font-bold ">
                         {selectedOffer?.workspacename}
                       </p>
@@ -219,52 +265,18 @@ export default function SingleOfferPage() {
 
                     <div className="av-locations"></div>
                   </div>
-                  <div className="locations flex flex-col gap-2 px-6 py-2 pb-4 border-b relative">
-                    <div className="header flex gap-2">
+                  <div className="locations flex flex-col gap-2 px-6 py-2 pb-4  relative">
+                    <div className="header flex gap-2 mb-6">
                       <CiClock1 className="text-darkRed text-xl" />
                       <h1 className="text-primary font-semibold text-[14px]">
                         Choose your appointment
                       </h1>
                     </div>
                     <div className="relative">
-                      <Swiper
-                        spaceBetween={30}
-                        pagination={{
-                          clickable: true,
-                        }}
-                        modules={[Pagination, Navigation]}
-                        breakpoints={{
-                          480: { slidesPerView: 1 },
-                          640: { slidesPerView: 1 },
-                          1024: { slidesPerView: 1 },
-                          1200: { slidesPerView: 2 },
-                        }}
-                        navigation={{
-                          nextEl: ".custom-next",
-                          prevEl: ".custom-previous",
-                        }}
-                        className="mySwiper"
-                      >
-                        <SwiperSlide className="!h-72 !w-52">
-                          <Card />
-                        </SwiperSlide>
-                        <SwiperSlide className="!h-72 !w-52">
-                          <Card />
-                        </SwiperSlide>
-                        <SwiperSlide className="!h-72 !w-52">
-                          <Card />
-                        </SwiperSlide>
-                        <SwiperSlide className="!h-72 !w-52">
-                          <Card />
-                        </SwiperSlide>
-                        <SwiperSlide className="!h-72 !w-52">
-                          <Card />
-                        </SwiperSlide>
-                      </Swiper>
-                      <div className="absolute top-1/2 flex justify-between w-full -translate-y-1/2 z-10">
-                        <FaArrowLeft className="custom-previous  text-2xl text-primary" />
-                        <FaArrowRight className=" custom-next text-2xl text-primary" />
-                      </div>
+                      <Booking
+                        data={availability}
+                        setBookDetials={setBookDetials}
+                      />
                     </div>
                     <div className="av-locations"></div>
                   </div>
