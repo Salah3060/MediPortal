@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllOffers } from "@/API/OffersApi";
 import { getOffersById } from "../../API/offersApi";
+import { getDoctorById } from "@/API/DoctorsApi";
 
 // Async thunk to fetch all offers
 export const fetchAllOffers = createAsyncThunk(
@@ -21,7 +22,8 @@ export const getOfferById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const offers = await getOffersById(id);
-      return offers.data.offers[0];
+      const doctor = await getDoctorById(offers.data.offers[0].doctorid);
+      return { offer: offers.data.offers[0], doctor: doctor.data.doctor[0] };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
@@ -33,6 +35,7 @@ const offersSlice = createSlice({
   initialState: {
     offers: [],
     selectedOffer: null,
+    selectedDoctor: {},
     loading: false,
     error: null,
   },
@@ -60,7 +63,8 @@ const offersSlice = createSlice({
         state.error = null;
       })
       .addCase(getOfferById.fulfilled, (state, action) => {
-        state.selectedOffer = action.payload;
+        state.selectedOffer = action.payload.offer;
+        state.selectedDoctor = action.payload.doctor;
         state.loading = false;
       })
       .addCase(getOfferById.rejected, (state, action) => {
