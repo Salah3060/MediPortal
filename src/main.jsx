@@ -15,6 +15,7 @@ import PaymentError from "@/Pages/paymentError.jsx";
 import Error from "@/Pages/Error.jsx";
 import QuestionsCats from "@/Pages/QuestionsCats.jsx";
 import QuestionsGroup from "@/Pages/QuestionsGroup.jsx";
+import SuccessBooking from "@/Pages/SuccessBooking.jsx";
 
 import Login from "./Pages/Login.jsx";
 import Signup from "./Pages/signup.jsx";
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "search/doctors/:doctorId",
         element: <SingleDoctor />,
+      },
+      {
+        path: "booking/success",
+        element: <SuccessBooking />,
       },
       {
         path: "pharmacy",

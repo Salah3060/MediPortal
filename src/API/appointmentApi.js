@@ -1,11 +1,17 @@
 import axiosInstance from "./axiosInstance";
+import Cookies from "js-cookie";
 
 // book an appointment
 export const bookAppointment = async (doctorId, worksapceId, data) => {
   try {
     const response = await axiosInstance.post(
       `/appointments/${doctorId}/${worksapceId}`,
-      data
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
