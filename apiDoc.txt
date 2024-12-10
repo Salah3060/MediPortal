@@ -189,6 +189,34 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                                   ]       
                    }
                   }
+    4.3 add Product
+    endPoint: 127.0.0.1:3000/api/v1/products/
+    body:
+    {
+        "productName":"cital",
+        "productPrice":"500",
+        "productStackQuantity":"1",
+        "productDescription":"Af5ar anwa3 eladwia",
+        "productExpiryDate":"2025-12-12",
+        "productCategory":"1",
+        "manufacture":"7amo eldoctor"
+    }
+    response:
+    {
+        "status": "successful",
+        "data": {
+            "product": {
+                "productid": 11,
+                "productname": "Cital",
+                "productprice": 500,
+                "productstackquantity": 1,
+                "productdescription": "Af5ar anwa3 eladwia",
+                "productexpirydate": "2025-12-11T22:00:00.000Z",
+                "productcategory": 1,
+                "manufacture": "7amo eldoctor"
+            }
+        }
+    }
 
                   
 5.offers

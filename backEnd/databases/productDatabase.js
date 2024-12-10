@@ -44,4 +44,21 @@ const retrieveAllProducts = async (fields, filters, orders, limit, page) => {
   }
 };
 
-export { retrieveAllProducts };
+const createProduct = async (attributes) => {
+  try {
+    const query = `insert into MedicalProducts
+                  ( productName,productPrice,productStackQuantity,productDescription,productExpiryDate,productCategory,manufacture)
+                   values ($1,$2,$3,$4,$5,$6,$7)
+                   returning *;              
+    `;
+    attributes[4] = new Date(new Date(attributes[4]).toISOString());
+    const product = await pool.query(query, attributes);
+    if (product.rowCount) return product.rows[0];
+    return 0;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export { retrieveAllProducts, createProduct };

@@ -4,9 +4,14 @@ import {
   filterQueryHandler,
   fieldsQueryHandler,
   orderQueryHandler,
+  formatString,
 } from "../utilities.js";
 
-import { retrieveAllProducts } from "../databases/productDatabase.js";
+import {
+  retrieveAllProducts,
+  createProduct,
+} from "../databases/productDatabase.js";
+import validator from "validator";
 
 const validAttributes = [
   "productId",
@@ -69,4 +74,58 @@ const getAllProducts = catchAsyncError(async (req, res, next) => {
   });
 });
 
-export { getAllProducts };
+const addProduct = catchAsyncError(async (req, res, next) => {
+  let {
+    productName,
+    productPrice,
+    productStackQuantity,
+    productDescription,
+    productExpiryDate,
+    productCategory,
+    manufacture,
+  } = req.body;
+  if (
+    !productName ||
+    !productPrice ||
+    !productStackQuantity ||
+    !productDescription ||
+    !productExpiryDate ||
+    !productCategory ||
+    !manufacture
+  ) {
+    return next(new AppError("Missing data", 400));
+  }
+  productName = formatString(productName);
+  productCategory = formatString(productCategory);
+  productPrice = productPrice.trim();
+  productDescription = productDescription.trim();
+  productExpiryDate = productExpiryDate.trim();
+  manufacture = formatString(manufacture);
+
+  if (!validator.isNumeric(productPrice)) {
+    return next(new AppError("Price must be a number", 400));
+  }
+  if (!validator.isNumeric(productStackQuantity)) {
+    return next(new AppError("Quantity must be an integer", 400));
+  }
+  let attributes = [
+    productName,
+    productPrice,
+    productStackQuantity,
+    productDescription,
+    productExpiryDate,
+    productCategory,
+    manufacture,
+  ];
+  const product = await createProduct(attributes);
+  if (product.severity === "ERROR") {
+    return next(
+      new AppError("something went wrong with adding a new product", 400)
+    );
+  }
+  res.status(200).json({
+    status: "successful",
+    data: { product },
+  });
+});
+export { getAllProducts, addProduct };
