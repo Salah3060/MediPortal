@@ -8,7 +8,6 @@ import { validateLoggedIn } from "../controllers/authController.js";
 const router = express.Router();
 
 router.get("/allQuestions", getAllQuestion);
-router.use(validateLoggedIn);
 router.post("/", askQuestion);
 router.patch("/:id", answerQuestion);
 
