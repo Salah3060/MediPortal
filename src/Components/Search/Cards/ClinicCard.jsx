@@ -76,7 +76,7 @@ const ClinicCard = ({ workspace }) => {
       // wait for 2 seconds before redirecting
       setTimeout(() => {
         navigate("/MediPortal/booking/success", {
-          state: { appointment: response.data.appointment },
+          state: { appointment: response.data.appointment, isOffer: false },
         });
       }, 2000);
     } catch (error) {

@@ -4,11 +4,11 @@ export default function Card({
   clickTimeSlot,
   selectedDay,
   handleClick,
+  bookHandle,
 }) {
   function formatTo12Hour(time24) {
     let [hours, minutes] = time24.split(":").map(Number); // Split into hours and minutes
     minutes = minutes.toString().padStart(2, "0");
-    console.log(hours, minutes);
 
     let period = hours >= 12 ? "PM" : "AM"; // Determine AM or PM
     hours = hours % 12 || 12; // Convert to 12-hour format, ensuring 12 remains 12
@@ -44,7 +44,12 @@ export default function Card({
           );
         })}
       </div>
-      <button className="w-full py-2 font-semibold bg-[#c2dfe3]   text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out flex items-center justify-center rounded-xl rounded-t-none">
+      <button
+        className="w-full py-2 font-semibold bg-[#c2dfe3]   text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out flex items-center justify-center rounded-xl rounded-t-none"
+        onClick={() => {
+          if (day[0].workingDay === selectedDay) bookHandle();
+        }}
+      >
         Book
       </button>
     </div>

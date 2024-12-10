@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getOfferById } from "@/Store/Slices/offersSlice";
 import Loader from "../Components/Loader";
 import ErrorPopup from "../Components/ErrorPopup";
@@ -13,16 +13,17 @@ import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { BsCashStack } from "react-icons/bs";
 import { renderStars } from "@/Utils/functions.util";
 import OffersBreadcrumb from "../Components/Offers/singleOfferPage/OfferBreadcrumb";
-import { formatPrice } from "../Utils/functions.util";
+import { formatPrice, getNextDayDate } from "../Utils/functions.util";
 import { IoCloseSharp } from "react-icons/io5";
 import Booking from "../Components/BookingSwiper";
+import { toast } from "react-toastify";
+import { bookAppointment } from "@/API/appointmentApi";
+import { setSelectedDoctor } from "../Store/Slices/searchSlice";
 
 export default function SingleOfferPage() {
   const { offerid } = useParams();
   const [reviewMax, setMax] = useState(4);
   const [availability, setAvail] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [BookDetails, setBookDetials] = useState({ time: null, day: null });
   const dispatch = useDispatch();
   const step = 4;
   const {
@@ -31,6 +32,56 @@ export default function SingleOfferPage() {
     selectedOffer,
     selectedDoctor: doctor,
   } = useSelector((state) => state.offers);
+  const { status } = useSelector((state) => state.user);
+  const [BookDetails, setBookDetials] = useState({
+    time: null,
+    workingDay: null,
+  });
+  const dispath = useDispatch();
+
+  const navigate = useNavigate();
+  const handleBooking = async () => {
+    try {
+      if (status !== "success") {
+        toast.error("Please login to book an appointment");
+        navigate("/Mediportal/login");
+        return;
+      }
+
+      if (!BookDetails.workingDay) {
+        toast.error("You have to select a timeslot to book");
+        return;
+      }
+      const bookingData = {
+        appointmentDate: getNextDayDate(BookDetails.workingDay),
+        fees: calcFees(),
+        paymentStatus: "Cash",
+      };
+
+      const response = await bookAppointment(
+        doctor.userid,
+        selectedOffer.workspaceid,
+        bookingData
+      );
+      toast.success("Appointment booked successfully!");
+      toast.success("redirecting to appointments page");
+      // wait for 2 seconds before redirecting
+      setTimeout(() => {
+        dispath(setSelectedDoctor(doctor));
+        navigate("/MediPortal/booking/success", {
+          state: {
+            appointment: response.data.appointment,
+            isOffer: true,
+            offersFees: calcFees(),
+          },
+        });
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to book appointment. Please try again.");
+    }
+  };
+
   const calcAverageRate = function () {
     return doctor?.reviews?.reduce((cum, crnt) => {
       return (cum += crnt.rate / doctor?.reviews.length);
@@ -84,7 +135,6 @@ export default function SingleOfferPage() {
       const todaysApps = validForOffer?.filter(
         (el) => el.workingDay === days[i]
       );
-      console.log(todaysApps);
       todaysApps?.forEach((el, index) =>
         todaysApps.findLastIndex(
           (x) => x.startTime === el.startTime && x.endTime === el.endTime
@@ -102,14 +152,6 @@ export default function SingleOfferPage() {
     }
     setAvail(UniqueTimes);
   }, [doctor?.availability, selectedOffer?.workspaceid]);
-
-  useEffect(() => {
-    const fn = () => {
-      console.log(availability);
-    };
-    document.addEventListener("click", fn);
-    return () => document.removeEventListener("click", fn);
-  }, [availability]);
 
   const seeMoreClickHandler = function () {
     if (reviewMax + step >= doctor?.reviews?.length) {
@@ -276,6 +318,7 @@ export default function SingleOfferPage() {
                       <Booking
                         data={availability}
                         setBookDetials={setBookDetials}
+                        bookHandle={handleBooking}
                       />
                     </div>
                     <div className="av-locations"></div>
