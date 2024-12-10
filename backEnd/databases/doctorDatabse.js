@@ -164,29 +164,34 @@ const retrieveDoctor = async (id) => {
   }
 };
 
-const reteieveDoctorStats = async (id) => {
+const reteieveDoctorPatients = async (id) => {
   try {
     const query = `
     SELECT 
-      a.doctorId , count(*) as appointmentsNumbers  , sub.counter
-    from 
-      Appointments a  , 
-         (select
-             DITINCT (doctorId , patientId)  , count(*) as counter
-             from  Appointments 
-             group by doctorId , patientId 
-             having doctorId =$1
-         ) as sub 
-    group by 
       a.doctorId ,
-      sub.counter
-   
+      a.patientId , 
+      u.firstName ||' ' || u.lastName as patientName,
+      u.email,
+      u.gender,
+      u.birthDate
+    from 
+      Appointments a  
+      join Users u ON u.userId= a.patientId
+    group by 
+      a.doctorId , 
+      a.patientId ,
+      u.firstName,
+      u.lastName,
+      u.email,
+      u.gender,
+      u.birthDate      
+
     `;
-    const res = await pool.query(query, [id]);
+    const res = await pool.query(query);
     return res.rows;
   } catch (error) {
     console.log(error);
   }
 };
 
-export { retrieveAllDoctors, retrieveDoctor, reteieveDoctorStats };
+export { retrieveAllDoctors, retrieveDoctor, reteieveDoctorPatients };
