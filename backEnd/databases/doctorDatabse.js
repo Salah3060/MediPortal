@@ -25,7 +25,11 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
           CASE 
             WHEN AVG(r.rate) IS NOT NULL THEN round (AVG(r.rate), 2) 
             ELSE 0 
-          END AS overallRating
+          END AS overallRating ,
+          CASE 
+            WHEN AVG(r.waitingTime) IS NOT NULL THEN round (AVG(r.waitingTime), 2) 
+            ELSE 0 
+          END AS averageWaitingTime
           `;
     query += `  
           from Users u  
@@ -106,6 +110,7 @@ const retrieveDoctor = async (id) => {
           'rate', r.rate,
           'review', r.review,
           'reviewDate', r.reviewDate,
+          'waitingTime', r.waitingTime,
           'patient', (
             SELECT 
               JSON_BUILD_OBJECT(
@@ -159,4 +164,29 @@ const retrieveDoctor = async (id) => {
   }
 };
 
-export { retrieveAllDoctors, retrieveDoctor };
+const reteieveDoctorStats = async (id) => {
+  try {
+    const query = `
+    SELECT 
+      a.doctorId , count(*) as appointmentsNumbers  , sub.counter
+    from 
+      Appointments a  , 
+         (select
+             DITINCT (doctorId , patientId)  , count(*) as counter
+             from  Appointments 
+             group by doctorId , patientId 
+             having doctorId =$1
+         ) as sub 
+    group by 
+      a.doctorId ,
+      sub.counter
+   
+    `;
+    const res = await pool.query(query, [id]);
+    return res.rows;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { retrieveAllDoctors, retrieveDoctor, reteieveDoctorStats };

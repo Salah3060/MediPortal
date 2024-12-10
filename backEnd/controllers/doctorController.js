@@ -1,6 +1,7 @@
 import {
   retrieveAllDoctors,
   retrieveDoctor,
+  reteieveDoctorStats,
 } from "../databases/doctorDatabse.js";
 import {
   AppError,
@@ -78,4 +79,14 @@ const getDoctor = catchAsyncError(async (req, res, next) => {
     },
   });
 });
-export { getAllDoctors, getDoctor };
+const doctorStatistics = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+  const stats = await reteieveDoctorStats(id);
+
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: { stats },
+  });
+});
+export { getAllDoctors, getDoctor, doctorStatistics };
