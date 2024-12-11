@@ -531,7 +531,7 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
          
 7.Appointment
     7.1 Book Appointment
-        endPoint: http://127.0.0.1:3000/api/v1/appointments/:doctorId/:workspaceId
+        endPoint: http://127.0.0.1:3000/api/v1/appointments/:doctorId/:locationId
         method : post
         body :
         {
@@ -540,19 +540,22 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             "paymentStatus":"Cach"
         }
         response:
-       {
+        {
             "status": "successful",
             "data": {
                 "appointment": {
-                    "appointmentid": 15,
-                    "appointmentdate": "2024-12-11T22:00:00.000Z",
+                    "appointmentid": 49,
+                    "appointmentdate": "2004-12-11T22:00:00.000Z",
                     "appointmentstatus": "Successful",
                     "fees": 300,
                     "paymentstatus": "Cach",
-                    "bookingdate": "2024-12-06T07:30:35.979Z",
-                    "patientid": 66,
+                    "bookingdate": "2024-12-11T18:12:38.603Z",
+                    "patientid": 120,
                     "doctorid": 6,
-                    "workspaceid": 10
+                    "locationid": 10,
+                    "location": {
+                        "workspaceslocation": "moaskar bany yousef"
+                    }
                 }
             }
         }
@@ -659,8 +662,31 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 "url": "https://checkout.stripe.com/c/pay/cs_test_a1klgixyEXdR4UOdUC3tWVBHYOwGfN2zy6RkapYnmSST08f9KSrwNPuqBx#fidkdWxOYHwnPyd1blpxYHZxWjA0VFZiZ1JBRlVHNH9GaFc2YUZEPWl1VzJCNzQ0Mz01UWt9R19zSn99SElHfHZHUEt3UTVUUUxgdkhuVnR2dlNCY11XbkR8NzMwVTw0cGNKNWZ0aTdfSkhVNTVzd0FScX9sVycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl"
             }
         }
-    Publishable key: pk_test_51QSgbWDCPB1zCmR3dCA8lpR7G211680TnxBZvOzxMLBysBUNrT0QTIesMkSqssVGfXRkAy265P91ufO0cql2ZOMP00vrDWtziR
-
+        Publishable key: pk_test_51QSgbWDCPB1zCmR3dCA8lpR7G211680TnxBZvOzxMLBysBUNrT0QTIesMkSqssVGfXRkAy265P91ufO0cql2ZOMP00vrDWtziR
+    7.3 update Appointment
+        endPoint : http://127.0.0.1:3000/api/v1/appointments/:appointmentId
+        method: patch
+        body:
+        {
+            "appointmentStatus":"cancelled"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedAppointment": {
+                    "appointmentid": 49,
+                    "appointmentdate": "2004-12-11T22:00:00.000Z",
+                    "appointmentstatus": "Cancelled",
+                    "fees": 300,
+                    "paymentstatus": "Cach",
+                    "bookingdate": "2024-12-11T18:12:38.603Z",
+                    "patientid": 120,
+                    "doctorid": 6,
+                    "locationid": 10
+                }
+            }
+        }
 
 
 8.Question 

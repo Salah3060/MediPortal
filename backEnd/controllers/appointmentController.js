@@ -1,6 +1,7 @@
 import {
   retrieveAllAppointments,
   createAppointmentDb,
+  updateAppointment,
 } from "../databases/appointmentDatabase.js";
 import { retrieveDoctor } from "../databases/doctorDatabse.js";
 import {
@@ -14,6 +15,7 @@ import {
 import Stripe from "stripe";
 import dotenv from "dotenv";
 import app from "../app.js";
+import validator from "validator";
 dotenv.config("../../BE.env");
 
 const validAttributes = [
@@ -127,7 +129,7 @@ const bookAppointment = catchAsyncError(async (req, res, next) => {
   try {
     let { appointmentDate, fees, paymentStatus } = req.body;
     const doctorId = req.params.id;
-    const workspaceId = req.params.secId;
+    const locationId = req.params.secId;
     const { user } = req;
 
     if (
@@ -135,7 +137,7 @@ const bookAppointment = catchAsyncError(async (req, res, next) => {
       !fees ||
       !paymentStatus ||
       !doctorId ||
-      !workspaceId
+      !locationId
     ) {
       return next(new AppError("Missing data", 400));
     }
@@ -151,11 +153,10 @@ const bookAppointment = catchAsyncError(async (req, res, next) => {
       Date.now(),
       user.userid,
       doctorId,
-      workspaceId,
     ];
     // console.log(user);
-    const appointment = await createAppointmentDb(attributes);
-    if (!appointment)
+    const appointment = await createAppointmentDb(attributes, locationId);
+    if (!appointment || appointment.status === "fail")
       return next(new AppError("Something wronge happened", 400));
     res.status(200).json({
       status: "successful",
@@ -168,4 +169,41 @@ const bookAppointment = catchAsyncError(async (req, res, next) => {
   }
 });
 
-export { getAllAppointments, bookAppointment, getCheckoutSession };
+const editAppointment = catchAsyncError(async (req, res, next) => {
+  let { appointmentDate, appointmentStatus, fees, paymentStatus, locationId } =
+    req.body;
+  appointmentStatus = appointmentStatus
+    ? formatString(appointmentStatus)
+    : null;
+  const appointmentId = req.params.id;
+  paymentStatus = paymentStatus ? formatString(paymentStatus) : null;
+  if (fees && !validator.isNumeric(fees)) {
+    return next(new AppError("Fees must be a number", 400));
+  }
+  let toBeEdited = {};
+  toBeEdited.appointmentDate = appointmentDate;
+  toBeEdited.appointmentStatus = appointmentStatus;
+  toBeEdited.fees = fees;
+  toBeEdited.paymentStatus = paymentStatus;
+  toBeEdited.locationId = locationId;
+
+  if (!Object.values(toBeEdited).filter((v) => v).length)
+    return next(new AppError("Specify at least one attribute to update"));
+  const updatedAppointment = await updateAppointment(toBeEdited, appointmentId);
+  if (updatedAppointment.status === "fail") {
+    return next(new AppError("something went very wrong", 400));
+  }
+  res.status(200).json({
+    status: "successful",
+    data: {
+      updatedAppointment,
+    },
+  });
+});
+
+export {
+  getAllAppointments,
+  bookAppointment,
+  getCheckoutSession,
+  editAppointment,
+};

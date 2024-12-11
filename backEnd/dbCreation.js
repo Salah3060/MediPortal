@@ -228,9 +228,11 @@ const createDoctorAvailabilityTable = `create table DoctorAvailability
     endTime TIME not null,
     doctorId int,
     workspaceId int,
+    locationId int,
     primary key (doctorId,workspaceId,workingDay,startTime),
     foreign key (doctorId) references Doctors(doctorId) on delete cascade,
     foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade,
+    foreign key (locationId) references WorkspaceLocations(locationId) on delete cascade
     constraint validateTimes check (startTime < endTime)
 );
 `;
@@ -244,11 +246,11 @@ const createAppointmentsTable = `create table Appointments
     bookingDate timestamp not null,
     patientId int,
     doctorId int,
-    workspaceId int,
+    locationId int,
     primary key (patientId, appointmentId),
     foreign key (doctorId) references Doctors(doctorId) on delete cascade,
-    foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade,
-    foreign key (patientId) references Patients(patientId) on delete cascade
+    foreign key (patientId) references Patients(patientId) on delete cascade,
+    foreign key (locationId) references WorkspaceLocations (locationId) on delete cascade
 );
 `;
 const tester = "tsting";

@@ -50,14 +50,22 @@ const retrieveAllAppointments = async (
   }
 };
 
-const createAppointmentDb = async (attributes) => {
+const createAppointmentDb = async (attributes, locationId) => {
   try {
     const query = `insert into Appointments
-                   (appointmentDate, appointmentStatus, fees, paymentStatus, bookingDate, patientId, doctorId, workspaceId) 
+                   (appointmentDate, appointmentStatus, fees, paymentStatus, bookingDate, patientId, doctorId,locationId) 
                    values($1,$2,$3,$4,$5,$6,$7,$8)
                    returning *`;
     attributes[4] = new Date(new Date(attributes[4]).toISOString());
-    const appointment = await pool.query(query, attributes);
+    const appointment = await pool.query(query, [...attributes, locationId]);
+    if (appointment.rowCount) {
+      const secQuery = `select workspacesLocation from
+                        WorkspaceLocations where locationId =$1`;
+      const loc = await pool.query(secQuery, [locationId]);
+      if (loc.rowCount) {
+        appointment.rows[0].location = loc.rows[0];
+      }
+    }
     // console.log(appointment);
     if (appointment.rowCount) return appointment.rows[0];
     return false;
@@ -66,4 +74,25 @@ const createAppointmentDb = async (attributes) => {
   }
 };
 
-export { retrieveAllAppointments, createAppointmentDb };
+const updateAppointment = async (attributes, id) => {
+  try {
+    let query = `update Appointments SET `;
+    let cnt = 0;
+    Object.entries(attributes).forEach(([k, v]) => {
+      if (cnt && v) query += " , ";
+      if (v) {
+        query += k + " = " + `$${++cnt}`;
+      }
+    });
+    query += ` where appointmentId = $${++cnt}
+              returning *`;
+    const readyAtt = Object.values(attributes).filter((val) => val);
+    const appointment = await pool.query(query, [...readyAtt, id]);
+    if (appointment.rowCount) return appointment.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export { retrieveAllAppointments, createAppointmentDb, updateAppointment };
