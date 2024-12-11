@@ -17,7 +17,7 @@ const retrieveAllAppointments = async (
                   a.appointmentId,
                   a.appointmentDate,
                   a.appointmentStatus,
-                  a.fees,
+                  d.fees,
                   a.bookingDate,
                   a.paymentStatus,
                   a.doctorId ,

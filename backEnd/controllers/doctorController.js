@@ -2,6 +2,7 @@ import validator from "validator";
 import {
   retrieveAllDoctors,
   retrieveDoctor,
+  reteieveDoctorPatients,
 } from "../databases/doctorDatabse.js";
 import {
   AppError,
@@ -80,22 +81,14 @@ const getDoctor = catchAsyncError(async (req, res, next) => {
     },
   });
 });
+const doctorPatients = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+  const stats = await reteieveDoctorPatients(id);
 
-// const updatedDoctor = catchAsyncError(async (req, res, next) => {
-//   const { id } = req.params;
-//   let { licenseNumber, yearsOfExperience, about, specialization } = req.body;
-
-//   licenseNumber = licenseNumber ? licenseNumber.trim() : null;
-//   yearsOfExperience = yearsOfExperience ? yearsOfExperience.trim() : null;
-//   about = about ? about.trim() : null;
-//   specialization = specialization ? formatString(specialization) : null;
-
-//   if (licenseNumber && !validator.isNumeric(licenseNumber)) {
-//     return next(new AppError("License number must be numbers!", 400));
-//   }
-//   if (yearsOfExperience && !validator.isNumeric(yearsOfExperience)) {
-//     return next(new AppError("Years of experience must be numbers!", 400));
-//   }
-// });
-
-export { getAllDoctors, getDoctor };
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: { stats },
+  });
+});
+export { getAllDoctors, getDoctor, doctorPatients };

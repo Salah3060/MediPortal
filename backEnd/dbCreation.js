@@ -121,6 +121,7 @@ const createReviewsTable = `create table Reviews
     patientId int,
     rate int not null,
     review varchar(200),
+    waitingTime int default 35 ,
     reviewDate timestamp not null,
     primary key (doctorId,patientId),
     foreign key (doctorId) references Doctors(doctorId) on delete cascade,

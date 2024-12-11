@@ -14,7 +14,8 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
           wallet, 
           createdAt, 
           updatedAt, 
-          birthDate ,  
+          birthDate , 
+          userState, 
           licenseNumber ,  
           specialization , 
           yearsOfExperience , 
@@ -25,7 +26,11 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
           CASE 
             WHEN AVG(r.rate) IS NOT NULL THEN round (AVG(r.rate), 2) 
             ELSE 0 
-          END AS overallRating
+          END AS overallRating ,
+          CASE 
+            WHEN AVG(r.waitingTime) IS NOT NULL THEN round (AVG(r.waitingTime), 2) 
+            ELSE 0 
+          END AS averageWaitingTime
           `;
     query += `  
           from Users u  
@@ -106,6 +111,7 @@ const retrieveDoctor = async (id) => {
           'rate', r.rate,
           'review', r.review,
           'reviewDate', r.reviewDate,
+          'waitingTime', r.waitingTime,
           'patient', (
             SELECT 
               JSON_BUILD_OBJECT(
@@ -159,4 +165,34 @@ const retrieveDoctor = async (id) => {
   }
 };
 
-export { retrieveAllDoctors, retrieveDoctor };
+const reteieveDoctorPatients = async (id) => {
+  try {
+    const query = `
+    SELECT 
+      a.doctorId ,
+      a.patientId , 
+      u.firstName ||' ' || u.lastName as patientName,
+      u.email,
+      u.gender,
+      u.birthDate
+    from 
+      Appointments a  
+      join Users u ON u.userId= a.patientId
+    group by 
+      a.doctorId , 
+      a.patientId ,
+      u.firstName,
+      u.lastName,
+      u.email,
+      u.gender,
+      u.birthDate      
+
+    `;
+    const res = await pool.query(query);
+    return res.rows;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { retrieveAllDoctors, retrieveDoctor, reteieveDoctorPatients };
