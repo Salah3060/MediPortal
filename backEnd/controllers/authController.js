@@ -236,6 +236,7 @@ const updateUser = (role) => {
         gender,
         // wallet,
         birthDate,
+        userState,
         // patient
         bloodType,
         chronicDisease,
@@ -253,7 +254,13 @@ const updateUser = (role) => {
       email = email ? email.trim() : null;
       // wallet = wallet ? wallet.trim() : null;
       birthDate = birthDate ? birthDate.trim() : null;
+      userState = userState ? formatString(userState) : null;
       // validating attributes (needs to be factorized later)
+      if (userState && user.userrole !== "Admin") {
+        return next(
+          new AppError("you are not allowed as a user to update the state")
+        );
+      }
       if (
         (firstName && !validator.isAlpha(firstName)) ||
         (lastName && !validator.isAlpha(lastName))
@@ -298,6 +305,7 @@ const updateUser = (role) => {
       // toBeEdited.wallet = wallet;
       toBeEdited.birthDate = birthDate;
       toBeEdited.updatedAt = Date.now();
+      toBeEdited.userState = userState;
 
       // preparing patient attributes
       bloodType = bloodType ? formatString(bloodType) : null;
