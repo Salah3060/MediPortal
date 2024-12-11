@@ -101,8 +101,69 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
          endPoint: 127.0.0.1:3000/api/v1/doctors/allDoctors?firstName='Kamal' 
          endPoint: 127.0.0.1:3000/api/v1/doctors/allDoctors?userId=4
          you can query on name with all methods KAmal kAMak 
-
-
+    3.3 update doctor -as an admin only-
+        endPoint: 127.0.0.1:3000/api/v1/doctors/:id -doctorId-
+        method: patch
+        body:
+        {
+            "firstName":"yousefff",
+            "about":"This is a brief description",
+            "yearsOfExperience":"15"
+            
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedUser": {
+                    "userid": 105,
+                    "firstname": "Yousefff",
+                    "lastname": "Thedoctor",
+                    "phonenumber": "01128606379",
+                    "email": "updatingTest1@dum.com",
+                    "gender": "Male",
+                    "wallet": "0.00",
+                    "createdat": "2024-12-10T20:28:19.152Z",
+                    "updatedat": "2024-12-11T08:07:02.428Z",
+                    "birthdate": "2004-12-11T22:00:00.000Z",
+                    "userrole": "Doctor",
+                    "userstate": "Active",
+                    "yearsOfExperience": "15",
+                    "about": "This is a brief description"
+                }
+            }
+        }
+        -same style of errors as patient update-
+    3.4 update Me -as a doctor only-
+        endPoint: 127.0.0.1:3000/api/v1/doctors/updateMe
+        method: patch
+        body:
+        {
+            "lastName":"theHero",
+            "yearsOfExperience":"40"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedUser": {
+                    "userid": 105,
+                    "firstname": "Yousefff",
+                    "lastname": "Thehero",
+                    "phonenumber": "01128606379",
+                    "email": "updatingTest1@dum.com",
+                    "gender": "Male",
+                    "wallet": "0.00",
+                    "createdat": "2024-12-10T20:28:19.152Z",
+                    "updatedat": "2024-12-11T08:11:49.689Z",
+                    "birthdate": "2004-12-11T22:00:00.000Z",
+                    "userrole": "Doctor",
+                    "userstate": "Active",
+                    "yearsOfExperience": "40"
+                }
+            }
+        }
+        -same style of errors as patient updateMe-
     
  3.Patients   
      3.1 getAllPatient
@@ -142,7 +203,82 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
          endPoint: 127.0.0.1:3000/api/v1/patints/alPatints?userId=4
          you can query on name with all methods KAmal kAMak 
 
+    3.3 update patient -as an admin only-
+        endPoint: 127.0.0.1:3000/api/v1/patients/:id -patientId-
+        method: patch
+        body:
+        {
+            "firstName":"joe",
+            "phoneNumber":"01138383838",
+            "chronicDisease":"['chronicDisease1','chronicDisease2','chronicDisease3']"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedUser": {
+                    "userid": 120,
+                    "firstname": "Joe",
+                    "lastname": "Updatedpatient",
+                    "phonenumber": "01138383838",
+                    "email": "updateTest2@dum.com",
+                    "gender": "Male",
+                    "wallet": "0.00",
+                    "createdat": "2024-12-11T07:08:51.849Z",
+                    "updatedat": "2024-12-11T07:46:57.791Z",
+                    "birthdate": "2004-12-11T22:00:00.000Z",
+                    "userrole": "Patient",
+                    "userstate": "Active",
+                    "chronicDisease": "['chronicDisease1','chronicDisease2','chronicDisease3']"
+                }
+            }
+        }
+        Error that might appear:
+        {
+            1-"there's no such a user with that id" 
+                if you tried to update user that doesn't exist
+            2-"roles didn't match, something went wrong"
+                if you tried to update doctor or admin -not a patient-
 
+        }
+    3.4 update Me -as a patient only-
+        endPoint: 127.0.0.1:3000/api/v1/patients/updateMe
+        method: patch
+        body:
+        {
+            "lastName":"elSick",
+            "bloodType":"AB-"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedUser": {
+                    "userid": 120,
+                    "firstname": "Joe",
+                    "lastname": "Elsick",
+                    "phonenumber": "01138383838",
+                    "email": "updateTest2@dum.com",
+                    "gender": "Male",
+                    "wallet": "0.00",
+                    "createdat": "2024-12-11T07:08:51.849Z",
+                    "updatedat": "2024-12-11T07:52:59.226Z",
+                    "birthdate": "2004-12-11T22:00:00.000Z",
+                    "userrole": "Patient",
+                    "userstate": "Active",
+                    "bloodType": "Ab-"
+                }
+            }
+        }
+        Error that might appear:
+        {
+            1-"there's no such a user with that id" 
+                if you tried to update user that doesn't exist
+            2-"roles didn't match, something went wrong"
+                if you tried to use this route and you are not a Patient
+            3-"You must be an patient or a doctor to use updateMe"
+                if you tried to use the route "updateMe" as an admin
+        }
 
 
 4.Pharmasy 

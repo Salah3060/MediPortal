@@ -34,7 +34,7 @@ const registerDb = async (attributes, role, specificAtt) => {
     if (!newUser) {
       return new AppError("Something wrong happend", 400);
     }
-    // console.log(newUser.rows[0]);
+    console.log(newUser);
     let secQuery;
     if (role === "Patient") {
       secQuery = `insert into Patients(patientId , bloodType , chronicDisease)
@@ -42,6 +42,8 @@ const registerDb = async (attributes, role, specificAtt) => {
     } else if (role === "Doctor") {
       secQuery = `insert into Doctors(doctorId , licenseNumber , specialization)
                   values($1 , $2 , $3);`;
+    } else {
+      return new AppError("Insert a valid role either Patient or doctor", 400);
     }
 
     await pool.query(secQuery, [newUser.rows[0].userid, ...specificAtt]); //id,c1,c2
@@ -53,4 +55,62 @@ const registerDb = async (attributes, role, specificAtt) => {
   }
 };
 
-export { logInDb, registerDb };
+const updateUserDb = async (toBeEdited, specificAtt, role, id) => {
+  try {
+    let helperQuery = `select userRole from users where userId=$1`;
+    const checkerUser = await pool.query(helperQuery, [id]);
+    console.log(checkerUser, id);
+    if (!checkerUser.rowCount) {
+      throw new AppError("there's no such a user with that id", 400);
+    }
+    if (checkerUser.rows[0].userrole !== role) {
+      throw new AppError("roles didn't match, something went wrong", 400);
+    }
+    let query = `update Users SET `;
+    let cnt = 0;
+    toBeEdited.updatedAt = toBeEdited.updatedAt
+      ? new Date(new Date(toBeEdited.updatedAt).toISOString())
+      : null;
+    Object.entries(toBeEdited).forEach(([k, v]) => {
+      if (cnt && v) query += " , ";
+      if (v) {
+        query += k + " = " + `$${++cnt}`;
+      }
+    });
+    query += ` where userId = $${++cnt}
+              returning *`;
+
+    const readyAtt = Object.values(toBeEdited).filter((val) => val);
+    const user = await pool.query(query, [...readyAtt, id]);
+    const readySpecificAtt = Object.values(specificAtt).filter((val) => val);
+
+    if (readySpecificAtt.length) {
+      cnt = 0;
+      let secQuery = `update ${role}s SET `;
+      Object.entries(specificAtt).forEach(([k, v]) => {
+        if (cnt && v) secQuery += " , ";
+        if (v) {
+          secQuery += k + " = " + `$${++cnt}`;
+        }
+      });
+      secQuery += ` where ${role}Id = $${++cnt}
+            returning *`;
+      const specificUser = await pool.query(secQuery, [
+        ...readySpecificAtt,
+        id,
+      ]);
+      // console.log([...readySpecificAtt, id]);
+      // console.log(specificUser);
+
+      Object.entries(specificAtt).forEach(([k, v]) => {
+        if (v) user.rows[0][`${k}`] = v;
+      });
+    }
+    if (user.rowCount) return user.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export { logInDb, registerDb, updateUserDb };
