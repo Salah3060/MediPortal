@@ -40,8 +40,10 @@ const logInController = async (req, res, next) => {
     if (!email || !password)
       return next(new AppError("Invalid email or password", 400));
 
-    const user = await logInDb(email, password);
-    if (!user) {
+    const user = await logInDb(email);
+    console.log(user);
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return next(new AppError("No User valid for this data", 404));
     }
 

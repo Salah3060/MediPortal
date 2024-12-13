@@ -1,17 +1,17 @@
 import pool from "../server.js";
 import { AppError, catchAsyncError } from "../utilities.js";
 
-const logInDb = async (email, password, id) => {
+const logInDb = async (email, id) => {
   try {
-    console.log(email, password, id);
+    console.log(email, id);
     let query = "select * from Users   ";
     let res;
     if (id) {
       query += `where userId=$1`;
       res = await pool.query(query, [id]);
     } else {
-      query += `where email=$1 and password=$2`;
-      res = await pool.query(query, [email, password]);
+      query += `where email=$1`;
+      res = await pool.query(query, [email]);
     }
     if (res.rowCount) return res.rows[0];
     return false;
