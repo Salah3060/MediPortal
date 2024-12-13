@@ -1,19 +1,23 @@
 import Header from "./header";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Formik } from "formik";
-import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllhospitals } from "../../Store/Slices/WorkspaceSlice";
+import Availability from "./hospitalAvailibility";
+import CAvailibility from "./clinicAvailibility";
 export default function Workspaces() {
-  const isNonMobile = useMediaQuery("(min-width:600px)");
+  const isNonMobile = useMediaQuery("(min-width:700px)");
   const [place, setPlace] = useState("");
   const { Allhospitals: hospitals } = useSelector((state) => state.workspaces);
+  const [hospitalAvs, setHospitalAv] = useState(1);
+  const [clinicAvs, setClinicAv] = useState(1);
   const handleFormSubmit = (values) => {
     console.log(values);
   };
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchAllhospitals());
   }, [dispatch]);
@@ -21,19 +25,8 @@ export default function Workspaces() {
     <Box m="20px">
       <Header title="Workspaces" subtitle="Manage your workspaces" />
 
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
+      <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
+        {({ values, handleBlur, handleChange, handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
@@ -65,70 +58,54 @@ export default function Workspaces() {
               </Button>
               {place === "clinic" && (
                 <>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    type="text"
-                    label="Clinic Name"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.WorkspaceName}
-                    name="WorkspaceName"
-                    error={!!touched.WorkspaceName && !!errors.WorkspaceName}
-                    helperText={touched.WorkspaceName && errors.WorkspaceName}
-                    sx={{ gridColumn: "span 4" }}
-                  />
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    type="text"
-                    label="Clinic phone"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.workspacePhone}
-                    name="workspacePhone"
-                    error={!!touched.workspacePhone && !!errors.workspacePhone}
-                    helperText={touched.workspacePhone && errors.workspacePhone}
-                    sx={{ gridColumn: "span 4" }}
-                  />
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    type="text"
-                    label="Clinic Location"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.workspaceLocation}
-                    name="workspaceLocation"
-                    error={
-                      !!touched.workspaceLocation && !!errors.workspaceLocation
-                    }
-                    helperText={
-                      touched.workspaceLocation && errors.workspaceLocation
-                    }
-                    sx={{ gridColumn: "span 4" }}
-                  />
+                  {Array.from({ length: clinicAvs }).map((_, i) => (
+                    <CAvailibility
+                      key={i}
+                      handleBlur={handleBlur}
+                      handleChange={handleChange}
+                      values={values}
+                      index={i}
+                    />
+                  ))}
+                  <Button
+                    onClick={() => setClinicAv((e) => e + 1)}
+                    color="secondary"
+                    variant="contained"
+                    className={isNonMobile ? "col-span-1" : "col-span-4"}
+                  >
+                    Add another Clinic
+                  </Button>
                 </>
               )}
               {place === "hospital" && (
                 <>
-                  <div>
-                    <input
-                      list="combo-box-options"
-                      placeholder="Choose or type..."
+                  {Array.from({ length: hospitalAvs }).map((_, i) => (
+                    <Availability
+                      index={i}
+                      key={i}
+                      hospitals={hospitals}
+                      cols={isNonMobile ? 2 : 4}
                     />
-                    <datalist id="combo-box-options">
-                      {hospitals.map((option, index) => (
-                        <option key={index} value={option?.workspacename} />
-                      ))}
-                    </datalist>
-                  </div>
+                  ))}
+
+                  <Button
+                    onClick={() => setHospitalAv((e) => e + 1)}
+                    color="secondary"
+                    variant="contained"
+                    className={isNonMobile ? "col-span-1" : "col-span-4"}
+                  >
+                    Add another hopital
+                  </Button>
                 </>
               )}
             </Box>
-            <Box display="flex" justifyContent="end" mt="20px">
+            <Box display="flex" justifyContent="end" mt="20px" fullWidth>
               {place !== "" && (
-                <Button type="submit" color="secondary" variant="contained">
+                <Button
+                  onClick={() => handleFormSubmit(values)}
+                  color="secondary"
+                  variant="contained"
+                >
                   Create New User
                 </Button>
               )}
@@ -140,19 +117,12 @@ export default function Workspaces() {
   );
 }
 
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
-const checkoutSchema = yup.object().shape({
-  WorkspaceName: yup.string().required("required"),
-  workspacePhone: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  workspaceLocation: yup.string().required("required"),
-});
 const initialValues = {
-  WorkspaceName: "",
-  workspacePhone: "",
-  workspaceLocation: "",
+  WorkspaceName: [],
+  workspacePhone: [],
+  workspaceLocation: [],
+  hospitalName: [],
+  hospitalday: [],
+  hospitalstart: [],
+  hospitalend: [],
 };
