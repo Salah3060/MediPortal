@@ -350,35 +350,138 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                    }
                   }
     4.3 add Product
-    endPoint: 127.0.0.1:3000/api/v1/products/
-    body:
-    {
-        "productName":"cital",
-        "productPrice":"500",
-        "productStackQuantity":"1",
-        "productDescription":"Af5ar anwa3 eladwia",
-        "productExpiryDate":"2025-12-12",
-        "productCategory":"1",
-        "manufacture":"7amo eldoctor"
-    }
-    response:
-    {
-        "status": "successful",
-        "data": {
-            "product": {
-                "productid": 11,
-                "productname": "Cital",
-                "productprice": 500,
-                "productstackquantity": 1,
-                "productdescription": "Af5ar anwa3 eladwia",
-                "productexpirydate": "2025-12-11T22:00:00.000Z",
-                "productcategory": 1,
-                "manufacture": "7amo eldoctor"
+        endPoint: 127.0.0.1:3000/api/v1/products/
+        body:
+        {
+            "productName":"paracetamol Model1",
+            "productPrice":"500",
+            "productStackQuantity":"1",
+            "productDescription":"super doper medicine",
+            "productExpiryDate":"2025-12-12",
+            "productCategory":"1",
+            "manufacture":"7amo eldealer",
+            "activeIngredient":["paracetamol","atorvastatin"]
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "product": {
+                    "productid": 16,
+                    "productname": "Paracetamol model1",
+                    "productprice": 500,
+                    "productstackquantity": 1,
+                    "productdescription": "super doper medicine",
+                    "productexpirydate": "2025-12-11T22:00:00.000Z",
+                    "productcategory": 1,
+                    "manufacture": "7amo eldealer"
+                }
             }
         }
-    }
-
-                  
+    4.4 update product
+        endPoint:127.0.0.1:3000/api/v1/products/:productId
+        method: patch
+        body:
+        {
+            "productName":"Cital Extra",
+            "productStackQuantity":"3"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedProduct": {
+                    "productid": 13,
+                    "productname": "Cital extra",
+                    "productprice": 500,
+                    "productstackquantity": 1,
+                    "productdescription": "Af5ar anwa3 eladwia",
+                    "productexpirydate": "2025-12-11T22:00:00.000Z",
+                    "productcategory": 1,
+                    "manufacture": "7amo eldoctor"
+                }
+            }
+        }
+    4.5 create category
+        endPoint:127.0.0.1:3000/api/v1/categories
+        method: post
+        body:
+        {
+            "categoryName":"New brand category",
+            "categoryDescription":"so important category"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "category": {
+                    "categoryid": 11,
+                    "categoryname": "New brand category",
+                    "categorydescription": "so important category"
+                }
+            }
+        }
+    4.6 update category
+        endPoint: 127.0.0.1:3000/api/v1/categories/:categoryId
+        method: patch
+        body:
+        {
+            "categoryDescription":"actually it's not that important"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedCategory": {
+                    "categoryid": 11,
+                    "categoryname": "New brand category",
+                    "categorydescription": "actually it's not that important"
+                }
+            }
+        }
+    4.7 Orders
+        4.7.1 placeOrder
+            endPoint:127.0.0.1:3000/api/v1/orders
+            method:post
+            body:
+            {
+                "totalAmount":"500",
+                "cart":[ {"productId":3 , "productQuantity":1},{"productId":1,"productQuantity":2}]
+            }
+            response:
+            {
+                "status": "successful",
+                "data": {
+                    "order": {
+                        "orderid": 7,
+                        "orderdate": "2024-12-13T17:18:05.065Z",
+                        "totalamount": 500,
+                        "patientid": 1,
+                        "orderstatus": "Successful"
+                    }
+                }
+            }
+        4.7.2 update Order (cancelling only)
+            endPoint:127.0.0.1:3000/api/v1/orders/:orderid
+            method: patch
+            body:
+            {
+                "orderStatus":"Cancelled"
+            }
+            response:
+            {
+                "status": "successful",
+                "data": {
+                    "order": {
+                        "orderid": 6,
+                        "orderdate": "2024-12-13T16:28:08.528Z",
+                        "totalamount": 500,
+                        "patientid": 1,
+                        "orderstatus": "Cancelled"
+                    }
+                }
+            }
+  
 5.offers
     5.1 allOffers
         endPoint: 127.0.0.1:3000/api/v1/offers/allOffers?specialization=Cardiologist&&fields=percentage,startDate,endDate&&order=-percentage
@@ -943,6 +1046,96 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         ]
     }
     }
+    9.3 add insuarnceProvider
+        endPoint:127.0.0.1:3000/api/v1/insurances/provider
+        method: post
+        body:
+        {
+            "providerName":"abdo elgen",
+            "providerLocation":"faisal",
+            "providerPhone":"0115621099"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "insuranceProvider": {
+                    "providerid": 5,
+                    "providername": "abdo elgen",
+                    "providerlocation": "faisal",
+                    "providerphone": "0115621099"
+                }
+            }
+        }
+    9.4 add insuarnce
+        endPoint: 127.0.0.1:3000/api/v1/insurances/:providerId
+        method: post
+        body:
+        {
+            "startDate":"2025-12-12",
+            "duration":"6 years 3 months 15 days",
+            "workspaceId":8 // which it covers
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "insurance": {
+                    "insuranceid": 12,
+                    "startdate": "2025-12-11T22:00:00.000Z",
+                    "duration": {
+                        "years": 6,
+                        "months": 3,
+                        "days": 15
+                    },
+                    "providerid": 6
+                }
+            }
+        }
+    9.5 update insuarnceProvider
+        endPoint:127.0.0.1:3000/api/v1/insurances/provider/:providerId
+        method : patch
+        body:
+        {
+            "providerPhone":"01014470187",
+            "providerName":"salah production updated"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedProvider": {
+                    "providerid": 6,
+                    "providername": "Salah production updated",
+                    "providerlocation": "elzawya",
+                    "providerphone": "01014470187"
+                }
+            }
+        }
+    9.6 update insuarnce
+        endPoint:127.0.0.1:3000/api/v1/insurances/:insuranceId
+        method : patch
+        body:
+        {
+            "startDate":"2026-12-12"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedInsurance": {
+                    "insuranceid": 11,
+                    "startdate": "2026-12-11T22:00:00.000Z",
+                    "duration": {
+                        "years": 6,
+                        "months": 3,
+                        "days": 15
+                    },
+                    "providerid": 6
+                }
+            }
+        }
+                
 
 10. reviews
     10.1 make review
