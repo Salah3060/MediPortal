@@ -24,6 +24,10 @@ import SingleProductPage from "@/Pages/SingleProductPage.jsx";
 import Search from "@/Pages/Search.jsx";
 import SingleDoctor from "@/Pages/SingleDoctor.jsx";
 import SingleOfferPage from "./Pages/SingleOfferPage.jsx";
+import DoctorDashboard from "./Pages/DoctorDashboard.jsx";
+import Workspaces from "./Components/DoctorDashboard/Workspaces.jsx";
+import Appointments from "./Components/DoctorDashboard/Appointments.jsx";
+import Stats from "./Components/DoctorDashboard/stats.jsx";
 
 const router = createBrowserRouter([
   {
@@ -101,6 +105,24 @@ const router = createBrowserRouter([
       {
         path: "offers/:offerid/",
         element: <SingleOfferPage />,
+      },
+      {
+        path: "doctor/:doctorid/",
+        element: <DoctorDashboard />,
+        children: [
+          {
+            path: "",
+            element: <Stats />,
+          },
+          {
+            path: "Workspaces/",
+            element: <Workspaces />,
+          },
+          {
+            path: "Appointments/",
+            element: <Appointments />,
+          },
+        ],
       },
     ],
   },

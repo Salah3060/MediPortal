@@ -8,8 +8,10 @@ import { clearUser, userSignup } from "../Store/Slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SuccessPopup from "../Components/Successpopup";
 import ErrorPopup from "../Components/ErrorPopup";
+import { useNavigate } from "react-router-dom";
 export default function Signup() {
   const dispath = useDispatch();
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
@@ -27,7 +29,12 @@ export default function Signup() {
   });
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
-  const { error: errorMsg, status } = useSelector((state) => state.user); // Select the necessary state
+  const {
+    error: errorMsg,
+    status,
+    userRole,
+    userId,
+  } = useSelector((state) => state.user); // Select the necessary state
   Loader;
   function fetchData() {
     const userData = {
@@ -49,11 +56,13 @@ export default function Signup() {
   useEffect(() => {
     if (status === "success") {
       const timer = setTimeout(() => {
-        history.back();
+        userRole === "Doctor"
+          ? navigate(`/MediPortal/doctor/${userId}/`)
+          : history.back();
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [status]);
+  }, [navigate, status, userId, userRole]);
   return (
     <div className="min-h-dvh">
       {

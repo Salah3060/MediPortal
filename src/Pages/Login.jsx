@@ -6,22 +6,30 @@ import Loader from "../Components/Loader";
 import SuccessPopup from "../Components/Successpopup";
 import LoginForm from "../Components/Login/LoginForm";
 import ErrorPopup from "../Components/ErrorPopup";
+import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [error, setError] = useState("");
   const dispath = useDispatch();
-  const { error: errorMsg, status } = useSelector((state) => state.user); // Select the necessary state
-
+  const {
+    error: errorMsg,
+    status,
+    userRole,
+    userId,
+  } = useSelector((state) => state.user); // Select the necessary state
+  const navigate = useNavigate();
   // use function login to login user
   useEffect(() => {
     if (status === "success") {
       const timer = setTimeout(() => {
-        history.back();
+        userRole === "Doctor"
+          ? navigate(`/MediPortal/doctor/${userId}/`)
+          : history.back();
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [status]);
+  }, [navigate, status, userId, userRole]);
   function handleSubmit(e) {
     e.preventDefault();
     if (!email) {
