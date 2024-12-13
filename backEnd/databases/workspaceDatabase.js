@@ -110,6 +110,9 @@ const retrieveAllWorkSpaces = async (fields, filters, orders, limit, page) => {
                   WorkspaceContacts wc ON wc.workSpaceId = w.workSpaceId                  
 
                 `;
+
+    if (filters) query += `where ${filters.join(" and ")}       `;
+
     query += `
                 group by 
                  w.workSpaceId,
