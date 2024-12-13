@@ -47,4 +47,77 @@ const retrieveAllInsurances = async (fields, filters, orders, limit, page) => {
   }
 };
 
-export { retrieveAllInsurances };
+const createInsuranceProvider = async (attributes) => {
+  try {
+    const query = `insert into InsurancesProviders(providerName,providerLocation,providerPhone)
+                  values($1,$2,$3) returning *`;
+    const provider = await pool.query(query, attributes);
+    if (provider.rowCount) return provider.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+const createInsurance = async (attributes, providerId, workspaceId) => {
+  try {
+    const query = `insert into Insurances(startDate, duration,providerId)
+                  values($1,$2,$3) returning *`;
+    const insurance = await pool.query(query, [...attributes, providerId]);
+    if (!insurance.rowCount) return false;
+    const secQuery = `insert into Coverage(insuranceId,workspaceId)
+                      values($1,$2) returning *`;
+    const res = await pool.query(secQuery, [
+      insurance.rows[0].insuranceid,
+      workspaceId,
+    ]);
+    return insurance.rows[0];
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+const updateInsurance = async (attributes, id) => {
+  let query = `update Insurances SET `;
+  let cnt = 0;
+  Object.entries(attributes).forEach(([k, v]) => {
+    if (cnt && v) query += " , ";
+    if (v) {
+      query += k + " = " + `$${++cnt}`;
+    }
+  });
+  query += ` where insuranceId = $${++cnt}
+    returning *`;
+  const readyAtt = Object.values(attributes).filter((val) => val);
+  const insurance = await pool.query(query, [...readyAtt, id]);
+
+  if (insurance.rowCount) return insurance.rows[0];
+  return false;
+};
+
+const updateInsuranceProvider = async (attributes, id) => {
+  let query = `update InsurancesProviders SET `;
+  let cnt = 0;
+  Object.entries(attributes).forEach(([k, v]) => {
+    if (cnt && v) query += " , ";
+    if (v) {
+      query += k + " = " + `$${++cnt}`;
+    }
+  });
+  query += ` where providerId = $${++cnt}
+    returning *`;
+  const readyAtt = Object.values(attributes).filter((val) => val);
+  const provider = await pool.query(query, [...readyAtt, id]);
+
+  if (provider.rowCount) return provider.rows[0];
+  return false;
+};
+
+export {
+  retrieveAllInsurances,
+  createInsuranceProvider,
+  createInsurance,
+  updateInsurance,
+  updateInsuranceProvider,
+};

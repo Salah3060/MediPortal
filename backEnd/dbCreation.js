@@ -181,10 +181,12 @@ const createInsuranceProvidersTable = `create table InsurancesProviders
     providerId int generated always as identity,
     providerName varchar(100) not null unique,
     providerLocation varchar(150) not null unique,
+    providerPhone varchar(100) not null unique,
     primary key (providerId)
 )
 `;
 const createInsuranceProviderContacts = `create table InsuranceProviderContacts
+--droped for simplicity
 (
     contactId int generated always as identity,
     providerPhone varchar(100) not null unique,

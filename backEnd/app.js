@@ -54,7 +54,7 @@ app.use("/api/v1/offers", offerRouter);
 app.use("/api/v1/appointments", appointmentRouter);
 app.use("/api/v1/questions", questionRouter);
 app.use("/api/v1/providers", providerRouter);
-app.use("/api/v1/insurancess", insuranceRouter);
+app.use("/api/v1/insurances", insuranceRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/orders", orderRouter);
 

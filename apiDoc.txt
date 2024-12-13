@@ -1046,6 +1046,96 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         ]
     }
     }
+    9.3 add insuarnceProvider
+        endPoint:127.0.0.1:3000/api/v1/insurances/provider
+        method: post
+        body:
+        {
+            "providerName":"abdo elgen",
+            "providerLocation":"faisal",
+            "providerPhone":"0115621099"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "insuranceProvider": {
+                    "providerid": 5,
+                    "providername": "abdo elgen",
+                    "providerlocation": "faisal",
+                    "providerphone": "0115621099"
+                }
+            }
+        }
+    9.4 add insuarnce
+        endPoint: 127.0.0.1:3000/api/v1/insurances/:providerId
+        method: post
+        body:
+        {
+            "startDate":"2025-12-12",
+            "duration":"6 years 3 months 15 days",
+            "workspaceId":8 // which it covers
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "insurance": {
+                    "insuranceid": 12,
+                    "startdate": "2025-12-11T22:00:00.000Z",
+                    "duration": {
+                        "years": 6,
+                        "months": 3,
+                        "days": 15
+                    },
+                    "providerid": 6
+                }
+            }
+        }
+    9.5 update insuarnceProvider
+        endPoint:127.0.0.1:3000/api/v1/insurances/provider/:providerId
+        method : patch
+        body:
+        {
+            "providerPhone":"01014470187",
+            "providerName":"salah production updated"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedProvider": {
+                    "providerid": 6,
+                    "providername": "Salah production updated",
+                    "providerlocation": "elzawya",
+                    "providerphone": "01014470187"
+                }
+            }
+        }
+    9.6 update insuarnce
+        endPoint:127.0.0.1:3000/api/v1/insurances/:insuranceId
+        method : patch
+        body:
+        {
+            "startDate":"2026-12-12"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedInsurance": {
+                    "insuranceid": 11,
+                    "startdate": "2026-12-11T22:00:00.000Z",
+                    "duration": {
+                        "years": 6,
+                        "months": 3,
+                        "days": 15
+                    },
+                    "providerid": 6
+                }
+            }
+        }
+                
 
 10. reviews
     10.1 make review
