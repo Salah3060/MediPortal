@@ -8,6 +8,7 @@ import { tokens } from "./theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { PiHospitalBold } from "react-icons/pi";
+import { FaRegClock } from "react-icons/fa";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -127,6 +128,13 @@ const Sidebar = ({ name, spec }) => {
               title="Manage Workspaces"
               to="./Workspaces"
               icon={<PiHospitalBold />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Appointments"
+              to="./Appointments"
+              icon={<FaRegClock />}
               selected={selected}
               setSelected={setSelected}
             />

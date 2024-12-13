@@ -16,7 +16,7 @@ export default function Login() {
     error: errorMsg,
     status,
     userRole,
-    userId,
+    userid,
   } = useSelector((state) => state.user); // Select the necessary state
   const navigate = useNavigate();
   // use function login to login user
@@ -24,12 +24,12 @@ export default function Login() {
     if (status === "success") {
       const timer = setTimeout(() => {
         userRole === "Doctor"
-          ? navigate(`/MediPortal/doctor/${userId}/`)
+          ? navigate(`/MediPortal/doctor/${userid}/`)
           : history.back();
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [navigate, status, userId, userRole]);
+  }, [navigate, status, userid, userRole]);
   function handleSubmit(e) {
     e.preventDefault();
     if (!email) {

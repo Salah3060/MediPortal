@@ -30,7 +30,7 @@ export default function DoctorDashboard() {
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <div className="flex relative min-h-lvh">
-              <Sidebar name={doctor?.firstname} spec={doctor?.specialization} />
+              <Sidebar name={doctor?.firstname} spec={doctor?.specialization} id={doctorid} />
               <main className="w-full h-full">
                 <Topbar />
                 <Outlet />

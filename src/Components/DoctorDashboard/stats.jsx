@@ -1,3 +1,5 @@
+import Header from "./header";
+
 export default function Stats() {
-  return <div className="text-4xl">hOOOOOOOME</div>;
+  return <Header title="Dashboard" subtitle="Welcome to your dashboard" />;
 }

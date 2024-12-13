@@ -28,3 +28,34 @@ export const getAllAppointments = async (patientId) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+
+export const getAllDoctorAppointments = async (doctorId) => {
+  try {
+    const response = await axiosInstance.get(
+      `/appointments/allAppointments?a.doctorId=${doctorId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
+export const ChangeAppointmentStatus = async (id, status) => {
+  try {
+    const response = await axiosInstance.patch(`/appointments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+      body: {
+        appointmentStatus: status ? "Successful" : "Cancelled",
+      },
+    });
+    return response;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
