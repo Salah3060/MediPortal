@@ -27,17 +27,15 @@ const retrieveAllAppointments = async (
                   a.patientId ,
                   up.firstName as patientFirstName , 
                   up.lastName as patientlastName,
-                  a.workspaceId ,
-                  w.workspaceName,
-                  w.workspaceType 
-
+                  a.locationId,
+                  wl.workspaceId
                   `;
     query += `
                   from Appointments a 
                   join doctors d on d.doctorId = a.doctorId
-                  join workspaces w on w.workspaceId =  a.workspaceId 
                   join Users  ud  on ud.userId = a.doctorId 
                   join Users  up on up.userId = a.patientId
+                  left join WorkspaceLocations wl on wl.locationId = a.locationId
                   `;
     if (filters) query += `where ${filters.join(" and ")}       `;
     if (orders) query += `order by ${orders.join(" , ")}       `;
