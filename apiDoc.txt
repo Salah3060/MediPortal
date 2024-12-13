@@ -943,3 +943,50 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         ]
     }
     }
+
+10. reviews
+    10.1 make review
+        endPoint: 127.0.0.1:3000/api/v1/reviews/:doctorId
+        method: post
+        body:
+        {
+            "rate":"4",
+            "review":"not that bad actually",
+            "waitingTime":"15"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "reviewRes": {
+                    "doctorid": 6,
+                    "patientid": 120,
+                    "rate": 4,
+                    "review": "not that bad actually",
+                    "reviewdate": "2024-12-13T12:42:59.815Z",
+                    "waitingtime": 15
+                }
+            }
+        }
+    10.2 update review
+        endPoint:127.0.0.1:3000/api/v1/reviews/:doctorId
+        method: patch
+        body:
+        {
+            "review":"super doper",
+            "rate":"5"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedReview": {
+                    "doctorid": 6,
+                    "patientid": 120,
+                    "rate": 5,
+                    "review": "super doper",
+                    "reviewdate": "2024-12-13T12:42:59.815Z",
+                    "waitingtime": 15
+                }
+            }
+        }
