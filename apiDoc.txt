@@ -689,6 +689,60 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         }
 
 
+7.4 getAppointments 
+    endPoint:127.0.0.1:3000/api/v1/appointments/allAppointments?a.doctorId=6&&appointmentStatus=Confirmed
+    method:get 
+    const validAttributes = [
+    "appointmentId",
+    "appointmentDate",
+    "appointmentStatus",
+    "a.fees",
+    "bookingDate",
+    "paymentStatus",
+    "specialization",
+    "a.doctorId",
+    "ud.firstName", // for doctor firstName
+    "ud.lastName", // for doctor lastName
+    "a.patientId",
+    "up.firstName", // for patient name
+    "up.lastName", // for patient name
+    "a.workspaceId",
+    "a.locationId",
+    "wl.workspaceId",
+    ]; 
+
+    body:
+    {
+
+    }
+    response:
+    {
+        "status": "succes",
+        "ok": true,
+        data:
+        {
+            "Appointments": 
+            [
+            {
+                "appointmentid": 50,
+                "appointmentdate": "2024-12-18T22:00:00.000Z",
+                "appointmentstatus": "Successful",
+                "fees": 450,
+                "bookingdate": "2024-12-13T12:22:58.844Z",
+                "paymentstatus": "Cash",
+                "doctorid": 7,
+                "doctorfirstname": "Emily",
+                "doctorlastname": "Clark",
+                "specialization": "Dentist",
+                "patientid": 1,
+                "patientfirstname": "John",
+                "patientlastname": "Doe",
+                "locationid": 11,
+                "workspaceid": 9
+            }
+           ]
+        }
+    }
 8.Question 
     8.1 getAllQuestion 
     endPoint:127.0.0.1:3000/api/v1/questions/allQuestions?doctorId=7

@@ -26,15 +26,15 @@ const validAttributes = [
   "bookingDate",
   "paymentStatus",
   "specialization",
-  "a.workspaceId",
-  "workspaceName",
-  "workspaceType",
   "a.doctorId",
   "ud.firstName", // for doctor firstName
   "ud.lastName", // for doctor lastName
   "a.patientId",
   "up.firstName", // for patient name
   "up.lastName", // for patient name
+  "a.workspaceId",
+  "a.locationId",
+  "wl.workspaceId",
 ];
 
 const getAllAppointments = catchAsyncError(async (req, res, next) => {
