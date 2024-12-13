@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { formatDate } from "../../Utils/functions.util";
 import {
   ChangeAppointmentStatus,
   getAllDoctorAppointments,
@@ -9,7 +10,6 @@ export const fetchAllAppointments = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const appointments = await getAllDoctorAppointments(id);
-      console.log(appointments);
       return appointments.data.Appointments;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -18,10 +18,18 @@ export const fetchAllAppointments = createAsyncThunk(
 );
 export const changeAppointment = createAsyncThunk(
   "Appointments/ChangeAppointmentStatus",
-  async (id, status, thunkAPI) => {
+  async ({ id, status, docid }, thunkAPI) => {
     try {
-      const response = await ChangeAppointmentStatus(id, status);
-      return response.status === "successful";
+      const promises = id.map(async (el) => {
+        const response = await ChangeAppointmentStatus(el, status);
+        response === "successful";
+      });
+      const results = await Promise.all(promises);
+      const allSuccessful = results.every((result) => result === true);
+
+      await thunkAPI.dispatch(fetchAllAppointments(docid));
+
+      return allSuccessful;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
@@ -43,15 +51,29 @@ const AppointmentsSlice = createSlice({
       })
       .addCase(fetchAllAppointments.fulfilled, (state, action) => {
         const data = action.payload.map((el) => {
-          ({
-            id: el.appointmentid,
+          return {
             ...el,
-          });
+            name: el.patientfirstname + " " + el.patientlastname,
+            id: el.appointmentid,
+            bookingdate: formatDate(el.bookingdate),
+            appointmentdate: formatDate(el.appointmentdate),
+          };
         });
         state.Appointments = data;
         state.loading = false;
       })
       .addCase(fetchAllAppointments.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(changeAppointment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changeAppointment.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(changeAppointment.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       });

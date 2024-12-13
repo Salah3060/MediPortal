@@ -46,14 +46,17 @@ export const getAllDoctorAppointments = async (doctorId) => {
 };
 export const ChangeAppointmentStatus = async (id, status) => {
   try {
-    const response = await axiosInstance.patch(`/appointments/${id}`, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get("token")}`,
+    const response = await axiosInstance.patch(
+      `/appointments/${id}`,
+      {
+        appointmentStatus: status === 1 ? "Completed" : "Cancelled",
       },
-      body: {
-        appointmentStatus: status ? "Successful" : "Cancelled",
-      },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
