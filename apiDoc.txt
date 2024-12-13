@@ -957,7 +957,7 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             }
         }
     8.3 answer Question -restricted to doctors only-
-        endPoint:127.0.0.1:3000/api/v1/questions/:doctorId
+        endPoint:127.0.0.1:3000/api/v1/questions/answer/:doctorId
         method:patch
         body:
         {
@@ -976,6 +976,31 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                     "questiondate": "2024-12-07T14:30:00.374Z",
                     "answerdate": "2024-12-07T15:01:37.522Z",
                     "doctorid": 104,
+                    "age": 20,
+                    "gender": "Male"
+                }
+            }
+        }
+    8.4 update Question
+        endPoint :127.0.0.1:3000/api/v1/questions/:questionId
+        method : patch
+        body:
+        {
+            "speciality":"dentistry"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedQuestion": {
+                    "questionid": 30,
+                    "patientid": 1,
+                    "speciality": "Dentistry",
+                    "question": "r u kiddin' me ?",
+                    "answer": null,
+                    "questiondate": "2024-12-13T21:00:00.186Z",
+                    "answerdate": null,
+                    "doctorid": null,
                     "age": 20,
                     "gender": "Male"
                 }

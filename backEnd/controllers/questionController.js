@@ -10,6 +10,7 @@ import {
   retrieveAllQuestions,
   createQuestion,
   answerQuestionDb,
+  updateQuestion,
 } from "../databases/questionDatabase.js";
 import validator from "validator";
 
@@ -120,4 +121,31 @@ const answerQuestion = catchAsyncError(async (req, res, next) => {
   });
 });
 
-export { getAllQuestion, askQuestion, answerQuestion };
+const editQuestion = catchAsyncError(async (req, res, next) => {
+  let { gender, age, speciality, question } = req.body;
+
+  const questionId = req.params.id;
+
+  speciality = speciality ? formatString(speciality) : null;
+  gender = gender ? formatString(gender) : null;
+  question = question ? question.trim() : null;
+
+  let toBeEdited = {};
+  toBeEdited.gender = gender;
+  toBeEdited.age = age;
+  toBeEdited.speciality = speciality;
+  toBeEdited.question = question;
+
+  const updatedQuestion = await updateQuestion(toBeEdited, questionId);
+  if (updatedQuestion.severity === "ERROR") {
+    return next(new AppError("Something went wrong", 400));
+  }
+  res.status(200).json({
+    status: "successful",
+    data: {
+      updatedQuestion,
+    },
+  });
+});
+
+export { getAllQuestion, askQuestion, answerQuestion, editQuestion };

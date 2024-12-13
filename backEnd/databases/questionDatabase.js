@@ -66,4 +66,33 @@ const answerQuestionDb = async (attributes) => {
     return error;
   }
 };
-export { retrieveAllQuestions, createQuestion, answerQuestionDb };
+
+const updateQuestion = async (attributes, questionId) => {
+  try {
+    let query = `update Questions set `;
+    let cnt = 0;
+    Object.entries(attributes).forEach(([k, v]) => {
+      if (cnt && v) query += " , ";
+      if (v) {
+        query += k + " = " + `$${++cnt}`;
+      }
+    });
+
+    query += ` where questionId = $${++cnt}
+              returning *;`;
+    const readyAtt = Object.values(attributes).filter((val) => val);
+    const question = await pool.query(query, [...readyAtt, questionId]);
+    if (question.rowCount) return question.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export {
+  retrieveAllQuestions,
+  createQuestion,
+  answerQuestionDb,
+  updateQuestion,
+};
