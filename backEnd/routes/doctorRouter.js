@@ -13,9 +13,11 @@ const router = express.Router();
 
 router.get("/allDoctors", getAllDoctors);
 router.get("/:id", getDoctor);
-router.get("/patients/:id", doctorPatients);
 
 router.use(validateLoggedIn);
+
+router.get("/patients/:id", restrictTo("Admin", "Doctor"), doctorPatients);
+
 // doctor-side update
 router.patch("/updateMe", updateUser("Doctor"));
 // admin-side update

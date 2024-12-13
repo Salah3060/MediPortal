@@ -5,13 +5,13 @@ import {
   getCheckoutSession,
   editAppointment,
 } from "../controllers/appointmentController.js";
-import { validateLoggedIn } from "../controllers/authController.js";
+import { validateLoggedIn, restrictTo } from "../controllers/authController.js";
 
 const router = express.Router();
 
+router.use(validateLoggedIn);
 router.get("/allAppointments", getAllAppointments);
 
-router.use(validateLoggedIn);
 router.get("/checkout-session/:id", getCheckoutSession);
 router.post("/:id/:secId", bookAppointment);
 router.patch("/:id", editAppointment);

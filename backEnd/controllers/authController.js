@@ -36,16 +36,19 @@ const sendAndSignToken = async (user, res) => {
 
 const logInController = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
     if (!email || !password)
       return next(new AppError("Invalid email or password", 400));
 
-    const user = await logInDb(email, password);
-    if (!user) {
+    const user = await logInDb(email);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return next(new AppError("No User valid for this data", 404));
     }
-
+    if (user.userstate != "Active") {
+      return next(new AppError("Sorry , this user is blocked", 401));
+    }
     delete user.password;
+    console.log(user);
     sendAndSignToken(user, res);
   } catch (error) {
     console.log(error);
@@ -185,7 +188,7 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
     return next(
       new AppError("Protected Path , Plesase login to get access", 401)
     );
-  const user = await logInDb(undefined, undefined, id);
+  const user = await logInDb(undefined, id);
   if (!user) new AppError("Protected Path , Plesase login to get access", 401);
   req.user = user;
   next();

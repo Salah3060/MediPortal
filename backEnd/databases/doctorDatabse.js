@@ -167,6 +167,8 @@ const reteieveDoctorPatients = async (id) => {
     from 
       Appointments a  
       join Users u ON u.userId= a.patientId
+    
+      where a.doctorId=$1
     group by 
       a.doctorId , 
       a.patientId ,
@@ -177,7 +179,7 @@ const reteieveDoctorPatients = async (id) => {
       u.birthDate      
 
     `;
-    const res = await pool.query(query);
+    const res = await pool.query(query, [id]);
     return res.rows;
   } catch (error) {
     console.log(error);
