@@ -36,7 +36,7 @@ const sendAndSignToken = async (user, res) => {
 
 const logInController = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
     if (!email || !password)
       return next(new AppError("Invalid email or password", 400));
 

@@ -66,6 +66,7 @@ const getAllDoctors = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     status: "succes",
     ok: true,
+    length: doctors.length,
     data: { doctors },
   });
 });
@@ -83,12 +84,12 @@ const getDoctor = catchAsyncError(async (req, res, next) => {
 });
 const doctorPatients = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
-  const stats = await reteieveDoctorPatients(id);
+  const pateints = await reteieveDoctorPatients(id);
 
   res.status(200).json({
     status: "success",
     ok: true,
-    data: { stats },
+    data: { pateints },
   });
 });
 export { getAllDoctors, getDoctor, doctorPatients };

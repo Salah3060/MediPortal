@@ -79,6 +79,7 @@ const getAllAppointments = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     status: "succes",
     ok: true,
+    length: Appointments.length,
     data: { Appointments },
   });
 });
