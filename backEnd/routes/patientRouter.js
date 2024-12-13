@@ -7,9 +7,9 @@ import {
 } from "../controllers/authController.js";
 
 const router = express.Router();
-router.get("/allPatients", getAllPatients);
 
 router.use(validateLoggedIn);
+router.get("/allPatients", restrictTo("Admin", "Doctor"), getAllPatients);
 
 // doctor-side update
 router.patch("/updateMe", updateUser("Patient"));
