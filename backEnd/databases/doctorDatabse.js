@@ -87,25 +87,14 @@ const retrieveDoctor = async (id) => {
       d.fees,
       JSON_AGG(
         JSON_BUILD_OBJECT(
-          'workspaceId', da.workspaceId,
-          'workingDay', da.workingDay,
-          'startTime', da.startTime,
-          'endTime', da.endTime,
-          'locations', (
-            SELECT 
-              JSON_AGG(
-                JSON_BUILD_OBJECT(
-                  'locationId', l.locationId,
-                  'workspacesLocation',  workspacesLocation
-                )
-              )
-            FROM 
-              WorkspaceLocations l
-            WHERE 
-              l.workspaceId = da.workspaceId 
-          )
+          'locationId',da.locationId,
+           'startTime',da.startTime,
+           'endTime',da.endTime ,
+           'workingDay',workingDay,
+           'workSpaceId',da.workspaceId , 
+           'location', (select workspacesLocation  from WorkspaceLocations wl where wl.locationId =da.locationId limit 1 )
         )
-      ) AS availability, 
+      ) as availibility , 
       JSON_AGG(
         JSON_BUILD_OBJECT(
           'rate', r.rate,

@@ -27,10 +27,9 @@ const retrieveAllAppointments = async (
                   a.patientId ,
                   up.firstName as patientFirstName , 
                   up.lastName as patientlastName,
-                  a.workspaceId ,
+                  l.locationId ,
                   w.workspaceName,
                   w.workspaceType 
-
                   `;
     query += `
                   from Appointments a 
