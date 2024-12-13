@@ -17,6 +17,7 @@ import questionRouter from "./routes/questionRouter.js";
 import providerRouter from "./routes/providerRouter.js";
 import insuranceRouter from "./routes/insuranceRouter.js";
 import reviewRouter from "./routes/reviewRouter.js";
+import orderRouter from "./routes/orderRouter.js";
 import pkg from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import { AppError, globalErrorHandler } from "./utilities.js";
@@ -55,6 +56,7 @@ app.use("/api/v1/questions", questionRouter);
 app.use("/api/v1/providers", providerRouter);
 app.use("/api/v1/insurancess", insuranceRouter);
 app.use("/api/v1/reviews", reviewRouter);
+app.use("/api/v1/orders", orderRouter);
 
 app.use("/", (req, res, next) =>
   next(new AppError("No such Route Founded....", 404))

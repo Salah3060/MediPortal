@@ -10,6 +10,7 @@ import {
 import {
   retrieveAllProducts,
   createProduct,
+  updateProduct,
 } from "../databases/productDatabase.js";
 import validator from "validator";
 
@@ -83,6 +84,7 @@ const addProduct = catchAsyncError(async (req, res, next) => {
     productExpiryDate,
     productCategory,
     manufacture,
+    activeIngredient,
   } = req.body;
   if (
     !productName ||
@@ -91,7 +93,8 @@ const addProduct = catchAsyncError(async (req, res, next) => {
     !productDescription ||
     !productExpiryDate ||
     !productCategory ||
-    !manufacture
+    !manufacture ||
+    !activeIngredient
   ) {
     return next(new AppError("Missing data", 400));
   }
@@ -101,6 +104,9 @@ const addProduct = catchAsyncError(async (req, res, next) => {
   productDescription = productDescription.trim();
   productExpiryDate = productExpiryDate.trim();
   manufacture = formatString(manufacture);
+  activeIngredient.forEach((ing) => {
+    ing = formatString(ing);
+  });
 
   if (!validator.isNumeric(productPrice)) {
     return next(new AppError("Price must be a number", 400));
@@ -117,7 +123,7 @@ const addProduct = catchAsyncError(async (req, res, next) => {
     productCategory,
     manufacture,
   ];
-  const product = await createProduct(attributes);
+  const product = await createProduct(attributes, activeIngredient);
   if (product.severity === "ERROR") {
     return next(
       new AppError("something went wrong with adding a new product", 400)
@@ -128,4 +134,50 @@ const addProduct = catchAsyncError(async (req, res, next) => {
     data: { product },
   });
 });
-export { getAllProducts, addProduct };
+
+const editProduct = catchAsyncError(async (req, res, next) => {
+  let {
+    productName,
+    productPrice,
+    productStackQuantity,
+    productDescription,
+    productExpiryDate,
+    productCategory,
+    manufacture,
+  } = req.body;
+  const productId = req.params.id;
+  productName = productName ? formatString(productName) : null;
+  productCategory = productCategory ? formatString(productCategory) : null;
+  productPrice = productPrice ? productPrice.trim() : null;
+  productDescription = productDescription ? productDescription.trim() : null;
+  productExpiryDate = productExpiryDate ? productExpiryDate.trim() : null;
+  manufacture = manufacture ? formatString(manufacture) : null;
+
+  if (productPrice && !validator.isNumeric(productPrice)) {
+    return next(new AppError("Price must be a number", 400));
+  }
+  if (productStackQuantity && !validator.isNumeric(productStackQuantity)) {
+    return next(new AppError("Quantity must be an integer", 400));
+  }
+  let toBeEdited = {};
+  toBeEdited.productName = productName;
+  toBeEdited.productCategory = productCategory;
+  toBeEdited.productPrice = productPrice;
+  toBeEdited.productDescription = productDescription;
+  toBeEdited.productExpiryDate = productExpiryDate;
+  toBeEdited.manufacture = manufacture;
+  if (!Object.values(toBeEdited).filter((v) => v).length)
+    return next(new AppError("Specify at least one attribute to update"));
+
+  const updatedProduct = await updateProduct(toBeEdited, productId);
+  if (updatedProduct.status === "fail" || updatedProduct.severity === "ERROR") {
+    return next(new AppError(updatedProduct.message || "something went wrong"));
+  }
+  res.status(200).json({
+    status: "successful",
+    data: {
+      updatedProduct,
+    },
+  });
+});
+export { getAllProducts, addProduct, editProduct };

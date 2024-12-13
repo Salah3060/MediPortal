@@ -64,8 +64,10 @@ const createOrdersTable = `create table Orders
 (
     orderId INT generated always as identity (start with 1 increment by 1),
     orderDate timestamp , 
+    patientId int ,
     totalAmount float ,
-    primary KEY (orderId)
+    primary KEY (orderId),
+    FOREIGN KEY (patientId) references patients(patientId) on delete cascade
 )
 `;
 const createOrderProductRelationTable = `create table OrderProductRelation
