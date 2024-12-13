@@ -68,8 +68,8 @@ const updateUserDb = async (toBeEdited, specificAtt, role, id) => {
     }
     let query = `update Users SET `;
     let cnt = 0;
-    toBeEdited.updatedAt = toBeEdited.updatedAt
-      ? new Date(new Date(toBeEdited.updatedAt).toISOString())
+    toBeEdited.updatedat = toBeEdited.updatedat
+      ? new Date(new Date(toBeEdited.updatedat).toISOString())
       : null;
     Object.entries(toBeEdited).forEach(([k, v]) => {
       if (cnt && v) query += " , ";

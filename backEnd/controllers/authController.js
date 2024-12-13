@@ -229,41 +229,41 @@ const updateUser = (role) => {
       }
 
       let {
-        firstName,
-        lastName,
-        phoneNumber,
+        firstname,
+        lastname,
+        phonenumber,
         email,
         gender,
         // wallet,
-        birthDate,
-        userState,
+        birthdate,
+        userstate,
         // patient
-        bloodType,
-        chronicDisease,
+        bloodtype,
+        chronicdisease,
         // doctor
-        licenseNumber,
-        yearsOfExperience,
+        licensenumber,
+        yearsofexperience,
         about,
         specialization,
       } = req.body;
       // preparing attributes
-      firstName = firstName ? formatString(firstName) : null;
-      lastName = lastName ? formatString(lastName) : null;
+      firstname = firstname ? formatString(firstname) : null;
+      lastname = lastname ? formatString(lastname) : null;
       gender = gender ? formatString(gender) : null;
-      phoneNumber = phoneNumber ? phoneNumber.replaceAll(" ", "") : null; //removing all spaces
+      phonenumber = phonenumber ? phonenumber.replaceAll(" ", "") : null; //removing all spaces
       email = email ? email.trim() : null;
       // wallet = wallet ? wallet.trim() : null;
-      birthDate = birthDate ? birthDate.trim() : null;
-      userState = userState ? formatString(userState) : null;
+      birthdate = birthdate ? birthdate.trim() : null;
+      userstate = userstate ? formatString(userstate) : null;
       // validating attributes (needs to be factorized later)
-      if (userState && user.userrole !== "Admin") {
+      if (userstate && user.userrole !== "Admin") {
         return next(
           new AppError("you are not allowed as a user to update the state")
         );
       }
       if (
-        (firstName && !validator.isAlpha(firstName)) ||
-        (lastName && !validator.isAlpha(lastName))
+        (firstname && !validator.isAlpha(firstname)) ||
+        (lastname && !validator.isAlpha(lastname))
       ) {
         return next(new AppError("please provide a valide name", 400));
       }
@@ -273,23 +273,23 @@ const updateUser = (role) => {
       }
 
       if (
-        phoneNumber &&
+        phonenumber &&
         (!(
-          phoneNumber.length === 11 ||
-          phoneNumber.length === 13 ||
-          phoneNumber.length === 14
+          phonenumber.length === 11 ||
+          phonenumber.length === 13 ||
+          phonenumber.length === 14
         ) ||
           !(
-            phoneNumber.startsWith("01") ||
-            phoneNumber.startsWith("+2") ||
-            phoneNumber.startsWith("002")
+            phonenumber.startsWith("01") ||
+            phonenumber.startsWith("+2") ||
+            phonenumber.startsWith("002")
           ))
       ) {
         return next(new AppError("Please provide a valid phone number", 400));
       }
 
-      if (birthDate && new Date(birthDate) > Date.now()) {
-        return next(new AppError("Please provide a valid birthDate", 400));
+      if (birthdate && new Date(birthdate) > Date.now()) {
+        return next(new AppError("Please provide a valid birthdate", 400));
       }
 
       if (gender && !(gender === "Male" || gender === "Female")) {
@@ -297,40 +297,40 @@ const updateUser = (role) => {
       }
       // sending attributes
       let toBeEdited = {};
-      toBeEdited.firstName = firstName;
-      toBeEdited.lastName = lastName;
-      toBeEdited.phoneNumber = phoneNumber;
+      toBeEdited.firstname = firstname;
+      toBeEdited.lastname = lastname;
+      toBeEdited.phonenumber = phonenumber;
       toBeEdited.email = email;
       toBeEdited.gender = gender;
       // toBeEdited.wallet = wallet;
-      toBeEdited.birthDate = birthDate;
-      toBeEdited.updatedAt = Date.now();
-      toBeEdited.userState = userState;
+      toBeEdited.birthdate = birthdate;
+      toBeEdited.updatedat = Date.now();
+      toBeEdited.userstate = userstate;
 
       // preparing patient attributes
-      bloodType = bloodType ? formatString(bloodType) : null;
-      chronicDisease = chronicDisease ? chronicDisease.trim() : null;
+      bloodtype = bloodtype ? formatString(bloodtype) : null;
+      chronicdisease = chronicdisease ? chronicdisease.trim() : null;
       // preparing doctor attributes
-      licenseNumber = licenseNumber ? licenseNumber.trim() : null;
-      yearsOfExperience = yearsOfExperience ? yearsOfExperience.trim() : null;
+      licensenumber = licensenumber ? licensenumber.trim() : null;
+      yearsofexperience = yearsofexperience ? yearsofexperience.trim() : null;
       about = about ? about.trim() : null;
       specialization = specialization ? formatString(specialization) : null;
 
       // validating spacific attributes
-      if (licenseNumber && !validator.isNumeric(licenseNumber)) {
+      if (licensenumber && !validator.isNumeric(licensenumber)) {
         return next(new AppError("License number must be numbers!", 400));
       }
-      if (yearsOfExperience && !validator.isNumeric(yearsOfExperience)) {
+      if (yearsofexperience && !validator.isNumeric(yearsofexperience)) {
         return next(new AppError("Years of experience must be numbers!", 400));
       }
 
       let specificAtt = {};
       if (role === "Patient") {
-        specificAtt.bloodType = bloodType;
-        specificAtt.chronicDisease = chronicDisease;
+        specificAtt.bloodtype = bloodtype;
+        specificAtt.chronicdisease = chronicdisease;
       } else if (role === "Doctor") {
-        specificAtt.licenseNumber = licenseNumber;
-        specificAtt.yearsOfExperience = yearsOfExperience;
+        specificAtt.licensenumber = licensenumber;
+        specificAtt.yearsofexperience = yearsofexperience;
         specificAtt.about = about;
         specificAtt.specialization = specialization;
       } else {
