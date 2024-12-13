@@ -3,6 +3,7 @@ import {
   getAllDoctors,
   getDoctor,
   doctorPatients,
+  addAvailability,
 } from "../controllers/doctorController.js";
 import {
   validateLoggedIn,
@@ -18,6 +19,7 @@ router.use(validateLoggedIn);
 
 router.get("/patients/:id", restrictTo("Admin", "Doctor"), doctorPatients);
 
+router.post("/availability/:id", addAvailability);
 // doctor-side update
 router.patch("/updateMe", updateUser("Doctor"));
 // admin-side update

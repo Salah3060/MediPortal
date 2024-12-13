@@ -3,6 +3,7 @@ import {
   retrieveAllDoctors,
   retrieveDoctor,
   reteieveDoctorPatients,
+  createAvailability,
 } from "../databases/doctorDatabse.js";
 import {
   AppError,
@@ -92,4 +93,28 @@ const doctorPatients = catchAsyncError(async (req, res, next) => {
     data: { pateints },
   });
 });
-export { getAllDoctors, getDoctor, doctorPatients };
+
+const addAvailability = catchAsyncError(async (req, res, next) => {
+  let { workingDay, startTime, endTime, locationId } = req.body;
+  const doctor = req.user;
+  const workspaceId = req.params.id;
+  if (!workingDay || !startTime || !endTime || !locationId)
+    return next(new AppError("Missing data", 400));
+  workingDay = formatString(workingDay);
+
+  let attributes = [workingDay, startTime, endTime, locationId];
+
+  const Availability = await createAvailability(
+    attributes,
+    doctor.userid,
+    workspaceId
+  );
+  if (Availability.status === "fail" || Availability.severity === "ERROR") {
+    return next(new AppError(Availability.message || "something went wrong"));
+  }
+  res.status(200).json({
+    status: "successful",
+    data: { Availability },
+  });
+});
+export { getAllDoctors, getDoctor, doctorPatients, addAvailability };

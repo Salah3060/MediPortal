@@ -186,4 +186,26 @@ const reteieveDoctorPatients = async (id) => {
   }
 };
 
-export { retrieveAllDoctors, retrieveDoctor, reteieveDoctorPatients };
+const createAvailability = async (attributes, doctorId, workspaceId) => {
+  try {
+    const query = `insert into DoctorAvailability(workingDay, startTime, endTime,locationId,workspaceId,doctorId )
+                  values($1,$2,$3,$4,$5,$6) returning *`;
+    const availability = await pool.query(query, [
+      ...attributes,
+      workspaceId,
+      doctorId,
+    ]);
+    if (availability.rowCount) return availability.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export {
+  retrieveAllDoctors,
+  retrieveDoctor,
+  reteieveDoctorPatients,
+  createAvailability,
+};

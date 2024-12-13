@@ -11,12 +11,15 @@ const createWorkspaceDb = async (name, type, phone, location) => {
     const secQuery = `insert into WorkspaceContacts(workspacePhone , workspaceId)
                     values ($1 , $2)`;
     const thrdQuery = `insert into WorkspaceLocations(workspacesLocation, workspaceId)
-                      values ($1 , $2)`;
+                      values ($1 , $2) returning *`;
     await pool.query(secQuery, [phone, workspace.rows[0].workspaceid]);
-    await pool.query(thrdQuery, [location, workspace.rows[0].workspaceid]);
+    const locs = await pool.query(thrdQuery, [
+      location,
+      workspace.rows[0].workspaceid,
+    ]);
     workspace.rows[0].workspacephone = phone;
     workspace.rows[0].workspaceLocation = location;
-
+    workspace.rows[0].locationid = locs.rows[0].locationid;
     if (workspace.rowCount) return workspace.rows[0];
     return false;
   } catch (error) {

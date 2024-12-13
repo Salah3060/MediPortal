@@ -187,8 +187,33 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                         "birthdate": "1985-09-24T21:00:00.000Z"
                     },
                 ]   
+                }
         }
-    
+    3.6 add doctor availability
+        endPoint:127.0.0.1:3000/api/v1/doctors/availability/:workspaceId
+        method: post
+        body:
+        {
+            "workingDay":"saturday",
+            "startTime":"13:00:00",
+            "endTime":"14:00:00",
+            "locationId":"9"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "Availability": {
+                    "workingday": "Saturday",
+                    "starttime": "13:00:00",
+                    "endtime": "14:00:00",
+                    "doctorid": 7,
+                    "workspaceid": 13,
+                    "locationid": 9
+                }
+            }
+        }
+            
  3.Patients   
      3.1 getAllPatient
     endPoint: 127.0.0.1:3000/api/v1/patients/allPatients?gender=Male&&order=firstName&&fields=firstName,lastName
@@ -584,9 +609,9 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         method : post
         body :
         {
-            "workspaceName":"8th of october",
+            "workspaceName":"8th of october 2",
             "workspaceType":"clIniC",
-            "workspacePhone":"0235441235",
+            "workspacePhone":"0235441236",
             "workspaceLocation": "242 Corniche Roshdy, ROUSHDY Alexandria"
         }
         response:
@@ -594,11 +619,12 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             "status": "success",
             "data": {
                 "workspace": {
-                    "workspaceid": 10,
-                    "workspacename": "8th of october",
+                    "workspaceid": 21,
+                    "workspacename": "8th of october 2",
                     "workspacetype": "Clinic",
-                    "workspacephone": "0235441235",
-                    "workspaceLocation": "242 Corniche Roshdy, ROUSHDY Alexandria"
+                    "workspacephone": "0235441236",
+                    "workspaceLocation": "242 Corniche Roshdy, ROUSHDY Alexandria",
+                    "locationid": 14
                 }
             }
         }
