@@ -203,10 +203,24 @@ const createAvailability = async (attributes, doctorId, workspaceId) => {
     return error;
   }
 };
+const deleteAvailability = async (attributes) => {
+  try {
+    const query = `delete from DoctorAvailability
+                where workingDay=$1 and startTime=$2 and doctorId=$3 and workspaceId =$4`;
+    const res = await pool.query(query, attributes);
+    console.log(res);
+
+    return res.rowCount;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
 export {
   retrieveAllDoctors,
   retrieveDoctor,
   reteieveDoctorPatients,
   createAvailability,
+  deleteAvailability,
 };

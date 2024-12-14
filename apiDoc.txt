@@ -213,6 +213,23 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 }
             }
         }
+    3.7 delete doctor availability
+        endPoint: 127.0.0.1:3000/api/v1/doctors/availability/:workspaceId
+        method: delete
+        body:
+        {
+            "workingDay":"Sunday",
+            "startTime":"00:00:00"
+        }
+        response:
+        {
+            "status": "success",
+            "data": null
+        }
+        errors:
+            1-"this availability does NOT exist"
+                deleting already deleted availability or a one that does NOT exist
+        
             
  3.Patients   
      3.1 getAllPatient

@@ -85,6 +85,18 @@ const createWorkspace = async (req, res, next) => {
       workspacePhone,
       workspaceLocation
     );
+    console.log(workspace, 1111111);
+    if (!workspace) {
+      return next("something went wrong", 400);
+    }
+    if (workspace.status === "fail" || workspace.severity === "ERROR") {
+      let message =
+        workspace.code == "23505"
+          ? "This workspace already exists"
+          : "something wrong happened!";
+      return next(new AppError(message));
+    }
+
     res.status(200).json({
       status: "success",
       data: {
@@ -110,7 +122,7 @@ const editWorkspace = async (req, res, next) => {
     }
     // preparation
     workspaceName = workspaceName ? workspaceName.trim() : null;
-    workspaceType = workspaceType ? formactString(workspaceType) : null;
+    workspaceType = workspaceType ? formatString(workspaceType) : null;
     workspacePhone = workspacePhone ? workspacePhone.replaceAll(" ", "") : null;
     workspaceLocation = workspaceLocation ? workspaceLocation.trim() : null;
 
@@ -173,6 +185,16 @@ const editWorkspace = async (req, res, next) => {
       return next(
         new AppError("there is no such a workspace with that id", 400)
       );
+    if (
+      updatedWorkspace.status === "fail" ||
+      updatedWorkspace.severity === "ERROR"
+    ) {
+      let message =
+        updatedWorkspace.code == "23505"
+          ? "This workspace already exists"
+          : "something wrong happened!";
+      return next(new AppError(message));
+    }
 
     res.status(200).json({
       status: "success",

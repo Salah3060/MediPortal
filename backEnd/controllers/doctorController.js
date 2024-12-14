@@ -4,6 +4,7 @@ import {
   retrieveDoctor,
   reteieveDoctorPatients,
   createAvailability,
+  deleteAvailability,
 } from "../databases/doctorDatabse.js";
 import {
   AppError,
@@ -117,4 +118,38 @@ const addAvailability = catchAsyncError(async (req, res, next) => {
     data: { Availability },
   });
 });
-export { getAllDoctors, getDoctor, doctorPatients, addAvailability };
+
+const removeAvailability = catchAsyncError(async (req, res, next) => {
+  let { workingDay, startTime } = req.body;
+  const workspaceId = req.params.id;
+  const doctor = req.user;
+
+  if (!workingDay || !startTime || !workspaceId)
+    return next(new AppError("Missing data", 400));
+  workingDay = formatString(workingDay);
+  let attributes = [workingDay, startTime, doctor.userid, workspaceId];
+
+  const deleted = await deleteAvailability(attributes);
+  if (!deleted) return next(new AppError("this availability does NOT exist"));
+  if (deleted.status === "fail" || deleted.severity === "ERROR") {
+    return next(
+      new AppError((deleted && deleted.message) || "something went wrong")
+    );
+  }
+  res.status(200).json({
+    status: "success",
+    data: null,
+  });
+});
+
+// const editAvailability = catchAsyncError(async (req,res,next)=>{
+//   let {workingDay, startTime, endTime, locationId}
+// })
+
+export {
+  getAllDoctors,
+  getDoctor,
+  doctorPatients,
+  addAvailability,
+  removeAvailability,
+};

@@ -4,6 +4,7 @@ import {
   getDoctor,
   doctorPatients,
   addAvailability,
+  removeAvailability,
 } from "../controllers/doctorController.js";
 import {
   validateLoggedIn,
@@ -19,7 +20,11 @@ router.use(validateLoggedIn);
 
 router.get("/patients/:id", restrictTo("Admin", "Doctor"), doctorPatients);
 
-router.post("/availability/:id", addAvailability);
+router
+  .route("/availability/:id")
+  .post(addAvailability)
+  .delete(removeAvailability);
+
 // doctor-side update
 router.patch("/updateMe", updateUser("Doctor"));
 // admin-side update
