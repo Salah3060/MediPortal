@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllHospitals } from "../../API/workspaceApi";
+import { createclinic, getAllHospitals } from "../../API/workspaceApi";
 import { AddAvailibility } from "../../API/availibilityApi";
 export const fetchAllhospitals = createAsyncThunk(
   "workspace/getAllhospitals",
@@ -29,6 +29,18 @@ export const addAvailibility = createAsyncThunk(
   }
 );
 
+export const createClinic = createAsyncThunk(
+  "workspace/createClinic",
+  async (data, thunkAPI) => {
+    try {
+      const response = await createclinic(data);
+
+      return response.data.data.workspace;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
 const workspaceSlice = createSlice({
   name: "workspace",
   initialState: {
@@ -38,6 +50,7 @@ const workspaceSlice = createSlice({
     error: "",
     updated: false,
     errorUpdate: "",
+    newClinic: {},
   },
   reducers: {
     resetUpdateState: (state) => {
@@ -71,6 +84,19 @@ const workspaceSlice = createSlice({
         state.updated = false;
         state.loading = false;
         state.errorUpdate = action.payload;
+      })
+      .addCase(createClinic.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.newClinic = action.payload;
+      })
+      .addCase(createClinic.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(createClinic.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       }),
 });
 export default workspaceSlice.reducer;

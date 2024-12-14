@@ -1,11 +1,12 @@
 import Header from "./header";
-import { Box, Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAvailibility,
+  createClinic,
   fetchAllhospitals,
   resetUpdateState,
 } from "../../Store/Slices/WorkspaceSlice";
@@ -21,20 +22,44 @@ export default function Workspaces() {
     errorUpdate,
     loading,
     updated,
+    newClinic,
   } = useSelector((state) => state.workspaces);
   const dispatch = useDispatch();
   const [hospitalAvs, setHospitalAv] = useState(1);
   const [clinicAvs, setClinicAv] = useState(1);
-  const handleFormSubmit = async (values) => {
-    const data = Array.from({ length: hospitalAvs }).map((_, i) => ({
-      workingDay: values.hospitalday[i],
-      startTime: values.hospitalstart[i],
-      endTime: values.hospitalend[i],
-      locationId: values.hospitalLocation[i],
+  const [gvalues, setValues] = useState(null);
+  useEffect(() => {
+    if (!newClinic || !gvalues) return;
+    toast.success("Your clinic is created successfully!");
+    const data = Array.from({ length: clinicAvs }).map((_, i) => ({
+      workingDay: gvalues?.clinicday[i],
+      startTime: gvalues?.clinicstart[i],
+      endTime: gvalues?.clinicend[i],
+      locationId: newClinic?.locationid,
     }));
-    const hospitalId = +values.hospitalId;
-    console.log(data, hospitalId);
-    dispatch(addAvailibility({ data, id: hospitalId }));
+    dispatch(addAvailibility({ data, id: newClinic.workspaceid }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newClinic]);
+  const handleFormSubmit = async (values) => {
+    setValues(values);
+    if (place === "clinic") {
+      const clinicData = {
+        workspaceName: values.clinicname,
+        workspaceType: "clinic",
+        workspacePhone: values.clinicphone,
+        workspaceLocation: values.clinicaddress,
+      };
+      dispatch(createClinic(clinicData));
+    } else if (place === "hospital") {
+      const data = Array.from({ length: hospitalAvs }).map((_, i) => ({
+        workingDay: values.hospitalday[i],
+        startTime: values.hospitalstart[i],
+        endTime: values.hospitalend[i],
+        locationId: values.hospitalLocation[i],
+      }));
+      const hospitalId = +values.hospitalId;
+      dispatch(addAvailibility({ data, id: hospitalId }));
+    }
   };
   useEffect(() => {
     if (errorUpdate) {
@@ -90,22 +115,66 @@ export default function Workspaces() {
                 </Button>
                 {place === "clinic" && (
                   <>
-                    {Array.from({ length: clinicAvs }).map((_, i) => (
-                      <CAvailibility
-                        key={i}
-                        handleBlur={handleBlur}
-                        handleChange={handleChange}
-                        values={values}
-                        index={i}
-                      />
-                    ))}
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      type="text"
+                      label="Clinic Name"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.clinicname}
+                      name={`clinicname`}
+                      sx={{ gridColumn: "span 4" }}
+                    />
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      type="text"
+                      label="Clinic phone"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.clinicphone}
+                      name={`clinicphone`}
+                      sx={{ gridColumn: "span 4" }}
+                    />
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      type="text"
+                      label="Clinic Location"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.clinicaddress}
+                      name={`clinicaddress`}
+                      sx={{ gridColumn: "span 4" }}
+                    />
+                    {Array.from({ length: clinicAvs }).map((_, i) => {
+                      return (
+                        <CAvailibility
+                          cols={isNonMobile ? 2 : 4}
+                          index={i}
+                          key={i}
+                        />
+                      );
+                    })}
+
                     <Button
-                      onClick={() => setClinicAv((e) => e + 1)}
+                      onClick={() => {
+                        if (
+                          values.clinicday.length === clinicAvs &&
+                          values.clinicstart.length === clinicAvs &&
+                          values.clinicend.length === clinicAvs
+                        ) {
+                          setClinicAv((e) => e + 1);
+                          return;
+                        }
+                        toast.error("All fields must be fulfilled");
+                      }}
                       color="secondary"
                       variant="contained"
                       className={isNonMobile ? "col-span-1" : "col-span-4"}
                     >
-                      Add another Clinic
+                      Add another Availibility
                     </Button>
                   </>
                 )}
@@ -164,9 +233,12 @@ export default function Workspaces() {
 }
 
 const initialValues = {
-  WorkspaceName: [],
-  workspacePhone: [],
-  workspaceLocation: [],
+  clinicname: "",
+  clinicaddress: "",
+  clinicphone: "",
+  clinicday: [],
+  clinicstart: [],
+  clinicend: [],
   hospitalName: [],
   hospitalday: [],
   hospitalstart: [],

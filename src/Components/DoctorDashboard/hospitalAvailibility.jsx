@@ -69,7 +69,7 @@ export default function Availability({ index, hospitals, cols, values }) {
     <>
       <div className="col-span-4">
         <Typography variant="h5" color="#70d8bd" alignSelf={"flex-end"}>
-          Clinic {index + 1}
+          Hospital {index + 1}
         </Typography>
       </div>
       <select
