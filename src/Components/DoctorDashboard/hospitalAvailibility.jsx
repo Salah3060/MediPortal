@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Field } from "formik";
+import { useState } from "react";
+import { Typography } from "@mui/material";
 
-export default function Availability({ index, hospitals, cols }) {
+export default function Availability({ index, hospitals, cols, values }) {
   const days = [
     "Saturday",
     "Sunday",
@@ -61,15 +63,27 @@ export default function Availability({ index, hospitals, cols }) {
     "23:00",
     "23:30",
   ];
+  const [locations, setLocations] = useState(null);
+
   return (
     <>
-      <Field
-        className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none col-span-${cols}`}
-        as="select"
-        name={`hospitalName[${index}]`}
-        variant="filled"
+      <div className="col-span-4">
+        <Typography variant="h5" color="#70d8bd" alignSelf={"flex-end"}>
+          Clinic {index + 1}
+        </Typography>
+      </div>
+      <select
+        className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none col-start-1 col-span-${cols}`}
+        onChange={(e) => {
+          setLocations(
+            hospitals.filter((el) => el.workspaceid == e.target.value)[0]
+              ?.locations
+          );
+          values.hospitalId = e.target.value;
+          values.hospitalName[index] = e.target.value;
+        }}
       >
-        <option value="" disabled>
+        <option value={0} disabled selected>
           Choose a hospital...
         </option>
         {hospitals.map((option, index) => (
@@ -77,15 +91,34 @@ export default function Availability({ index, hospitals, cols }) {
             {option?.workspacename}
           </option>
         ))}
-      </Field>
-      <div className={cols == 2 ? `col-span-${cols} ` : `hidden`}></div>
+      </select>
+      {!locations && (
+        <div className={cols == 2 ? `col-span-full${4} ` : `hidden`}></div>
+      )}
+      {locations && (
+        <select
+          className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none col-span-${cols} `}
+          onChange={(e) => {
+            values.hospitalLocation[index] = e.target.value;
+          }}
+        >
+          <option value={0} disabled selected>
+            Choose a Location...
+          </option>
+          {locations.map((option, index) => (
+            <option key={index} value={option?.locationId}>
+              {option?.location}
+            </option>
+          ))}
+        </select>
+      )}
       <Field
-        className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none col-span-${cols}`}
+        className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none col-start-1 col-span-${cols}`}
         as="select"
         name={`hospitalday[${index}]`}
         variant="filled"
       >
-        <option value="" disabled>
+        <option value="" disabled selected>
           Choose a Day...
         </option>
         {days.map((option, index) => (
@@ -94,40 +127,38 @@ export default function Availability({ index, hospitals, cols }) {
           </option>
         ))}
       </Field>
-      <Field
-        className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none col-span-${
-          cols / 2
-        }`}
-        as="select"
-        name={`hospitalstart[${index}]`}
-        variant="filled"
-      >
-        <option value="" disabled>
-          Choose a starting hour...
-        </option>
-        {hours.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
+      <div className={`flex w-full col-span-${cols} gap-x-6`}>
+        <Field
+          className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none`}
+          as="select"
+          name={`hospitalstart[${index}]`}
+          variant="filled"
+        >
+          <option value="" disabled selected>
+            Choose a starting hour...
           </option>
-        ))}
-      </Field>
-      <Field
-        className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none col-span-${
-          cols / 2
-        }`}
-        as="select"
-        name={`hospitalend[${index}]`}
-        variant="filled"
-      >
-        <option value="" disabled>
-          Choose a starting hour...
-        </option>
-        {hours.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
+          {hours.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </Field>
+        <Field
+          className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none `}
+          as="select"
+          name={`hospitalend[${index}]`}
+          variant="filled"
+        >
+          <option value="" disabled selected>
+            Choose a starting hour...
           </option>
-        ))}
-      </Field>
+          {hours.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </Field>
+      </div>
     </>
   );
 }

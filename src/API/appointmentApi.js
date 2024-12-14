@@ -57,6 +57,7 @@ export const ChangeAppointmentStatus = async (id, status) => {
         },
       }
     );
+
     return response;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
