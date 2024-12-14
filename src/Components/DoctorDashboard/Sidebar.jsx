@@ -7,7 +7,7 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "./theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { PiHospitalBold } from "react-icons/pi";
+import { PiHospitalBold, PiTimer } from "react-icons/pi";
 import { FaRegClock } from "react-icons/fa";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -125,9 +125,16 @@ const Sidebar = ({ name, spec }) => {
               Manage
             </Typography>
             <Item
-              title="Manage Workspaces"
+              title="Add Workspaces"
               to="./Workspaces"
               icon={<PiHospitalBold />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Availibilities"
+              to="./Availibilities"
+              icon={<PiTimer />}
               selected={selected}
               setSelected={setSelected}
             />

@@ -20,3 +20,20 @@ export const AddAvailibility = async (data, id) => {
     return Promise.reject(new Error(error));
   }
 };
+export const CancelAv = async (data, id) => {
+  try {
+    const response = await axiosInstance.delete(`/doctors/availability/${id}`, {
+      data,
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+    console.log(response);
+
+    return response.status === 200
+      ? Promise.resolve(1)
+      : Promise.reject(new Error(0));
+  } catch (error) {
+    return Promise.reject(new Error(error));
+  }
+};

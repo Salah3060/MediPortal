@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createclinic, getAllHospitals } from "../../API/workspaceApi";
-import { AddAvailibility } from "../../API/availibilityApi";
+import { AddAvailibility, CancelAv } from "../../API/availibilityApi";
 export const fetchAllhospitals = createAsyncThunk(
   "workspace/getAllhospitals",
   async (_, thunkAPI) => {
@@ -18,6 +18,22 @@ export const addAvailibility = createAsyncThunk(
     try {
       const promises = await data.map(async (el) => {
         const x = await AddAvailibility(el, id);
+        return x;
+      });
+      const results = await Promise.all(promises);
+
+      return results;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+export const cancelAvailibility = createAsyncThunk(
+  "workspace/cancelAvailibility",
+  async (data, thunkAPI) => {
+    try {
+      const promises = await data.map(async (el) => {
+        const x = await CancelAv(el.data, el.id);
         return x;
       });
       const results = await Promise.all(promises);
@@ -97,6 +113,21 @@ const workspaceSlice = createSlice({
       .addCase(createClinic.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(cancelAvailibility.fulfilled, (state) => {
+        state.loading = false;
+        state.updated = true;
+        state.errorUpdate = "";
+      })
+      .addCase(cancelAvailibility.pending, (state) => {
+        state.loading = true;
+        state.updated = false;
+        state.errorUpdate = "";
+      })
+      .addCase(cancelAvailibility.rejected, (state, action) => {
+        state.updated = false;
+        state.loading = false;
+        state.errorUpdate = action.payload;
       }),
 });
 export default workspaceSlice.reducer;
