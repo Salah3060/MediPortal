@@ -203,7 +203,13 @@ const editAppointment = catchAsyncError(async (req, res, next) => {
   });
 });
 const getAppointmentsStats = catchAsyncError(async (req, res, next) => {
-  const stats = await retrieveAppointmentsStats();
+  let filters;
+  if (req.query) {
+    filters = filterQueryHandler(req.query, validAttributes);
+    if (!filters) return next(new AppError("Invalid query atrributes", 400));
+    if (filters.length == 0) filters = undefined;
+  }
+  const stats = await retrieveAppointmentsStats(filters);
   res.status(200).json({
     status: "success",
     ok: true,

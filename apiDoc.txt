@@ -915,8 +915,9 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
     }
 
 7.7 getAppointmentsStats
-    endPoint:127.0.0.1:3000/api/v1/appointments/stats
+    endPoint:127.0.0.1:3000/api/v1/appointments/stats?a.doctorId=8
     method:get 
+    validAttributes:['a.doctorId']
     body
     {
 

@@ -96,9 +96,9 @@ const updateAppointment = async (attributes, id) => {
   }
 };
 
-const retrieveAppointmentsStats = async () => {
+const retrieveAppointmentsStats = async (filters) => {
   try {
-    const query = `
+    let query = `
     SELECT 
     SUM(CASE WHEN appointmentStatus = 'Completed' THEN 1 ELSE 0 END) AS completedAppointments,
     ROUND(SUM(CASE WHEN appointmentStatus = 'Completed' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS completedPercentage,
@@ -115,9 +115,13 @@ const retrieveAppointmentsStats = async () => {
     SUM(CASE WHEN paymentStatus = 'Online' THEN 1 ELSE 0 END) AS onlineAppointments,
     ROUND(SUM(CASE WHEN paymentStatus = 'Online' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS onlinePercentage
 
-    FROM Appointments;
-
+    FROM Appointments a
     `;
+    if (filters)
+      query += `
+    where ${filters.join(" and ")}       
+    `;
+
     const res = await pool.query(query);
     return res.rows[0];
   } catch (error) {
