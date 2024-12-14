@@ -14,6 +14,8 @@ import Availability from "./hospitalAvailibility";
 import CAvailibility from "./clinicAvailibility";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
+import { fetchDoctorById } from "../../Store/Slices/searchSlice";
+import { useParams } from "react-router-dom";
 export default function Workspaces() {
   const isNonMobile = useMediaQuery("(min-width:700px)");
   const [place, setPlace] = useState("");
@@ -24,6 +26,7 @@ export default function Workspaces() {
     updated,
     newClinic,
   } = useSelector((state) => state.workspaces);
+  const { doctorid } = useParams();
   const dispatch = useDispatch();
   const [hospitalAvs, setHospitalAv] = useState(1);
   const [clinicAvs, setClinicAv] = useState(1);
@@ -69,6 +72,7 @@ export default function Workspaces() {
     if (updated) {
       toast.success("Completed Successfully");
       dispatch(resetUpdateState());
+      dispatch(fetchDoctorById(doctorid));
       setPlace("");
     }
   }, [dispatch, errorUpdate, updated]);
@@ -220,7 +224,7 @@ export default function Workspaces() {
                     color="secondary"
                     variant="contained"
                   >
-                    Create New User
+                    Create
                   </Button>
                 )}
               </Box>
