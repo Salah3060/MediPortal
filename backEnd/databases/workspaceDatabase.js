@@ -99,7 +99,12 @@ const retrieveAllWorkSpaces = async (fields, filters, orders, limit, page) => {
       query += ` w.workSpaceId,
                  w.workspaceName,
                  w.workspaceType,
-                 JSON_AGG(wl.workspacesLocation) as locations ,
+                 JSON_AGG(
+                  JSON_BUILD_OBJECT(
+                    'locationId',wl.locationId,
+                    'location',wl.workspacesLocation
+                  )
+                 ) as locations ,
                  JSON_AGG(wc.workspacePhone) as phones
                `;
     query += `  
