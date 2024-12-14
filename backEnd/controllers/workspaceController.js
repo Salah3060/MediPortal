@@ -85,6 +85,14 @@ const createWorkspace = async (req, res, next) => {
       workspacePhone,
       workspaceLocation
     );
+    if (!workspace) {
+      return next("something went wrong", 400);
+    }
+    if (workspace.status === "fail" || workspace.severity === "ERROR") {
+      return next(
+        new AppError((workspace && workspace.message) || "something went wrong")
+      );
+    }
     res.status(200).json({
       status: "success",
       data: {
@@ -173,6 +181,14 @@ const editWorkspace = async (req, res, next) => {
       return next(
         new AppError("there is no such a workspace with that id", 400)
       );
+    if (
+      updatedWorkspace.status === "fail" ||
+      updatedWorkspace.severity === "ERROR"
+    ) {
+      return next(
+        new AppError(updatedWorkspace.message || "something went wrong")
+      );
+    }
 
     res.status(200).json({
       status: "success",
