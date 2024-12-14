@@ -230,7 +230,32 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             1-"this availability does NOT exist"
                 deleting already deleted availability or a one that does NOT exist
         
-            
+    3.8 getDoctorsStats
+    endPoint:127.0.0.1:3000/api/v1/doctors/stats
+    method:get
+    body:
+    {
+
+    }
+    response:
+    {
+        
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "stats": 
+        {
+            "activedoctors": "4",
+            "activepercentage": "80.00",
+            "pendingdoctors": "0",
+            "pendingpercentage": "0.00",
+            "blockeddoctors": "1",
+            "blockedpercentage": "20.00"
+        }
+    }
+
+    }
  3.Patients   
      3.1 getAllPatient
     endPoint: 127.0.0.1:3000/api/v1/patients/allPatients?gender=Male&&order=firstName&&fields=firstName,lastName

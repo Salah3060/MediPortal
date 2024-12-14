@@ -5,6 +5,7 @@ import {
   doctorPatients,
   addAvailability,
   removeAvailability,
+  getDoctorsStats,
 } from "../controllers/doctorController.js";
 import {
   validateLoggedIn,
@@ -14,6 +15,7 @@ import {
 const router = express.Router();
 
 router.get("/allDoctors", getAllDoctors);
+router.get("/stats", getDoctorsStats);
 router.get("/:id", getDoctor);
 
 router.use(validateLoggedIn);

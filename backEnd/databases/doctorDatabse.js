@@ -217,10 +217,37 @@ const deleteAvailability = async (attributes) => {
   }
 };
 
+const retrieveDoctorsStats = async () => {
+  try {
+    let query = `
+    SELECT 
+    SUM(CASE WHEN userState = 'Active' THEN 1 ELSE 0 END) AS activeDoctors,
+    ROUND(SUM(CASE WHEN userState = 'Active' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS activePercentage,
+
+    SUM(CASE WHEN userState = 'Pending' THEN 1 ELSE 0 END) AS pendingDoctors,
+    ROUND(SUM(CASE WHEN userState = 'Pending' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS pendingPercentage,
+
+    SUM(CASE WHEN userState = 'Blocked' THEN 1 ELSE 0 END) AS blockedDoctors,
+    ROUND(SUM(CASE WHEN userState = 'Blocked' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS blockedPercentage
+
+   
+    FROM Users
+    where userRole='Doctor'
+    `;
+
+    const res = await pool.query(query);
+    return res.rows[0];
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export {
   retrieveAllDoctors,
   retrieveDoctor,
   reteieveDoctorPatients,
   createAvailability,
   deleteAvailability,
+  retrieveDoctorsStats,
 };

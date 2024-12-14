@@ -101,19 +101,19 @@ const retrieveAppointmentsStats = async (filters) => {
     let query = `
     SELECT 
     SUM(CASE WHEN appointmentStatus = 'Completed' THEN 1 ELSE 0 END) AS completedAppointments,
-    ROUND(SUM(CASE WHEN appointmentStatus = 'Completed' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS completedPercentage,
+    ROUND(SUM(CASE WHEN appointmentStatus = 'Completed' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS completedPercentage,
 
     SUM(CASE WHEN appointmentStatus = 'Scheduled' THEN 1 ELSE 0 END) AS scheduledAppointments,
-    ROUND(SUM(CASE WHEN appointmentStatus = 'Scheduled' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS scheduledPercentage,
+    ROUND(SUM(CASE WHEN appointmentStatus = 'Scheduled' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS scheduledPercentage,
 
     SUM(CASE WHEN appointmentStatus = 'Cancelled' THEN 1 ELSE 0 END) AS cancelledAppointments,
-    ROUND(SUM(CASE WHEN appointmentStatus = 'Cancelled' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS cancelledPercentage,
+    ROUND(SUM(CASE WHEN appointmentStatus = 'Cancelled' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS cancelledPercentage,
 
     SUM(CASE WHEN paymentStatus = 'Cash' THEN 1 ELSE 0 END) AS cashAppointments,
-    ROUND(SUM(CASE WHEN paymentStatus = 'Cash' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS cashPercentage,
+    ROUND(SUM(CASE WHEN paymentStatus = 'Cash' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS cashPercentage,
 
     SUM(CASE WHEN paymentStatus = 'Online' THEN 1 ELSE 0 END) AS onlineAppointments,
-    ROUND(SUM(CASE WHEN paymentStatus = 'Online' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS onlinePercentage
+    ROUND(SUM(CASE WHEN paymentStatus = 'Online' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS onlinePercentage
 
     FROM Appointments a
     `;
