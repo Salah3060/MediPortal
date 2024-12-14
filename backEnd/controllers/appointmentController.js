@@ -2,6 +2,7 @@ import {
   retrieveAllAppointments,
   createAppointmentDb,
   updateAppointment,
+  retrieveAppointmentsStats,
 } from "../databases/appointmentDatabase.js";
 import { retrieveDoctor } from "../databases/doctorDatabse.js";
 import {
@@ -201,10 +202,20 @@ const editAppointment = catchAsyncError(async (req, res, next) => {
     },
   });
 });
-
+const getAppointmentsStats = catchAsyncError(async (req, res, next) => {
+  const stats = await retrieveAppointmentsStats();
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: {
+      stats,
+    },
+  });
+});
 export {
   getAllAppointments,
   bookAppointment,
   getCheckoutSession,
   editAppointment,
+  getAppointmentsStats,
 };

@@ -913,6 +913,35 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
            ]
         }
     }
+
+7.7 getAppointmentsStats
+    endPoint:127.0.0.1:3000/api/v1/appointments/stats
+    method:get 
+    body
+    {
+
+    }
+    response:
+    {
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "stats": 
+        {
+            "completedappointments": "2",
+            "completedpercentage": "20.00",
+            "scheduledappointments": "5",
+            "scheduledpercentage": "50.00",
+            "cancelledappointments": "3",
+            "cancelledpercentage": "30.00",
+            "cashappointments": "5",
+            "cashpercentage": "50.00",
+            "onlineappointments": "5",
+            "onlinepercentage": "50.00"
+        }
+    }
+    }
 8.Question 
     8.1 getAllQuestion 
     endPoint:127.0.0.1:3000/api/v1/questions/allQuestions?doctorId=7

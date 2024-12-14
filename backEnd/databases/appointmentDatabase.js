@@ -95,4 +95,39 @@ const updateAppointment = async (attributes, id) => {
     return error;
   }
 };
-export { retrieveAllAppointments, createAppointmentDb, updateAppointment };
+
+const retrieveAppointmentsStats = async () => {
+  try {
+    const query = `
+    SELECT 
+    SUM(CASE WHEN appointmentStatus = 'Completed' THEN 1 ELSE 0 END) AS completedAppointments,
+    ROUND(SUM(CASE WHEN appointmentStatus = 'Completed' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS completedPercentage,
+
+    SUM(CASE WHEN appointmentStatus = 'Scheduled' THEN 1 ELSE 0 END) AS scheduledAppointments,
+    ROUND(SUM(CASE WHEN appointmentStatus = 'Scheduled' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS scheduledPercentage,
+
+    SUM(CASE WHEN appointmentStatus = 'Cancelled' THEN 1 ELSE 0 END) AS cancelledAppointments,
+    ROUND(SUM(CASE WHEN appointmentStatus = 'Cancelled' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS cancelledPercentage,
+
+    SUM(CASE WHEN paymentStatus = 'Cash' THEN 1 ELSE 0 END) AS cashAppointments,
+    ROUND(SUM(CASE WHEN paymentStatus = 'Cash' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS cashPercentage,
+
+    SUM(CASE WHEN paymentStatus = 'Online' THEN 1 ELSE 0 END) AS onlineAppointments,
+    ROUND(SUM(CASE WHEN paymentStatus = 'Online' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS onlinePercentage
+
+    FROM Appointments;
+
+    `;
+    const res = await pool.query(query);
+    return res.rows[0];
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+export {
+  retrieveAllAppointments,
+  createAppointmentDb,
+  updateAppointment,
+  retrieveAppointmentsStats,
+};
