@@ -24,6 +24,7 @@ const createWorkspaceDb = async (name, type, phone, location) => {
     return false;
   } catch (error) {
     console.log(error);
+    return error;
   }
 };
 const editWorkspaceDb = async (workspaceId, secId, thirdId, toBeEdited) => {
@@ -88,6 +89,7 @@ const editWorkspaceDb = async (workspaceId, secId, thirdId, toBeEdited) => {
     return updatedWorkspace.rows[0];
   } catch (error) {
     console.log(error);
+    return error;
   }
 };
 
