@@ -19,6 +19,7 @@ const createOrder = async (attributes, cart, userId) => {
     return order.rows[0];
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

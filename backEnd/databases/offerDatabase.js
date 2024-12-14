@@ -33,6 +33,7 @@ const retrieveAllOffers = async (fields, filters, orders, limit, page) => {
     return res.rows;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

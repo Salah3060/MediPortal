@@ -17,6 +17,7 @@ const logInDb = async (email, id) => {
     return false;
   } catch (error) {
     console.log(error.mesaage);
+    throw error;
   }
 };
 

@@ -8,23 +8,10 @@ const retrieveAllProviders = async (fields, filters, orders, limit, page) => {
       query += ` p.providerId, 
                  p.providerName,
                  p.providerLocation ,
-                 JSON_AGG(
-                        JSON_BUILD_OBJECT(
-                            'contactId',pc.contactId ,
-                            'providerPhone' ,pc.providerPhone
-                        )
-                    ) As contacts
+                 p.providerPhone
           `;
     query += `
             from InsurancesProviders p
-            LEFT JOIN 
-                InsuranceProviderContacts pc ON pc.providerId = p.providerId
-    `;
-    query += `
-           GROUP BY 
-           p.providerId, 
-           p.providerName,
-           p.providerLocation 
     `;
     if (filters) query += `where ${filters.join(" and ")}       `;
     if (orders) query += `order by ${orders.join(" , ")}       `;
@@ -33,6 +20,7 @@ const retrieveAllProviders = async (fields, filters, orders, limit, page) => {
     return res.rows;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

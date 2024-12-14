@@ -45,6 +45,7 @@ const retrieveAllAppointments = async (
     return res.rows;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -69,6 +70,7 @@ const createAppointmentDb = async (attributes, locationId) => {
     return false;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

@@ -15,6 +15,7 @@ const retrieveAllPatients = async (fields, filters, orders, limit, page) => {
     return res.rows;
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 

@@ -37,4 +37,11 @@ const server = app.listen(PORT, () => {
   console.log(`Server starts listening on port ${PORT}....`);
 });
 
+process.on("unhandledRejection", (err) => {
+  console.log("UNHANDLED REJECTION! 💥 Shutting down...");
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});
 export default pool;
