@@ -67,7 +67,7 @@ export default function Availibilities() {
   return (
     <>
       <Box m="20px">
-        <Header title="Appointments" subtitle="Your all appointments" />
+        <Header title="Availabilities" subtitle="Your all availabilities" />
         {loading ? (
           <Loader />
         ) : (

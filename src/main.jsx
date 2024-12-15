@@ -29,6 +29,7 @@ import Workspaces from "./Components/DoctorDashboard/Workspaces.jsx";
 import Appointments from "./Components/DoctorDashboard/Appointments.jsx";
 import Stats from "./Components/DoctorDashboard/stats.jsx";
 import Availibilities from "./Components/DoctorDashboard/Availibilities.jsx";
+import DocOffers from "./Components/DoctorDashboard/Offers.jsx";
 
 const router = createBrowserRouter([
   {
@@ -126,6 +127,10 @@ const router = createBrowserRouter([
           {
             path: "Availibilities/",
             element: <Availibilities />,
+          },
+          {
+            path: "Offers/",
+            element: <DocOffers />,
           },
         ],
       },
