@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Header from "./header";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -23,19 +24,6 @@ export default function DocOffers() {
   useEffect(() => {
     dispatch(DoctorOffer(doctorid));
   }, [dispatch, doctorid]);
-  async function deleteSelected() {
-    console.log(selectedRows, rows);
-    const data = selectedRows.map((el) => {
-      return {
-        data: {
-          workingDay: rows[el].workingDay,
-          startTime: rows[el].startTime,
-        },
-        id: rows[el].workSpaceId,
-      };
-    });
-    dispatch(cancelAvailibility(data));
-  }
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -112,15 +100,7 @@ export default function DocOffers() {
                   justifyContent: "center",
                   mt: 2, // Add some margin-top for spacing
                 }}
-              >
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => deleteSelected()}
-                >
-                  Cancel
-                </Button>
-              </Box>
+              ></Box>
             </Box>
           )}
         </Box>

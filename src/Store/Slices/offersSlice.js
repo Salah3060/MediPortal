@@ -50,7 +50,7 @@ const offersSlice = createSlice({
     selectedDoctor: {},
     loading: false,
     error: null,
-    doctorOffers: {},
+    doctorOffers: [],
   },
   reducers: {
     setSelectedOffer: (state, action) => {
