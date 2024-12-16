@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createclinic, getAllHospitals } from "../../API/workspaceApi";
+import {
+  createclinic,
+  getAllHospitals,
+  getDoctorworkSpaces,
+} from "../../API/workspaceApi";
 import { AddAvailibility, CancelAv } from "../../API/availibilityApi";
 export const fetchAllhospitals = createAsyncThunk(
   "workspace/getAllhospitals",
@@ -7,6 +11,18 @@ export const fetchAllhospitals = createAsyncThunk(
     try {
       const hospitals = await getAllHospitals();
       return hospitals;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+export const fetchDoctorworkspaces = createAsyncThunk(
+  "workspace/fetchDoctorworkspaces",
+  async (id, thunkAPI) => {
+    try {
+      const response = await getDoctorworkSpaces(id);
+
+      return response.data.data.workspaces;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }
@@ -67,6 +83,7 @@ const workspaceSlice = createSlice({
     updated: false,
     errorUpdate: "",
     newClinic: {},
+    selectedDoctorWorkspaces: [],
   },
   reducers: {
     resetUpdateState: (state) => {
@@ -128,6 +145,23 @@ const workspaceSlice = createSlice({
         state.updated = false;
         state.loading = false;
         state.errorUpdate = action.payload;
+      })
+      .addCase(fetchDoctorworkspaces.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        const data = action.payload;
+        const uniqueWorkspaces = [
+          ...new Map(data.map((item) => [item.workspaceid, item])).values(),
+        ];
+        state.selectedDoctorWorkspaces = uniqueWorkspaces;
+      })
+      .addCase(fetchDoctorworkspaces.pending, (state) => {
+        state.loading = true;
+        state.errorUpdate = "";
+      })
+      .addCase(fetchDoctorworkspaces.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       }),
 });
 export default workspaceSlice.reducer;
