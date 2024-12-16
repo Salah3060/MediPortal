@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance";
+import Cookies from "js-cookie";
 
 // get all offers
 export const getAllOffers = async () => {
@@ -9,7 +10,22 @@ export const getAllOffers = async () => {
     console.error(error);
   }
 };
+export const getDoctorOffer = async (id) => {
+  try {
+    const response = await axiosInstance.get(
+      `/offers/allOffers?doctorId=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
 
+    return response.data.data.offers;
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const getOffersBySpecialty = async (specialty) => {
   try {
     const response = await axiosInstance.get(

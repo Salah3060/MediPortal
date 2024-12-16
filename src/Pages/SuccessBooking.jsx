@@ -12,6 +12,7 @@ import { formatDate } from "@/Utils/functions.util";
 const SuccessBooking = () => {
   const location = useLocation();
   const appointment = location.state?.appointment;
+  const offerFees = location.state?.isOffer && location.state?.offersFees;
   const [loading, setLoading] = useState(true);
   const { selectedDoctor } = useSelector((state) => state.search);
   const [patient, setPatient] = useState(null);
@@ -66,7 +67,9 @@ const SuccessBooking = () => {
             <BsCash className="text-2xl text-primary" />
             <h1 className="text-sm sm:text-base md:text-lg">
               Examination Fees:{" "}
-              <span className="font-bold">{selectedDoctor.fees} EGP</span>
+              <span className="font-bold">
+                {offerFees ? offerFees : selectedDoctor.fees} EGP
+              </span>
             </h1>
           </div>
         </div>

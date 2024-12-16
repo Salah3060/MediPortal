@@ -1,7 +1,6 @@
 // functions.util.js
 
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-
 // Utility function to render star ratings
 export const renderStars = (rating) => {
   const stars = [];
@@ -45,6 +44,7 @@ export const formatDate = (dateString) => {
     minute: "2-digit",
     hour12: true,
   };
+  console.log(date.toLocaleString("en-US", options));
 
   return date.toLocaleString("en-US", options);
 };

@@ -12,7 +12,7 @@ const initialState = {
   loading: false,
   phonenumber: "",
   updatedAt: "",
-  userId: 0,
+  // userId: 0,
   userRole: "",
   userState: "",
   wallet: "",
@@ -84,6 +84,7 @@ const userSlice = createSlice({
       .addCase(userLogin.fulfilled, (state, action) => {
         state.firstname = action.payload.firstname;
         state.lastname = action.payload.lastname;
+        state.userid = action.payload.userid;
         state.phonenumber = action.payload.phonenumber;
         state.email = action.payload.email;
         state.gender = action.payload.gender;
@@ -120,6 +121,7 @@ const userSlice = createSlice({
         state.firstname = action.payload.firstname;
         state.lastname = action.payload.lastname;
         state.phonenumber = action.payload.phonenumber;
+        state.userid = action.payload.userid;
         state.email = action.payload.email;
         state.gender = action.payload.gender;
         state.birthdate = action.payload.birthdate;

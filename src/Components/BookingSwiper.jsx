@@ -5,11 +5,10 @@ import { SwiperSlide, Swiper } from "swiper/react";
 // import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useState } from "react";
 
-export default function Booking({ data, setBookDetials }) {
+export default function Booking({ data, setBookDetials, bookHandle }) {
   const [clickTimeSlot, setTimeSlot] = useState(null);
   const [selectedDay, setDay] = useState(null);
   function handleClick(i, workingDay, details) {
-    console.log(details);
     if (clickTimeSlot === i && selectedDay === workingDay) {
       setBookDetials(null);
       setTimeSlot(null);
@@ -47,6 +46,7 @@ export default function Booking({ data, setBookDetials }) {
               clickTimeSlot={clickTimeSlot}
               selectedDay={selectedDay}
               handleClick={handleClick}
+              bookHandle={bookHandle}
             />
           </SwiperSlide>
         ))}
