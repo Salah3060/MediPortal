@@ -25,3 +25,16 @@ export const createclinic = async (data) => {
     console.error(error);
   }
 };
+
+export const getDoctorworkSpaces = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/doctors/workspaces/${id}`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

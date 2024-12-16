@@ -45,3 +45,32 @@ export const getOffersById = async (id) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+export const addOffer = async (id, data) => {
+  try {
+    data.percentage = data.percentage.toString();
+
+    const response = await axiosInstance.post(`/offers/${+id}`, data, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
+export const updateOffer = async (id, data) => {
+  try {
+    data.percentage = data.percentage.toString();
+    const response = await axiosInstance.patch(`/offers/${+id}`, data, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};

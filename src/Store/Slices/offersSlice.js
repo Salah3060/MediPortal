@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllOffers } from "@/API/OffersApi";
-import { getDoctorOffer, getOffersById } from "../../API/offersApi";
+import {
+  addOffer,
+  getDoctorOffer,
+  getOffersById,
+  updateOffer,
+} from "../../API/offersApi";
 import { getDoctorById } from "@/API/DoctorsApi";
 import { formatDate } from "../../Utils/functions.util";
 
@@ -10,7 +15,6 @@ export const fetchAllOffers = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const offers = await getAllOffers();
-      console.log(offers.data.offers);
       return offers.data.offers;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -41,6 +45,28 @@ export const DoctorOffer = createAsyncThunk(
     }
   }
 );
+export const AddOffer = createAsyncThunk(
+  "offers/AddOffer",
+  async ({ data, id }, thunkAPI) => {
+    try {
+      const resp = await addOffer(id, data);
+      return resp;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+export const UpdateOffer = createAsyncThunk(
+  "offers/UpdateOffer",
+  async ({ data, id }, thunkAPI) => {
+    try {
+      const resp = await updateOffer(id, data);
+      return resp;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 
 const offersSlice = createSlice({
   name: "offers",
@@ -51,10 +77,21 @@ const offersSlice = createSlice({
     loading: false,
     error: null,
     doctorOffers: [],
+    added: false,
+    updated: false,
   },
   reducers: {
     setSelectedOffer: (state, action) => {
       state.selectedOffer = action.payload;
+    },
+    resetAdded: (state) => {
+      state.added = false;
+    },
+    resetUpdated: (state) => {
+      state.updated = false;
+    },
+    resetError: (state) => {
+      state.error = false;
     },
   },
   extraReducers: (builder) => {
@@ -99,10 +136,35 @@ const offersSlice = createSlice({
       .addCase(DoctorOffer.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
+      })
+      .addCase(AddOffer.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(AddOffer.fulfilled, (state) => {
+        state.loading = false;
+        state.added = true;
+      })
+      .addCase(AddOffer.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(UpdateOffer.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(UpdateOffer.fulfilled, (state) => {
+        state.loading = false;
+        state.updated = true;
+      })
+      .addCase(UpdateOffer.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
       });
   },
 });
 
-export const { setSelectedOffer } = offersSlice.actions;
+export const { setSelectedOffer, resetAdded, resetUpdated, resetError } =
+  offersSlice.actions;
 
 export default offersSlice.reducer;
