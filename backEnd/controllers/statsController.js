@@ -13,23 +13,23 @@ import {
 } from "../databases/statsDatabase.js";
 
 const getStats = catchAsyncError(async (req, res, next) => {
-  const orders = await retrieveTableSize("Orders");
-  const workspaces = await retrieveTableSize("workSpaces");
-  const appointments = await retrieveTableSize("Appointments");
-  const users = await retrieveTableSize("Users");
+  const { ordersnumber } = await retrieveTableSize("Orders");
+  const { workspacesnumber } = await retrieveTableSize("workSpaces");
+  const { appointmentsnumber } = await retrieveTableSize("Appointments");
+  const { usersnumber } = await retrieveTableSize("Users");
   const AppointmentsMonthly = await retrieveAppointmentsMonthlyStats();
+
   const ordersMonthly = await retrieveOrdersMonthlyStats();
-  console.log(AppointmentsMonthly);
-  console.log(ordersMonthly);
-  console.log(orders, workspaces, appointments, users);
   res.status(200).json({
     status: "success",
     ok: true,
     data: {
-      orders,
-      workspaces,
-      appointments,
-      users,
+      ordersnumber,
+      workspacesnumber,
+      appointmentsnumber,
+      usersnumber,
+      AppointmentsMonthly,
+      ordersMonthly,
     },
   });
 });

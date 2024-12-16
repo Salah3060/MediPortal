@@ -40,18 +40,26 @@ const retrieveTableSize = async (table) => {
 const retrieveAppointmentsMonthlyStats = async () => {
   try {
     let query = `
-        SELECT 
-          EXTRACT(MONTH FROM appointmentDate) AS month,
-          COUNT(*) AS appointmentCount
-        FROM 
-          appointments
-        GROUP BY 
-          EXTRACT(MONTH FROM appointmentDate)
-        ORDER BY 
-          month;
+          WITH months AS (
+      SELECT generate_series(1, 12) AS month
+    )
+    SELECT 
+      m.month,
+      COALESCE(COUNT(a.appointmentDate), 0) AS appointmentCount
+    FROM 
+      months m
+    LEFT JOIN 
+      appointments a
+    ON 
+      EXTRACT(MONTH FROM a.appointmentDate) = m.month
+    GROUP BY 
+      m.month
+    ORDER BY 
+      m.month;
+
     `;
     const res = await pool.query(query);
-    return res.rows[0];
+    return res.rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -60,18 +68,26 @@ const retrieveAppointmentsMonthlyStats = async () => {
 const retrieveOrdersMonthlyStats = async () => {
   try {
     let query = `
-        SELECT 
-          EXTRACT(MONTH FROM orderDate) AS month,
-          COUNT(*) AS orderCount
-        FROM 
-          orders
-        GROUP BY 
-          EXTRACT(MONTH FROM orderDate)
-        ORDER BY 
-          month;
+    WITH months AS (
+    SELECT generate_series(1, 12) AS month
+  )
+  SELECT 
+    m.month,
+    COALESCE(COUNT(o.orderDate), 0) AS orderCount
+  FROM 
+    months m
+  LEFT JOIN 
+    orders o
+  ON 
+    EXTRACT(MONTH FROM o.orderDate) = m.month
+  GROUP BY 
+    m.month
+  ORDER BY 
+    m.month;
+
     `;
     const res = await pool.query(query);
-    return res.rows[0];
+    return res.rows;
   } catch (error) {
     console.log(error);
     throw error;
