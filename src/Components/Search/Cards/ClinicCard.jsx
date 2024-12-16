@@ -29,10 +29,6 @@ const ClinicCard = ({ workspace }) => {
   const [selectedTime, setSelectedTime] = useState("");
   const [loading, setLoading] = useState(false); // New loading state
 
-  useEffect(() => {
-    console.log(workspace);
-  }, [workspace]);
-
   const generateTimeSlots = () => {
     if (workspace.startTime && workspace.endTime) {
       const start = new Date(`1970-01-01T${workspace.startTime}`);
@@ -68,7 +64,7 @@ const ClinicCard = ({ workspace }) => {
     try {
       const response = await bookAppointment(
         selectedDoctor.userid,
-        workspace.workspaceId,
+        workspace.locationId,
         bookingData
       );
       toast.success("Appointment booked successfully!");
@@ -110,24 +106,18 @@ const ClinicCard = ({ workspace }) => {
 
       {/* Locations Section */}
       <div className="locations flex flex-col gap-4">
-        {workspace.locations ? (
-          workspace.locations.map((location) => (
-            <div
-              key={location.locationId}
-              className="location flex items-center gap-2 justify-between"
-            >
-              <p className="text-primary">{location.workspacesLocation}</p>
-              <button
-                className="bg-primary px-6 py-1 text-tertiary rounded-xl"
-                onClick={openModal}
-              >
-                Book
-              </button>
-            </div>
-          ))
-        ) : (
-          <p className="text-primary">No locations available</p>
-        )}
+        <div
+          key={workspace.locationId}
+          className="location flex items-center gap-2 justify-between"
+        >
+          <p className="text-primary">{workspace.location}</p>
+          <button
+            className="bg-primary px-6 py-1 text-tertiary rounded-xl"
+            onClick={openModal}
+          >
+            Book
+          </button>
+        </div>
       </div>
 
       {/* Modal Section */}
@@ -238,6 +228,8 @@ ClinicCard.propTypes = {
     workingDay: propTypes.string,
     startTime: propTypes.string,
     endTime: propTypes.string,
+    locationId: propTypes.string,
+    location: propTypes.string,
     locations: propTypes.array,
   }),
   setSelectedClinic: propTypes.func,

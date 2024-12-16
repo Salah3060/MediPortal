@@ -33,8 +33,12 @@ const DoctorCard = ({ doctor }) => {
           </p>
 
           <div className="rating flex justify-center md:justify-start gap-1 mt-4">
-            {renderStars(4.2)}
+            {renderStars(doctor.overallrating)}
           </div>
+
+          <p className="text-md text-primary/80 text-center md:text-left mt-2">
+            Waiting Time: {doctor.averagewaitingtime} minutes
+          </p>
         </div>
         <div className="feats flex flex-col gap-2 w-full">
           <div className="feat flex items-center gap-2 justify-center md:justify-start">

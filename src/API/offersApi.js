@@ -10,6 +10,7 @@ export const getAllOffers = async () => {
     console.error(error);
   }
 };
+
 export const getDoctorOffer = async (id) => {
   try {
     const response = await axiosInstance.get(
