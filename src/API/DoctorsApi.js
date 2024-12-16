@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance";
+import Cookies from "js-cookie";
 
 // gat all doctors
 export const getAllDoctors = async (page) => {
@@ -29,6 +30,16 @@ export const getDoctorById = async (id) => {
   try {
     const response = await axiosInstance.get(`/doctors/${id}`);
     return response.data;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
+export const getDoctorPatients = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/doctors/patients/${id}`, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    return response.data.data.pateints;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
   }

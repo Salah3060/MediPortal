@@ -63,3 +63,18 @@ export const ChangeAppointmentStatus = async (id, status) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+export const getDoctorStats = async (id) => {
+  try {
+    const response = await axiosInstance.get(
+      `/appointments/stats?a.doctorId=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
+    return response.data.data.stats;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
