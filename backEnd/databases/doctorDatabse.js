@@ -242,6 +242,43 @@ const retrieveDoctorsStats = async () => {
     throw error;
   }
 };
+const retrieveDoctorWorkspaces = async (id) => {
+  try {
+    const query = `
+      SELECT 
+        da.doctorid,
+        workingday , 
+        starttime , 
+        endtime, 
+        workspaceslocation,
+        da.locationid,
+        da.workspaceid
+      FROM 
+        DoctorAvailability da
+      LEFT JOIN 
+        WorkspaceLocations wl 
+      ON 
+        wl.workspaceId = da.workspaceId
+        AND wl.locationId = da.locationId
+      
+      where doctorId=$1
+
+      group by 
+      da.doctorid,
+      workingday , 
+      starttime , 
+      endtime, 
+      workspaceslocation,
+      da.locationid,
+      da.workspaceid
+    `;
+    const res = await pool.query(query, [id]);
+    return res.rows;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
 export {
   retrieveAllDoctors,
@@ -250,4 +287,5 @@ export {
   createAvailability,
   deleteAvailability,
   retrieveDoctorsStats,
+  retrieveDoctorWorkspaces,
 };

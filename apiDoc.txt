@@ -151,7 +151,7 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             }
         ]
     }
-
+    
     }
        
          you can query on name with all methods KAmal kAMak 
@@ -307,6 +307,35 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             "blockeddoctors": "1",
             "blockedpercentage": "20.00"
         }
+    }
+
+    }
+    3.8 getDoctorWorkspaces
+    endPoint:127.0.0.1:3000/api/v1/doctors/workspaces/:id
+    method:get
+    body:
+    {
+
+    }
+    response:
+    {
+        
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "workspaces": 
+        [
+            {
+                "doctorid": 6,
+                "workingday": "Monday",
+                "starttime": "08:00:00",
+                "endtime": "12:00:00",
+                "workspaceslocation": "Doctor_6_Location_1",
+                "locationid": 4,
+                "workspaceid": 8
+            }
+        ]
     }
 
     }

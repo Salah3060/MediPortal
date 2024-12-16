@@ -6,8 +6,9 @@ import {
   createAvailability,
   deleteAvailability,
   retrieveDoctorsStats,
+  retrieveDoctorWorkspaces,
 } from "../databases/doctorDatabse.js";
-import { retrieveStats } from "../databases/globalDatabase.js";
+import { retrieveUsersStats } from "../databases/statsDatabase.js";
 import {
   AppError,
   catchAsyncError,
@@ -145,11 +146,22 @@ const removeAvailability = catchAsyncError(async (req, res, next) => {
 });
 
 const getDoctorsStats = catchAsyncError(async (req, res, next) => {
-  const stats = await retrieveStats("Doctor");
+  const stats = await retrieveUsersStats("Doctor");
   res.status(200).json({
     status: "success",
     ok: true,
     data: { stats },
+  });
+});
+
+const getDoctorWorkspaces = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+  const workspaces = await retrieveDoctorWorkspaces(id);
+
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: { workspaces },
   });
 });
 
@@ -164,4 +176,5 @@ export {
   addAvailability,
   removeAvailability,
   getDoctorsStats,
+  getDoctorWorkspaces,
 };
