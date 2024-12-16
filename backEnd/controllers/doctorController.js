@@ -7,6 +7,7 @@ import {
   deleteAvailability,
   retrieveDoctorsStats,
 } from "../databases/doctorDatabse.js";
+import { retrieveStats } from "../databases/globalDatabase.js";
 import {
   AppError,
   catchAsyncError,
@@ -144,7 +145,7 @@ const removeAvailability = catchAsyncError(async (req, res, next) => {
 });
 
 const getDoctorsStats = catchAsyncError(async (req, res, next) => {
-  const stats = await retrieveDoctorsStats();
+  const stats = await retrieveStats("Doctor");
   res.status(200).json({
     status: "success",
     ok: true,

@@ -1,5 +1,8 @@
 import express from "express";
-import { getAllPatients } from "../controllers/patientController.js";
+import {
+  getAllPatients,
+  getPatientsStats,
+} from "../controllers/patientController.js";
 import {
   restrictTo,
   updateUser,
@@ -10,6 +13,7 @@ const router = express.Router();
 
 router.use(validateLoggedIn);
 router.get("/allPatients", restrictTo("Admin", "Doctor"), getAllPatients);
+router.get("/stats", restrictTo("Admin"), getPatientsStats);
 
 // doctor-side update
 router.patch("/updateMe", updateUser("Patient"));

@@ -370,7 +370,30 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             3-"You must be an patient or a doctor to use updateMe"
                 if you tried to use the route "updateMe" as an admin
         }
+    3.5 getPatientsStats
+    endPoint:127.0.0.1:3000/api/v1/Patients/stats
+    method:get
+    body:
+    {
 
+    }
+    response:
+    {
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "stats":
+         {
+            "activepatients": "3",
+            "activepercentage": "60.00",
+            "pendingpatients": "1",
+            "pendingpercentage": "20.00",
+            "blockedpatients": "1",
+            "blockedpercentage": "20.00"
+        }
+    }
+    }
 
 4.Pharmasy 
      4.1 Products
