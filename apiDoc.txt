@@ -1412,3 +1412,130 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 }
             }
         }
+
+11 Dashboard
+
+
+    11.1 getDashboardStats
+    endPoint:127.0.0.1:3000/api/v1/stats
+    method:get
+    body:
+    {
+
+    }
+    response:
+    {
+        
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "ordersnumber": "6",
+        "workspacesnumber": "29",
+        "appointmentsnumber": "10",
+        "usersnumber": "13",
+        "AppointmentsMonthly": 
+        [
+            {
+                "month": 1,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 2,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 3,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 4,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 5,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 6,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 7,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 8,
+                "appointmentcount": "1"
+            },
+            {
+                "month": 9,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 10,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 11,
+                "appointmentcount": "1"
+            },
+            {
+                "month": 12,
+                "appointmentcount": "8"
+            }
+        ],
+        "ordersMonthly":
+         [
+            {
+                "month": 1,
+                "ordercount": "0"
+            },
+            {
+                "month": 2,
+                "ordercount": "0"
+            },
+            {
+                "month": 3,
+                "ordercount": "0"
+            },
+            {
+                "month": 4,
+                "ordercount": "0"
+            },
+            {
+                "month": 5,
+                "ordercount": "0"
+            },
+            {
+                "month": 6,
+                "ordercount": "0"
+            },
+            {
+                "month": 7,
+                "ordercount": "0"
+            },
+            {
+                "month": 8,
+                "ordercount": "0"
+            },
+            {
+                "month": 9,
+                "ordercount": "0"
+            },
+            {
+                "month": 10,
+                "ordercount": "0"
+            },
+            {
+                "month": 11,
+                "ordercount": "0"
+            },
+            {
+                "month": 12,
+                "ordercount": "6"
+            }
+        ]
+    }
+
+    }
