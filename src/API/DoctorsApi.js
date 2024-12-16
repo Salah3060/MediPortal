@@ -1,9 +1,11 @@
 import axiosInstance from "./axiosInstance";
 
 // gat all doctors
-export const getAllDoctors = async () => {
+export const getAllDoctors = async (page) => {
   try {
-    const response = await axiosInstance.get("/doctors/allDoctors");
+    const response = await axiosInstance.get(
+      `/doctors/allDoctors?limit=10&&page=${page}`
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);

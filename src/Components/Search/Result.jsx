@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import Filters from "./Filters";
 import DoctorsSection from "./DoctorsSection";
+import propTypes from "prop-types";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
-const Result = () => {
+const Result = ({ setPage }) => {
   return (
     <div className="container max-w-[1300px] mx-auto px-4 py-2 flex flex-col">
       {/* Header */}
@@ -34,8 +37,37 @@ const Result = () => {
           <DoctorsSection />
         </div>
       </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center py-4 w-full">
+        <Stack spacing={2} className="w-full">
+          <Pagination
+            count={5}
+            variant="outlined"
+            shape="rounded"
+            onChange={(e, value) => setPage(value)}
+            sx={{
+              "& .MuiPagination-ul": {
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between", // Spread across the full width
+              },
+              "& .MuiPaginationItem-root": {
+                fontSize: "1.2rem", // Larger font size
+                minWidth: "3rem", // Increase button size
+                minHeight: "3rem", // Increase button size
+                borderRadius: "8px", // Rounded corners
+              },
+            }}
+          />
+        </Stack>
+      </div>
     </div>
   );
+};
+
+Result.propTypes = {
+  setPage: propTypes.func.isRequired,
 };
 
 export default Result;

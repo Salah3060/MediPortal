@@ -8,9 +8,9 @@ import {
 // Async thunk to fetch all Doctors
 export const fetchAllDoctors = createAsyncThunk(
   "doctors/fetchAllDoctors",
-  async (_, thunkAPI) => {
+  async (page, thunkAPI) => {
     try {
-      const doctors = await getAllDoctors();
+      const doctors = await getAllDoctors(page);
       return doctors.data.doctors;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);

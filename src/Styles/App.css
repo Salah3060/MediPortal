@@ -89,3 +89,20 @@ label input[type="radio"] {
 label {
   line-height: 20px; /* Ensures the label text is vertically aligned with the input */
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #9db4c0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #253237;
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5c6b73;
+}

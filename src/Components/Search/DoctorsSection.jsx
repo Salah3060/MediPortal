@@ -51,7 +51,7 @@ const DoctorsSection = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
-            {filteredDoctors?.slice(0, 10).map((doctor) => (
+            {filteredDoctors?.map((doctor) => (
               <DoctorCard key={doctor.userid} doctor={doctor} />
             ))}
           </div>

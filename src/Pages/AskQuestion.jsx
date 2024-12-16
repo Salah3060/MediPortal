@@ -4,6 +4,7 @@ import { askQuestion } from "@/API/questionsApi";
 import SuccessPopup from "@/Components/SuccessPopup";
 import ErrorPopup from "@/Components/ErrorPopup";
 import Loader from "@/Components/Loader";
+import Chatbot from "@/Components/Questions/Chatbot";
 
 const AskQuestion = () => {
   const [selectedStatus, setSelectedStatus] = useState("myself"); // Default selection
@@ -188,6 +189,8 @@ const AskQuestion = () => {
         </div>
       </div>
 
+      {/* ChatBot */}
+      <Chatbot />
       {/* Display Success or Error Popup based on submission outcome */}
       {success && <SuccessPopup Header="Question Submitted Successfully" />}
       {error && <ErrorPopup Header="Error Submitting Question" />}
