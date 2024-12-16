@@ -17,25 +17,14 @@ const SuccessBooking = () => {
   const { selectedDoctor } = useSelector((state) => state.search);
   const [patient, setPatient] = useState(null);
 
+  const { status, firstname, lastname } = useSelector((state) => state.user);
+
   useEffect(() => {
     // show the loader for 2 seconds
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   }, []);
-
-  useEffect(() => {
-    if (appointment) {
-      getPatient(appointment.patientId)
-        .then((res) => {
-          console.log(res);
-          setPatient(res);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [appointment]);
 
   if (loading) return <Loader />;
 
@@ -95,7 +84,7 @@ const SuccessBooking = () => {
           <div className="single flex flex-col md:flex-row gap-4 md:gap-16 border-b pb-4">
             <h1 className="font-bold text-sm sm:text-base">Patient name :</h1>
             <h1 className="text-sm sm:text-base">
-              {patient?.firstname + " " + patient?.lastname}
+              {firstname + " " + lastname}
             </h1>
           </div>
           <div className="single flex flex-col md:flex-row gap-4 md:gap-16 border-b pb-4">

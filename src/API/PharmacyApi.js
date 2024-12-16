@@ -48,3 +48,17 @@ export const getAllCategories = async () => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+
+// place order
+export const placeOrder = async (order) => {
+  try {
+    const response = await axiosInstance.post("/orders", order, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};

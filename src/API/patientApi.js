@@ -13,9 +13,7 @@ export const getAllPatients = async () => {
 // get a single patient
 export const getPatient = async (id) => {
   try {
-    const response = await axiosInstance.get(
-      `/patients/allPatients?userId=${id}`
-    );
+    const response = await axiosInstance.get(`/patints/alPatints?userId=${id}`);
     console.log(response.data.data.patients[0]);
     return response.data.data.patients[0];
   } catch (error) {

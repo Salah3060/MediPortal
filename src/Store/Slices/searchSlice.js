@@ -37,6 +37,7 @@ export const fetchDoctorById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const doctor = await getDoctorById(id);
+      console.log("Doctor Data:", doctor.data.doctor[0]);
       return doctor.data.doctor[0];
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);

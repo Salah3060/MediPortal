@@ -83,7 +83,7 @@ const DoctorInfo = () => {
               </p>
               <div className="rating flex items-center gap-2 mt-2">
                 <div className="rating flex justify-center md:justify-start gap-1">
-                  {renderStars(4.2)}
+                  {renderStars()}
                 </div>
                 <p className="text-[10px] text-primary/60">Overall Rating</p>
                 <a
@@ -118,7 +118,7 @@ const DoctorInfo = () => {
 
             <div className="rating flex flex-col gap-2 justify-center items-center border-b pb-8">
               <div className="rating flex justify-center items-center pt-4 gap-1 text-3xl">
-                {renderStars(4.2)}
+                {renderStars(selectedDoctor?.overallrating || 4.2)}
               </div>
               <p className="text-sm font-bold">Overall Rating</p>
             </div>
@@ -154,7 +154,11 @@ const DoctorInfo = () => {
             <div className="waitingTime flex flex-col justify-center items-center gap-2">
               <MdOutlineTimelapse className="text-3xl -rotate-45 text-darkRed" />
               <p className="text-primary text-[14px]">
-                Waiting Time: <span className="font-semibold">{15}</span> Min
+                Waiting Time:{" "}
+                <span className="font-semibold">
+                  {selectedDoctor?.averagewaitingtime || 15}
+                </span>{" "}
+                Min
               </p>
             </div>
           </div>
@@ -168,21 +172,13 @@ const DoctorInfo = () => {
             </div>
             <div className="av-locations flex w-full">
               <div className="clinics flex flex-col gap-2 items-start mt-6 w-full">
-                {availability && Array.isArray(availability) ? (
-                  availability.length > 0 ? (
-                    availability.map((clinic) => (
-                      <ClinicCard
-                        key={clinic.workspaceId}
-                        workspace={clinic}
-                        setSelectedClinic={setSelectedClinic}
-                      />
-                    ))
-                  ) : (
-                    <p>No available time</p>
-                  )
-                ) : (
-                  <p>No available time</p>
-                )}
+                {selectedDoctor?.availibility?.map((workspace) => (
+                  <ClinicCard
+                    key={workspace.workspaceId}
+                    workspace={workspace}
+                    setSelectedClinic={setSelectedClinic}
+                  />
+                ))}
               </div>
             </div>
           </div>

@@ -19,7 +19,7 @@ const DoctorsSection = () => {
             {filteredDoctors?.length}
           </span>
         </div>
-        <div className="sorting flex gap-4 items-center w-[fit-content] lg:w-auto text-primary">
+        {/* <div className="sorting flex gap-4 items-center w-[fit-content] lg:w-auto text-primary">
           <label htmlFor="sort" className="text-sm font-bold">
             Sort By:
           </label>
@@ -36,7 +36,7 @@ const DoctorsSection = () => {
             <option value="nameAtoZ">Name: A to Z</option>
             <option value="nameZtoA">Name: Z to A</option>
           </select>
-        </div>
+        </div> */}
       </div>
 
       {/* Doctors Section */}
