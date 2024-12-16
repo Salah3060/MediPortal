@@ -13,13 +13,13 @@ const Landing = () => {
 
         <div className="buttons mt-4 w-full p-6 rounded-xl flex flex-col md:flex-row gap-4 justify-around items-center">
           <Link
-            className="bg-[#c2dfe3] px-6 py-4 rounded-xl"
+            className="bg-[#c2dfe3] text-primary hover:text-tertiary hover:bg-primary font-semibold px-6 py-4 rounded-xl transition-all duration-300"
             to="/MediPortal/search"
           >
             Find A Doctor
           </Link>
           <Link
-            className="bg-[#c2dfe3] px-6 py-4 rounded-xl"
+            className="bg-[#c2dfe3] text-primary hover:text-tertiary hover:bg-primary font-semibold px-6 py-4 rounded-xl transition-all duration-300"
             to={"/MediPortal/pharmacy"}
           >
             Purchase a Product

@@ -11,7 +11,7 @@ const PharmacySectionLargeScreen = () => {
           Get your medicine and all your pharmacy needs
         </p>
         <Link
-          className="px-[24px] py-[10px] text-lg font-semibold w-[fit-content] bg-white rounded-lg hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out"
+          className="px-[24px] py-[10px] text-lg font-semibold w-[fit-content] bg-white rounded-lg hover:bg-primary hover:text-tertiary text-primary transition duration-300 ease-in-out"
           to={"/MediPortal/pharmacy"}
         >
           Place Order
@@ -57,12 +57,20 @@ const QuestionsSectionLargeScreen = () => {
         Submit your medical question and receive an answer from a specialized
         doctor
       </p>
-      <Link
-        className="px-[24px] py-[10px] text-lg font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out"
-        to={"/MediPortal/askquestion"}
-      >
-        Ask Now
-      </Link>
+      <div className="flex gap-8">
+        <Link
+          className="px-[24px] py-[10px] text-lg font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary  transition duration-300 ease-in-out"
+          to={"/MediPortal/askquestion"}
+        >
+          Ask Now
+        </Link>
+        <Link
+          className="px-[24px] py-[10px] text-lg font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary  transition duration-300 ease-in-out"
+          to={"/MediPortal/questions"}
+        >
+          See All Questions
+        </Link>
+      </div>
     </div>
   );
 };

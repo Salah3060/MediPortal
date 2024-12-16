@@ -17,12 +17,17 @@ const Categories = () => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <Loader />
+      </div>
+    );
 
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="container max-w-[1300px] mx-auto px-4 py-8">
+    <div className="container max-w-[1300px] mx-auto px-4 py-8 min-h-[600px]">
       {/* Header */}
       <div className="textHeader font-bold text-primary text-xl mb-4">
         <h1>Browse by category</h1>
