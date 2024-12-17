@@ -327,7 +327,7 @@ const updateUser = (role) => {
       if (yearsofexperience && !validator.isNumeric(yearsofexperience)) {
         return next(new AppError("Years of experience must be numbers!", 400));
       }
-      if (!validator.isNumeric(fees)) {
+      if (fees && !validator.isNumeric(fees)) {
         return next(new AppError("Fees must be numbers!", 400));
       }
       let specificAtt = {};
