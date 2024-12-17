@@ -112,8 +112,8 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
   // 2) Create the checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    success_url: `https://placehold.co/1000/white/green?text=Successful&font=roboto`,
-    cancel_url: `https://placehold.co/1000/white/red?text=canceled&font=roboto`,
+    success_url: `http://localhost:5173/MediPortal/booking/success`,
+    cancel_url: `http://localhost:5173/MediPortal/booking/paymenterror`,
     customer_email: req.user.email,
     client_reference_id: doctorId,
     line_items: transformedData,
