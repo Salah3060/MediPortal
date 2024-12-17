@@ -124,6 +124,7 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     states: "success",
     session,
+    doctor,
   });
 });
 
