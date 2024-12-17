@@ -28,7 +28,6 @@ const retrieveAllOffers = async (fields, filters, orders, limit, page) => {
     if (filters) query += `where ${filters.join(" and ")}      `;
     if (orders) query += `order by ${orders.join(" , ")}       `;
     query += ` LIMIT ${limit} OFFSET ${page - 1} * ${limit} ; `;
-    console.log(query);
     const res = await pool.query(query);
     return res.rows;
   } catch (error) {

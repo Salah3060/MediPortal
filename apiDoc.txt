@@ -654,6 +654,70 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                     }
                 }
             }
+        4.8getAllOrders
+        endPoint:127.0.0.1:3000/api/v1/orders/allOrders?o.patientId=1&&order=-o.orderDate
+        validAttributes:
+        [
+        "o.orderId",
+        "o.orderDate",
+        "o.patientId",
+        "u.firstName",
+        "u.lastName",
+        "totalAmount",
+        ];
+        queryOption: o.orderDate=.....   , order=o.orderDate , limit=10 , page=2 , fields = o.orderId
+        method:get
+        body:
+        {
+
+        }
+        response:
+        {
+        "status": "success",
+        "ok": true,
+        "data": 
+        {
+        "allOrders": 
+        [
+         {
+                "orderid": 11,
+                "orderdate": "2024-12-16T19:09:09.636Z",
+                "patientid": 1,
+                "firstname": "John",
+                "lastname": "Kamal",
+                "totalamount": 4525,
+                "products": 
+                [
+                    {
+                        "productId": 17,
+                        "productName": "Hashish fa5er",
+                        "productQuantity": 3,
+                        "manufacture": "Bango group",
+                        "productPrice": 1500
+                    }
+                ]
+            },
+            {
+                "orderid": 10,
+                "orderdate": "2024-12-16T19:05:39.634Z",
+                "patientid": 1,
+                "firstname": "John",
+                "lastname": "Kamal",
+                "totalamount": 4525,
+                "products": 
+                [
+                    {
+                        "productId": 17,
+                        "productName": "Hashish fa5er",
+                        "productQuantity": 3,
+                        "manufacture": "Bango group",
+                        "productPrice": 1500
+                    }
+                ]
+            },
+        ]
+        }
+        }
   
 5.offers
     5.1 allOffers
