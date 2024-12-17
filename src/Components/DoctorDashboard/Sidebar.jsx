@@ -8,7 +8,12 @@ import { tokens } from "./theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { PiHospitalBold, PiTimer } from "react-icons/pi";
-import { FaMoneyBill, FaPlus, FaRegClock } from "react-icons/fa";
+import {
+  FaMoneyBill,
+  FaPlus,
+  FaRegAddressCard,
+  FaRegClock,
+} from "react-icons/fa";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -113,6 +118,13 @@ const Sidebar = ({ name, spec }) => {
               title="Dashboard"
               to="."
               icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Update my info"
+              to="./UpdateMe"
+              icon={<FaRegAddressCard />}
               selected={selected}
               setSelected={setSelected}
             />

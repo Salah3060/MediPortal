@@ -44,3 +44,14 @@ export const getDoctorPatients = async (id) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+export const updateMe = async (data) => {
+  try {
+    const response = await axiosInstance.patch(`/doctors/updateMe`, data, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+
+    return response.data.data.updatedUser;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
