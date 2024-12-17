@@ -5,7 +5,10 @@ import {
   reteieveDoctorPatients,
   createAvailability,
   deleteAvailability,
+  retrieveDoctorsStats,
+  retrieveDoctorWorkspaces,
 } from "../databases/doctorDatabse.js";
+import { retrieveUsersStats } from "../databases/statsDatabase.js";
 import {
   AppError,
   catchAsyncError,
@@ -142,6 +145,26 @@ const removeAvailability = catchAsyncError(async (req, res, next) => {
   });
 });
 
+const getDoctorsStats = catchAsyncError(async (req, res, next) => {
+  const stats = await retrieveUsersStats("Doctor");
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: { stats },
+  });
+});
+
+const getDoctorWorkspaces = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+  const workspaces = await retrieveDoctorWorkspaces(id);
+
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: { workspaces },
+  });
+});
+
 // const editAvailability = catchAsyncError(async (req,res,next)=>{
 //   let {workingDay, startTime, endTime, locationId}
 // })
@@ -152,4 +175,6 @@ export {
   doctorPatients,
   addAvailability,
   removeAvailability,
+  getDoctorsStats,
+  getDoctorWorkspaces,
 };

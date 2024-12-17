@@ -96,10 +96,64 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                             }
                }
 
-    2.2 get doctor by any of its arrtibue 
-        ==>use get all doctors and set wanted attrubite like 
-         endPoint: 127.0.0.1:3000/api/v1/doctors/allDoctors?firstName='Kamal' 
-         endPoint: 127.0.0.1:3000/api/v1/doctors/allDoctors?userId=4
+    2.2 get Doctor
+    endPoint:127.0.0.1:3000/api/v1/doctors/6
+    method:get
+    body:
+    {
+
+    }
+    response:
+    {
+        
+    "status": "success",
+    "ok": true,
+    "data": {
+        "doctor": 
+        [
+            {
+                "userid": 6,
+                "firstname": "Active",
+                "lastname": "Garcia",
+                "phonenumber": "9876543210",
+                "email": "diana.garcia@example.com",
+                "gender": "Female",
+                "wallet": "300.00",
+                "createdat": "2024-11-30T15:27:48.116Z",
+                "updatedat": "2024-12-16T16:11:16.492Z",
+                "birthdate": "1993-08-14T21:00:00.000Z",
+                "licensenumber": 123456,
+                "specialization": "Dentist",
+                "yearsofexperience": 10,
+                "about": "Specialist in general medicine.",
+                "fees": 450,
+                "availibility": 
+                [
+                    {
+                        "locationId": 4,
+                        "startTime": "08:00:00",
+                        "endTime": "12:00:00",
+                        "workingDay": "Monday",
+                        "workSpaceId": 8,
+                        "location": "Doctor_6_Location_1"
+                    }
+                ],
+                "reviews": 
+                [
+                    {
+                        "rate": null,
+                        "review": null,
+                        "reviewDate": null,
+                        "waitingTime": null,
+                        "patient": null
+                    }
+                ]
+            }
+        ]
+    }
+    
+    }
+       
          you can query on name with all methods KAmal kAMak 
     3.3 update doctor -as an admin only-
         endPoint: 127.0.0.1:3000/api/v1/doctors/:id -doctorId-
@@ -230,7 +284,61 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             1-"this availability does NOT exist"
                 deleting already deleted availability or a one that does NOT exist
         
-            
+    3.8 getDoctorsStats
+    endPoint:127.0.0.1:3000/api/v1/doctors/stats
+    method:get
+    body:
+    {
+
+    }
+    response:
+    {
+        
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "stats": 
+        {
+            "activedoctors": "4",
+            "activepercentage": "80.00",
+            "pendingdoctors": "0",
+            "pendingpercentage": "0.00",
+            "blockeddoctors": "1",
+            "blockedpercentage": "20.00"
+        }
+    }
+
+    }
+    3.8 getDoctorWorkspaces
+    endPoint:127.0.0.1:3000/api/v1/doctors/workspaces/:id
+    method:get
+    body:
+    {
+
+    }
+    response:
+    {
+        
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "workspaces": 
+        [
+            {
+                "doctorid": 6,
+                "workingday": "Monday",
+                "starttime": "08:00:00",
+                "endtime": "12:00:00",
+                "workspaceslocation": "Doctor_6_Location_1",
+                "locationid": 4,
+                "workspaceid": 8
+            }
+        ]
+    }
+
+    }
  3.Patients   
      3.1 getAllPatient
     endPoint: 127.0.0.1:3000/api/v1/patients/allPatients?gender=Male&&order=firstName&&fields=firstName,lastName
@@ -345,7 +453,30 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             3-"You must be an patient or a doctor to use updateMe"
                 if you tried to use the route "updateMe" as an admin
         }
+    3.5 getPatientsStats
+    endPoint:127.0.0.1:3000/api/v1/Patients/stats
+    method:get
+    body:
+    {
 
+    }
+    response:
+    {
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "stats":
+         {
+            "activepatients": "3",
+            "activepercentage": "60.00",
+            "pendingpatients": "1",
+            "pendingpercentage": "20.00",
+            "blockedpatients": "1",
+            "blockedpercentage": "20.00"
+        }
+    }
+    }
 
 4.Pharmasy 
      4.1 Products
@@ -523,6 +654,70 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                     }
                 }
             }
+        4.8getAllOrders
+        endPoint:127.0.0.1:3000/api/v1/orders/allOrders?o.patientId=1&&order=-o.orderDate
+        validAttributes:
+        [
+        "o.orderId",
+        "o.orderDate",
+        "o.patientId",
+        "u.firstName",
+        "u.lastName",
+        "totalAmount",
+        ];
+        queryOption: o.orderDate=.....   , order=o.orderDate , limit=10 , page=2 , fields = o.orderId
+        method:get
+        body:
+        {
+
+        }
+        response:
+        {
+        "status": "success",
+        "ok": true,
+        "data": 
+        {
+        "allOrders": 
+        [
+         {
+                "orderid": 11,
+                "orderdate": "2024-12-16T19:09:09.636Z",
+                "patientid": 1,
+                "firstname": "John",
+                "lastname": "Kamal",
+                "totalamount": 4525,
+                "products": 
+                [
+                    {
+                        "productId": 17,
+                        "productName": "Hashish fa5er",
+                        "productQuantity": 3,
+                        "manufacture": "Bango group",
+                        "productPrice": 1500
+                    }
+                ]
+            },
+            {
+                "orderid": 10,
+                "orderdate": "2024-12-16T19:05:39.634Z",
+                "patientid": 1,
+                "firstname": "John",
+                "lastname": "Kamal",
+                "totalamount": 4525,
+                "products": 
+                [
+                    {
+                        "productId": 17,
+                        "productName": "Hashish fa5er",
+                        "productQuantity": 3,
+                        "manufacture": "Bango group",
+                        "productPrice": 1500
+                    }
+                ]
+            },
+        ]
+        }
+        }
   
 5.offers
     5.1 allOffers
@@ -913,6 +1108,36 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
            ]
         }
     }
+
+7.7 getAppointmentsStats
+    endPoint:127.0.0.1:3000/api/v1/appointments/stats?a.doctorId=8
+    method:get 
+    validAttributes:['a.doctorId']
+    body
+    {
+
+    }
+    response:
+    {
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "stats": 
+        {
+            "completedappointments": "2",
+            "completedpercentage": "20.00",
+            "scheduledappointments": "5",
+            "scheduledpercentage": "50.00",
+            "cancelledappointments": "3",
+            "cancelledpercentage": "30.00",
+            "cashappointments": "5",
+            "cashpercentage": "50.00",
+            "onlineappointments": "5",
+            "onlinepercentage": "50.00"
+        }
+    }
+    }
 8.Question 
     8.1 getAllQuestion 
     endPoint:127.0.0.1:3000/api/v1/questions/allQuestions?doctorId=7
@@ -1251,3 +1476,130 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 }
             }
         }
+
+11 Dashboard
+
+
+    11.1 getDashboardStats
+    endPoint:127.0.0.1:3000/api/v1/stats
+    method:get
+    body:
+    {
+
+    }
+    response:
+    {
+        
+    "status": "success",
+    "ok": true,
+    "data": 
+    {
+        "ordersnumber": "6",
+        "workspacesnumber": "29",
+        "appointmentsnumber": "10",
+        "usersnumber": "13",
+        "AppointmentsMonthly": 
+        [
+            {
+                "month": 1,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 2,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 3,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 4,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 5,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 6,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 7,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 8,
+                "appointmentcount": "1"
+            },
+            {
+                "month": 9,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 10,
+                "appointmentcount": "0"
+            },
+            {
+                "month": 11,
+                "appointmentcount": "1"
+            },
+            {
+                "month": 12,
+                "appointmentcount": "8"
+            }
+        ],
+        "ordersMonthly":
+         [
+            {
+                "month": 1,
+                "ordercount": "0"
+            },
+            {
+                "month": 2,
+                "ordercount": "0"
+            },
+            {
+                "month": 3,
+                "ordercount": "0"
+            },
+            {
+                "month": 4,
+                "ordercount": "0"
+            },
+            {
+                "month": 5,
+                "ordercount": "0"
+            },
+            {
+                "month": 6,
+                "ordercount": "0"
+            },
+            {
+                "month": 7,
+                "ordercount": "0"
+            },
+            {
+                "month": 8,
+                "ordercount": "0"
+            },
+            {
+                "month": 9,
+                "ordercount": "0"
+            },
+            {
+                "month": 10,
+                "ordercount": "0"
+            },
+            {
+                "month": 11,
+                "ordercount": "0"
+            },
+            {
+                "month": 12,
+                "ordercount": "6"
+            }
+        ]
+    }
+
+    }

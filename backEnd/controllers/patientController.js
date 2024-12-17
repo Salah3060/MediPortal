@@ -6,6 +6,7 @@ import {
   orderQueryHandler,
 } from "../utilities.js";
 import { retrieveAllPatients } from "../databases/patientDatabase.js";
+import { retrieveUsersStats } from "../databases/statsDatabase.js";
 const validAttributes = [
   "userId",
   "email",
@@ -65,4 +66,13 @@ const getAllPatients = catchAsyncError(async (req, res, next) => {
   });
 });
 
-export { getAllPatients };
+const getPatientsStats = catchAsyncError(async (req, res, next) => {
+  const stats = await retrieveUsersStats("Patient");
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: { stats },
+  });
+});
+
+export { getAllPatients, getPatientsStats };

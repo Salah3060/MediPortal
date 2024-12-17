@@ -38,4 +38,61 @@ const updateOrder = async (status, id) => {
   }
 };
 
-export { createOrder, updateOrder };
+const retrieveAllorders = async (fields, filters, orders, limit, page) => {
+  try {
+    let query = "select ";
+    if (fields) query += fields;
+    else
+      query += `   
+              o.orderId,
+              o.orderDate,
+              o.patientId,
+              u.firstName, 
+              u.lastName, 
+              o.totalAmount, 
+              JSON_AGG(
+                  JSON_BUILD_OBJECT(
+                      'productId', op.productId,
+                      'productName', p.productName,
+                      'productQuantity', op.productQuantity,
+                      'manufacture', p.manufacture,
+                      'productPrice', p.productPrice
+                  )
+              ) AS products
+`;
+
+    query += `
+            FROM 
+              Orders o
+            LEFT JOIN 
+              OrderProductRelation op ON op.orderId = o.orderId
+            LEFT JOIN 
+              Users u ON u.userId = o.patientId
+            LEFT JOIN 
+              MedicalProducts p ON p.productId = op.productId
+`;
+
+    if (filters) query += `where ${filters.join(" and ")}      `;
+
+    query += `
+           group by 
+              o.orderId ,
+              o.orderDate,
+              o.patientId,
+              u.firstName , 
+              u.lastName , 
+              totalAmount
+
+    `;
+
+    if (orders) query += `order by ${orders.join(" , ")}       `;
+    query += ` LIMIT ${limit} OFFSET ${page - 1} * ${limit} ; `;
+    const res = await pool.query(query);
+    return res.rows;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export { createOrder, updateOrder, retrieveAllorders };

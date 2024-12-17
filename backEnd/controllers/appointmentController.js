@@ -2,6 +2,7 @@ import {
   retrieveAllAppointments,
   createAppointmentDb,
   updateAppointment,
+  retrieveAppointmentsStats,
 } from "../databases/appointmentDatabase.js";
 import { retrieveDoctor } from "../databases/doctorDatabse.js";
 import {
@@ -201,10 +202,26 @@ const editAppointment = catchAsyncError(async (req, res, next) => {
     },
   });
 });
-
+const getAppointmentsStats = catchAsyncError(async (req, res, next) => {
+  let filters;
+  if (req.query) {
+    filters = filterQueryHandler(req.query, validAttributes);
+    if (!filters) return next(new AppError("Invalid query atrributes", 400));
+    if (filters.length == 0) filters = undefined;
+  }
+  const stats = await retrieveAppointmentsStats(filters);
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: {
+      stats,
+    },
+  });
+});
 export {
   getAllAppointments,
   bookAppointment,
   getCheckoutSession,
   editAppointment,
+  getAppointmentsStats,
 };
