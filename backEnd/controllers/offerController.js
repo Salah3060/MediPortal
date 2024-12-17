@@ -11,6 +11,7 @@ import {
   retrieveAllOffers,
   createOfferDb,
   updateOfferDb,
+  deleteOffer,
 } from "../databases/offerDatabase.js";
 import app from "../app.js";
 import validator from "validator";
@@ -166,4 +167,20 @@ const updateOffer = catchAsyncError(async (req, res, next) => {
     console.log(error);
   }
 });
-export { getAllOffers, createOffer, updateOffer };
+
+const removeOffer = catchAsyncError(async (req, res, next) => {
+  const offerId = req.params.id;
+
+  const deleted = await deleteOffer(offerId);
+  if (!deleted) return next(new AppError("this offer does NOT exist"));
+  if (deleted.status === "fail" || deleted.severity === "ERROR") {
+    return next(
+      new AppError((deleted && deleted.message) || "something went wronge")
+    );
+  }
+  res.status(200).json({
+    status: "success",
+    data: null,
+  });
+});
+export { getAllOffers, createOffer, updateOffer, removeOffer };

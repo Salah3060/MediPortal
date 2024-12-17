@@ -74,4 +74,15 @@ const updateOfferDb = async (offerId, attributes) => {
     return error;
   }
 };
-export { retrieveAllOffers, createOfferDb, updateOfferDb };
+
+const deleteOffer = async (offerId) => {
+  try {
+    const query = `delete from Offers where offerId = $1`;
+    const res = await pool.query(query, [offerId]);
+    return res.rowCount;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export { retrieveAllOffers, createOfferDb, updateOfferDb, deleteOffer };

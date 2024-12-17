@@ -248,6 +248,7 @@ const updateUser = (role) => {
         yearsofexperience,
         about,
         specialization,
+        fees,
       } = req.body;
       // preparing attributes
       firstname = firstname ? formatString(firstname) : null;
@@ -326,7 +327,9 @@ const updateUser = (role) => {
       if (yearsofexperience && !validator.isNumeric(yearsofexperience)) {
         return next(new AppError("Years of experience must be numbers!", 400));
       }
-
+      if (!validator.isNumeric(fees)) {
+        return next(new AppError("Fees must be numbers!", 400));
+      }
       let specificAtt = {};
       if (role === "Patient") {
         specificAtt.bloodtype = bloodtype;
@@ -336,6 +339,7 @@ const updateUser = (role) => {
         specificAtt.yearsofexperience = yearsofexperience;
         specificAtt.about = about;
         specificAtt.specialization = specialization;
+        specificAtt.fees = fees;
       } else {
         return next(new AppError("something wrong happened!", 400));
       }

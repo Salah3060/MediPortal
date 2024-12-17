@@ -814,6 +814,15 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 }
             }
         }
+    5.4 delete offer
+        endPoint:127.0.0.1:3000/api/v1/offers/:offerId
+        method:delete
+        body:none
+        response:
+        {
+            "status": "success",
+            "data": null
+        }
 
 6.workspace
     6.1 Create workspace

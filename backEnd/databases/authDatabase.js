@@ -84,7 +84,6 @@ const updateUserDb = async (toBeEdited, specificAtt, role, id) => {
     const readyAtt = Object.values(toBeEdited).filter((val) => val);
     const user = await pool.query(query, [...readyAtt, id]);
     const readySpecificAtt = Object.values(specificAtt).filter((val) => val);
-
     if (readySpecificAtt.length) {
       cnt = 0;
       let secQuery = `update ${role}s SET `;
