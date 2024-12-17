@@ -707,7 +707,7 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         {
             "appointmentDate":"2024-12-12",
             "fees":"300",
-            "paymentStatus":"Cach"
+            "paymentStatus":"CaSh"
         }
         response:
         {
@@ -716,9 +716,9 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 "appointment": {
                     "appointmentid": 49,
                     "appointmentdate": "2004-12-11T22:00:00.000Z",
-                    "appointmentstatus": "Successful",
+                    "appointmentstatus": "Scheduled",
                     "fees": 300,
-                    "paymentstatus": "Cach",
+                    "paymentstatus": "Cash",
                     "bookingdate": "2024-12-11T18:12:38.603Z",
                     "patientid": 120,
                     "doctorid": 6,

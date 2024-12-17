@@ -148,7 +148,7 @@ const bookAppointment = catchAsyncError(async (req, res, next) => {
     paymentStatus = formatString(paymentStatus);
     let attributes = [
       appointmentDate,
-      "Successful",
+      "Scheduled",
       fees,
       paymentStatus,
       Date.now(),

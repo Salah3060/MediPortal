@@ -113,6 +113,7 @@ const createOffer = catchAsyncError(async (req, res, next) => {
       offerName,
     ];
     const offer = await createOfferDb(attributes);
+    console.log(offer);
     if (offer.severity === "ERROR") {
       return next(new AppError("Somthing went very wrong", 400));
     }
