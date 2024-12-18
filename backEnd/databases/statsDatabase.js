@@ -93,9 +93,43 @@ const retrieveOrdersMonthlyStats = async () => {
     throw error;
   }
 };
+const retieveAppointmentsTotoalMoney = async () => {
+  try {
+    const query = `
+                  select 
+                    sum(d.fees) as appointmentsTotoalMoney
+                  from 
+                     Appointments a 
+                  left join 
+                    doctors d on d.doctorId = a.doctorId
+                  where a.appointmentStatus!='Cancelled'
+    `;
+    const res = await pool.query(query);
+    return res.rows[0];
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+const retieveOrdersTotoalMoney = async () => {
+  try {
+    const query = `
+                  select 
+                    sum(totalAmount) as ordersTotalMoney
+                  from Orders 
+    `;
+    const res = await pool.query(query);
+    return res.rows[0];
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export {
   retrieveUsersStats,
   retrieveAppointmentsMonthlyStats,
   retrieveOrdersMonthlyStats,
   retrieveTableSize,
+  retieveAppointmentsTotoalMoney,
+  retieveOrdersTotoalMoney,
 };
