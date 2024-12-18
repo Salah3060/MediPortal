@@ -11,6 +11,7 @@ import {
   createWorkspaceDb,
   editWorkspaceDb,
   retrieveAllWorkSpaces,
+  rerteieveAllLocations,
 } from "../databases/workspaceDatabase.js";
 
 const validAttributes = ["w.workSpaceId", "w.workspaceName", "w.workspaceType"];
@@ -251,4 +252,13 @@ const getAllWorkSpaces = catchAsyncError(async (req, res, next) => {
   });
 });
 
-export { createWorkspace, editWorkspace, getAllWorkSpaces };
+const getAllLocations = catchAsyncError(async (req, res, next) => {
+  const locations = await rerteieveAllLocations();
+  res.status(200).json({
+    status: "succes",
+    ok: true,
+    data: { locations },
+  });
+});
+
+export { createWorkspace, editWorkspace, getAllWorkSpaces, getAllLocations };

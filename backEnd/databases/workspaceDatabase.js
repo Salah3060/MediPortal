@@ -135,4 +135,22 @@ const retrieveAllWorkSpaces = async (fields, filters, orders, limit, page) => {
     throw err;
   }
 };
-export { createWorkspaceDb, editWorkspaceDb, retrieveAllWorkSpaces };
+
+const rerteieveAllLocations = async () => {
+  try {
+    const query = `
+    select DISTICT * 
+    from WorkspaceLocations 
+    `;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export {
+  createWorkspaceDb,
+  editWorkspaceDb,
+  retrieveAllWorkSpaces,
+  rerteieveAllLocations,
+};
