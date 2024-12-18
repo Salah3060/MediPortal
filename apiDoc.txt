@@ -934,9 +934,12 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             }
         }
     7.2 checkout session -stripe-
-        endPoint: 127.0.0.1:3000/api/v1/appointments/checkout-session/:doctorId
+        endPoint: 127.0.0.1:3000/api/v1/appointments/checkout-session/:doctorId/:locationId
         method : get
-        body: none
+        body:
+        {
+            "appointmentDate":"2025-01-27"
+        }
         response:
         {
             "states": "success",
@@ -1034,7 +1037,45 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 },
                 "ui_mode": "hosted",
                 "url": "https://checkout.stripe.com/c/pay/cs_test_a1klgixyEXdR4UOdUC3tWVBHYOwGfN2zy6RkapYnmSST08f9KSrwNPuqBx#fidkdWxOYHwnPyd1blpxYHZxWjA0VFZiZ1JBRlVHNH9GaFc2YUZEPWl1VzJCNzQ0Mz01UWt9R19zSn99SElHfHZHUEt3UTVUUUxgdkhuVnR2dlNCY11XbkR8NzMwVTw0cGNKNWZ0aTdfSkhVNTVzd0FScX9sVycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl"
-            }
+            },
+            "doctor": [
+                {
+                    "userid": 6,
+                    "firstname": "Active",
+                    "lastname": "Garcia",
+                    "phonenumber": "9876543210",
+                    "email": "diana.garcia@example.com",
+                    "gender": "Female",
+                    "wallet": "300.00",
+                    "createdat": "2024-11-30T15:27:48.116Z",
+                    "updatedat": "2024-12-17T20:22:46.215Z",
+                    "birthdate": "1993-08-14T21:00:00.000Z",
+                    "licensenumber": 123456,
+                    "specialization": "Dentist",
+                    "yearsofexperience": 10,
+                    "about": "Specialist in general medicine.",
+                    "fees": 450,
+                    "availibility": [
+                        {
+                            "locationId": 4,
+                            "startTime": "08:00:00",
+                            "endTime": "12:00:00",
+                            "workingDay": "Monday",
+                            "workSpaceId": 8,
+                            "location": "Doctor_6_Location_1"
+                        }
+                    ],
+                    "reviews": [
+                        {
+                            "rate": null,
+                            "review": null,
+                            "reviewDate": null,
+                            "waitingTime": null,
+                            "patient": null
+                        }
+                    ]
+                }
+            ]
         }
         Publishable key: pk_test_51QSgbWDCPB1zCmR3dCA8lpR7G211680TnxBZvOzxMLBysBUNrT0QTIesMkSqssVGfXRkAy265P91ufO0cql2ZOMP00vrDWtziR
     7.3 update Appointment

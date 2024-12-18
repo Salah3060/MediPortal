@@ -178,6 +178,7 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
   // const { jwt: token } = req.cookies;
+  //token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0NTUyMDYwLCJleHAiOjE3MzQ2Mzg0NjB9.pyfPkywWxuy7a0MpDyMwkhitBUn8n8a8yttAMsvyTEA`;
   if (!token)
     return next(
       new AppError("Protected Path , Plesase login to get access", 401)

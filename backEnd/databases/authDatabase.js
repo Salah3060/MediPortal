@@ -60,7 +60,6 @@ const updateUserDb = async (toBeEdited, specificAtt, role, id) => {
   try {
     let helperQuery = `select userRole from users where userId=$1`;
     const checkerUser = await pool.query(helperQuery, [id]);
-    console.log(checkerUser, id);
     if (!checkerUser.rowCount) {
       throw new AppError("there's no such a user with that id", 400);
     }

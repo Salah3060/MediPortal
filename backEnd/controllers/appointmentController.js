@@ -88,7 +88,12 @@ const getAllAppointments = catchAsyncError(async (req, res, next) => {
 const getCheckoutSession = catchAsyncError(async (req, res, next) => {
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
   const doctorId = req.params.id;
+  const locationId = req.params.secId;
   const doctor = await retrieveDoctor(doctorId);
+  let { appointmentDate } = req.body;
+  if (!appointmentDate) {
+    return next(new AppError("Missing appointment date", 400));
+  }
   if (!doctor) {
     return next(new AppError("There is no such a doctor with that id", 400));
   }
@@ -108,18 +113,25 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
       },
     },
   ];
-
+  appointmentDate = new Date(appointmentDate).getTime() / 1000;
   // 2) Create the checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    success_url: `http://localhost:5173/MediPortal/booking/success`,
-    cancel_url: `http://localhost:5173/MediPortal/booking/paymenterror`,
+    success_url: `${req.protocol}://${req.get(
+      "host"
+    )}/MediPortal/booking/success/?date=${appointmentDate}&fees=${
+      doctor[0].fees
+    }&docId=${doctorId}&locId=${locationId}`,
+    cancel_url: `${req.protocol}://${req.get(
+      "host"
+    )}/MediPortal/booking/paymenterror`,
     customer_email: req.user.email,
     client_reference_id: doctorId,
     line_items: transformedData,
     mode: "payment",
   });
 
+  delete doctor.availibility;
   // 3) Send session as a responce
   res.status(200).json({
     states: "success",
@@ -128,48 +140,67 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
   });
 });
 
-const bookAppointment = catchAsyncError(async (req, res, next) => {
-  try {
-    let { appointmentDate, fees, paymentStatus } = req.body;
-    const doctorId = req.params.id;
-    const locationId = req.params.secId;
-    const { user } = req;
+const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
+  let { date, fees, docId, locId } = req.query;
 
-    if (
-      !appointmentDate ||
-      !fees ||
-      !paymentStatus ||
-      !doctorId ||
-      !locationId
-    ) {
-      return next(new AppError("Missing data", 400));
-    }
-    if (!user) {
-      return next(new AppError("Please log in to use this route", 401));
-    }
-    paymentStatus = formatString(paymentStatus);
-    let attributes = [
-      appointmentDate,
-      "Scheduled",
-      fees,
-      paymentStatus,
-      Date.now(),
-      user.userid,
-      doctorId,
-    ];
-    // console.log(user);
-    const appointment = await createAppointmentDb(attributes, locationId);
-    if (!appointment || appointment.status === "fail")
-      return next(new AppError("Something wronge happened", 400));
-    res.status(200).json({
-      status: "successful",
-      data: {
-        appointment,
-      },
-    });
-  } catch (error) {
-    console.log(error);
+  date = new Date(date * 1000).toISOString().split("T")[0];
+
+  if (!date || !fees || !docId || !locId) return next();
+  const { user } = req;
+  let attributes = [
+    date,
+    "Scheduled",
+    fees,
+    "Online",
+    Date.now(),
+    user.userid,
+    docId,
+  ];
+
+  const appointment = await createAppointmentDb(attributes, locId);
+  if (
+    !appointment ||
+    appointment.severity === "ERROR" ||
+    appointment.status === "fail"
+  ) {
+    return next(new AppError("Something wrong happened", 400));
   }
+
+  res.redirect(req.originalUrl.split("?")[0]);
+});
+
+const bookAppointment = catchAsyncError(async (req, res, next) => {
+  let { appointmentDate, fees, paymentStatus } = req.body;
+  const doctorId = req.params.id;
+  const locationId = req.params.secId;
+  const { user } = req;
+
+  if (!appointmentDate || !fees || !paymentStatus || !doctorId || !locationId) {
+    return next(new AppError("Missing data", 400));
+  }
+  if (!user) {
+    return next(new AppError("Please log in to use this route", 401));
+  }
+  paymentStatus = formatString(paymentStatus);
+  let attributes = [
+    appointmentDate,
+    "Scheduled",
+    fees,
+    paymentStatus,
+    Date.now(),
+    user.userid,
+    doctorId,
+  ];
+  // console.log(user);
+  const appointment = await createAppointmentDb(attributes, locationId);
+  if (!appointment || appointment.status === "fail")
+    return next(new AppError("Something wronge happened", 400));
+  res.status(200).json({
+    status: "successful",
+    data: {
+      appointment,
+    },
+  });
 });
 
 const editAppointment = catchAsyncError(async (req, res, next) => {
@@ -225,4 +256,5 @@ export {
   getCheckoutSession,
   editAppointment,
   getAppointmentsStats,
+  createAppointmentCheckout,
 };

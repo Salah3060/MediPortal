@@ -65,7 +65,7 @@ const createAppointmentDb = async (attributes, locationId) => {
         appointment.rows[0].location = loc.rows[0];
       }
     }
-    // console.log(appointment);
+
     if (appointment.rowCount) return appointment.rows[0];
     return false;
   } catch (error) {
