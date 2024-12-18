@@ -112,4 +112,39 @@ const updateUserDb = async (toBeEdited, specificAtt, role, id) => {
     return error;
   }
 };
-export { logInDb, registerDb, updateUserDb };
+
+const updatePassword = async (email, id, password) => {
+  try {
+    const query = `
+      update Users 
+      set password = $1
+      where ${email ? `email = '${email}'` : `id = " ${id}`} 
+    `;
+    const res = await pool.query(query, [password]);
+    return res.rowCount;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+const updateVerificationCode = async (email, verCode) => {
+  try {
+    const query = `
+      update Users 
+      set verificationCode = $1
+      where email = $2
+    `;
+    const res = await pool.query(query, [verCode, email]);
+    return res.rowCount;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+export {
+  logInDb,
+  registerDb,
+  updateUserDb,
+  updatePassword,
+  updateVerificationCode,
+};

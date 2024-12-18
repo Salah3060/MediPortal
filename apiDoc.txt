@@ -65,7 +65,34 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
                 }
             }
         }
+    1.3 forgetPassword and send verification code to email
+    endPoint:127.0.0.1:3000/api/v1/auth/forgetPassword/jane.smith@example.com
+    method:get
+    body:
+    {
 
+    }
+    response:
+    {
+        
+    "staus": "success",
+    "ok": true,
+    "message": "verificationCode has been sent to jane.smith@example.com properly"
+    }
+    1.4 resetPassword
+    endPoint:127.0.0.1:3000/api/v1/auth/resetPassword/jane.smith@example.com
+    method :post 
+    body:
+    {
+    "password":"yousef123",
+    "verificationCode":83412390    // will always be 8 digits
+    }
+    response:
+    {
+    "status": "success",
+    "ok": true,
+    "message": "Password updated succesfully.."
+    }
 
 2.Doctors
     2.1 getAllDoctors

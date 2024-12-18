@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 import {
   logInDb,
   registerDb,
+  updatePassword,
   updateUserDb,
+  updateVerificationCode,
 } from "../databases/authDatabase.js";
 import { AppError, formatString, catchAsyncError } from "../utilities.js";
 const { data, JsonWebToken } = pkg;
@@ -11,7 +13,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import validator from "validator";
 import { promisify } from "util";
-import { appendFile } from "fs";
+import { appendFile, stat } from "fs";
+import e from "express";
 dotenv.config("../../BE.env");
 
 const createToken = (id) => {
@@ -38,11 +41,11 @@ const logInController = async (req, res, next) => {
   try {
     let { email, password } = req.body;
     if (!email || !password)
-      return next(new AppError("Invalid email or password", 400));
+      return next(new AppError("Please Provide Email and password", 400));
 
     const user = await logInDb(email);
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return next(new AppError("No User valid for this data", 404));
+      return next(new AppError("Invalid email or password", 404));
     }
     if (user.userstate != "Active") {
       return next(new AppError("Sorry , this user is blocked", 401));
@@ -367,10 +370,63 @@ const updateUser = (role) => {
 
 // });
 
+const sendEmailVerificationCode = catchAsyncError(async (req, res, next) => {
+  const { email } = req.params;
+  if (!email) return next(new AppError("Please Provide your email ", 401));
+  const user = await logInDb(email);
+
+  if (!user) return next(new AppError("Invalid Email...", 404));
+
+  const verificationCode = Math.floor(Math.random() * 100000000);
+
+  await updateVerificationCode(email, verificationCode);
+
+  // nodemailer calling here
+
+  ///
+  res.status(200).json({
+    staus: "success",
+    ok: true,
+    message: `verificationCode has been sent to ${email} properly`,
+  });
+});
+
+const resstPassword = catchAsyncError(async (req, res, next) => {
+  const { email } = req.params;
+  const { password, verificationCode: verCode } = req.body;
+
+  if (!email) return next(new AppError("Please Provide your email ", 401));
+
+  if (!password || !verCode)
+    return next(
+      new AppError("Please provide new password and veriffcation code", 404)
+    );
+  let user = await logInDb(email);
+
+  if (!user) return next(new AppError("Invalid Email...", 404));
+
+  if (user.verificationcode != verCode)
+    return next(new AppError("Invalid verification code...", 404));
+
+  const encPassword = await bcrypt.hash(password, 10);
+
+  user = await updatePassword(email, undefined, encPassword);
+
+  if (!user) return next(new AppError("Failed to update password", 404));
+
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    message: "Password updated succesfully..",
+  });
+});
+
 export {
   logInController,
   registerController,
   validateLoggedIn,
   restrictTo,
   updateUser,
+  sendEmailVerificationCode,
+  resstPassword,
 };
