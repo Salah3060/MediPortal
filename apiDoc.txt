@@ -380,6 +380,42 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
     }
 
     }
+    3.5 getAllSpecializaions
+    endPoint:127.0.0.1:3000/api/v1/doctors/allSpecializaions 
+    method:get 
+    body :
+    {
+
+    }
+    response:
+    {
+        
+        
+    "status": "success",
+    "ok": true,
+    "data": {
+        "specializations": 
+        [
+            {
+                "specialization": "Skin"
+            },
+            {
+                "specialization": "Dentist"
+            },
+            {
+                "specialization": "Dentist"
+            },
+            {
+                "specialization": "Hair"
+            },
+            {
+                "specialization": "Eye"
+            }
+        ]
+    }
+
+
+    }
  3.Patients   
      3.1 getAllPatient
     endPoint: 127.0.0.1:3000/api/v1/patients/allPatients?gender=Male&&order=firstName&&fields=firstName,lastName

@@ -210,6 +210,7 @@ create table InsuranceProviderLocations
 const createInsurancesTable = `create table Insurances
 (
     insuranceId int unique generated always as identity,
+    insuranceName varchar(30) ,
     startDate timestamp not null,
     duration INTERVAL not null,
     providerId int,

@@ -9,6 +9,7 @@ const retrieveAllInsurances = async (fields, filters, orders, limit, page) => {
                   i.insuranceId ,
                   i.startDate , 
                   i.duration , 
+                  i.insuranceName,
                   i.providerId , 
                   JSON_AGG (
                             JSON_BUILD_OBJECT (
