@@ -6,10 +6,12 @@ import {
   resstPassword,
   changePassword,
   validateLoggedIn,
+  checkVerificationCode,
 } from "../controllers/authController.js";
 const router = express.Router();
 
 router.get("/forgetPassword/:email", sendEmailVerificationCode);
+router.post("/checkVerificationCode/:email", checkVerificationCode);
 router.post("/resetPassword/:email", resstPassword);
 router.post("/logIn", logInController);
 router.post("/register", registerController);

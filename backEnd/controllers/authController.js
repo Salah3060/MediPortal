@@ -433,12 +433,27 @@ const changePassword = catchAsyncError(async (req, res, next) => {
   }
   const encryptedPass = await bcrypt.hash(newPassword, 10);
   const result = await updatePassword(user.email, undefined, encryptedPass);
-  
+
   if (!result) return next(new AppError("Failed to update password", 404));
   res.status(200).json({
     status: "success",
     ok: true,
     message: "Password updated succesfully..",
+  });
+});
+
+const checkVerificationCode = catchAsyncError(async (req, res, next) => {
+  const { email } = req.params;
+  const { verificationCode } = req.body;
+  if (!email || !verificationCode)
+    return next(new AppError("Please Provide email and verificationCode"));
+  const user = await logInDb(email);
+  if (user.verificationcode != verificationCode)
+    return next(new AppError("Invalid verfication code...", 400));
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    message: "valid verfication code",
   });
 });
 
@@ -451,4 +466,5 @@ export {
   sendEmailVerificationCode,
   resstPassword,
   changePassword,
+  checkVerificationCode,
 };
