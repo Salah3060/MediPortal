@@ -4,7 +4,11 @@ import Cookies from "js-cookie";
 // get all questions
 export const getAllQuestions = async () => {
   try {
-    const response = await axiosInstance.get(`/questions/allQuestions`);
+    const response = await axiosInstance.get(`/questions/allQuestions`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
@@ -15,7 +19,12 @@ export const getAllQuestions = async () => {
 export const getAllQuestionsBySpeciality = async (speciality) => {
   try {
     const response = await axiosInstance.get(
-      `/questions/allQuestions?speciality=${speciality}`
+      `/questions/allQuestions?speciality=${speciality}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -27,7 +36,12 @@ export const getAllQuestionsBySpeciality = async (speciality) => {
 export const getQuestionByPatientId = async (patientId) => {
   try {
     const response = await axiosInstance.get(
-      `/questions/allQuestions?patientId=${patientId}`
+      `/questions/allQuestions?patientId=${patientId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {

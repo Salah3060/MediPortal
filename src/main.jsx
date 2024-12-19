@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         element: <Error />,
       },
       {
-        path: "paymenterror",
+        path: "booking/paymenterror",
         element: <PaymentError />,
       },
       {

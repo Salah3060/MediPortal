@@ -19,6 +19,24 @@ export const bookAppointment = async (doctorId, worksapceId, data) => {
   }
 };
 
+// create stripe session
+export const createStripeSession = async (docId) => {
+  try {
+    const response = await axiosInstance.get(
+      `/appointments/checkout-session/${docId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
+
 // get all appointments
 export const getAllAppointments = async (patientId) => {
   try {

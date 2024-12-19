@@ -1,13 +1,14 @@
 import propTypes from "prop-types";
 import { BsCalendar2Date } from "react-icons/bs";
 import { formatTime, getNextDayDate } from "@/Utils/functions.util";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "react-modal";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { bookAppointment } from "@/API/appointmentApi";
+import { bookAppointment, createStripeSession } from "@/API/appointmentApi";
 import Loader from "@/Components/Loader";
 import { useNavigate } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
 
 Modal.setAppElement("#root"); // Ensure accessibility by linking the app's root
 
@@ -61,25 +62,58 @@ const ClinicCard = ({ workspace }) => {
   const handleBooking = async () => {
     setLoading(true); // Show loader
     setModalOpen(false); // Close modal
-    try {
-      const response = await bookAppointment(
-        selectedDoctor.userid,
-        workspace.locationId,
-        bookingData
-      );
-      toast.success("Appointment booked successfully!");
-      toast.success("redirecting to appointments page");
-      // wait for 2 seconds before redirecting
-      setTimeout(() => {
-        navigate("/MediPortal/booking/success", {
-          state: { appointment: response.data.appointment, isOffer: false },
-        });
-      }, 2000);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to book appointment. Please try again.");
-    } finally {
-      setLoading(false); // Hide loader
+    console.log("Booking data", bookingData);
+
+    if (bookingData.paymentStatus == "Online") {
+      const response = await createStripeSession(selectedDoctor.userid);
+      if (response.status === 200) {
+        console.log(response);
+        const stripeSessionId = response.data.session.id;
+        const stripePromise = loadStripe(
+          "pk_test_51QSgbWDCPB1zCmR3dCA8lpR7G211680TnxBZvOzxMLBysBUNrT0QTIesMkSqssVGfXRkAy265P91ufO0cql2ZOMP00vrDWtziR"
+        );
+        const stripe = await stripePromise;
+        stripe
+          .redirectToCheckout({
+            sessionId: stripeSessionId,
+          })
+          .then((result) => {
+            if (result.error) {
+              console.error(result.error.message);
+              toast.error("Payment failed. Please try again.");
+            } else {
+              toast.success("Payment successful!");
+              // Handle successful payment here
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            toast.error("Payment failed. Please try again.");
+          });
+
+        console.log("Booking data GGGGGGGGGG");
+      }
+    } else {
+      try {
+        const response = await bookAppointment(
+          selectedDoctor.userid,
+          workspace.locationId,
+          bookingData
+        );
+        toast.success("Appointment booked successfully!");
+        toast.success("redirecting to appointments page");
+        // wait for 2 seconds before redirecting
+        setTimeout(() => {
+          navigate("/MediPortal/booking/success", {
+            state: { appointment: response.data.appointment, isOffer: false },
+          });
+        }, 2000);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to book appointment. Please try again.");
+      } finally {
+        setLoading(false); // Hide loader
+      }
     }
   };
 
@@ -185,13 +219,13 @@ const ClinicCard = ({ workspace }) => {
             <button
               type="button"
               className={`px-6 py-2 rounded-lg w-1/2 ${
-                paymentStatus === "Credit"
+                paymentStatus === "Online"
                   ? "bg-green-500 text-white"
                   : "bg-gray-200 text-black"
               }`}
               onClick={() => {
-                setPaymentStatus("Credit");
-                setBookingData({ ...bookingData, paymentStatus: "Credit" });
+                setPaymentStatus("Online");
+                setBookingData({ ...bookingData, paymentStatus: "Online" });
               }}
             >
               Credit

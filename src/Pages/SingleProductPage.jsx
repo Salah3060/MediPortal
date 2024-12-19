@@ -69,7 +69,10 @@ const SingleProductPage = () => {
               </button>
               <span>{quantity}</span>
               <button
-                onClick={() => setQuantity(quantity + 1)} // Increment quantity
+                onClick={() => {
+                  if (quantity + 1 <= selectedProduct?.productstackquantity)
+                    setQuantity(quantity + 1);
+                }} // Increment quantity
                 className="font-bold text-[18px]"
               >
                 <FaPlus />
