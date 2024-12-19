@@ -32,6 +32,7 @@ import Availibilities from "./Components/DoctorDashboard/Availibilities.jsx";
 import DocOffers from "./Components/DoctorDashboard/Offers.jsx";
 import AddUpdateOffer from "./Components/DoctorDashboard/AddUpdateOffer.jsx";
 import UpdateMyInfo from "./Components/DoctorDashboard/UpdateMyInfo.jsx";
+import PatientAppointments from "./Pages/PatientAppointments.jsx";
 
 const router = createBrowserRouter([
   {
@@ -143,6 +144,10 @@ const router = createBrowserRouter([
             element: <UpdateMyInfo />,
           },
         ],
+      },
+      {
+        path: "patient/myappointments",
+        element: <PatientAppointments />,
       },
     ],
   },

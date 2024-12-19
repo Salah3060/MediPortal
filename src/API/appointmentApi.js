@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 // book an appointment
 export const bookAppointment = async (doctorId, worksapceId, data) => {
   try {
+    console.log(data);
+
     const response = await axiosInstance.post(
       `/appointments/${doctorId}/${worksapceId}`,
       data,

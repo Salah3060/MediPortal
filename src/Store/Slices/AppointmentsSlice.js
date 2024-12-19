@@ -6,6 +6,7 @@ import {
   getDoctorStats,
 } from "../../API/appointmentApi";
 import { getDoctorPatients } from "../../API/DoctorsApi";
+import { getPatientAppointments } from "../../API/patientApi";
 
 export const fetchAllAppointments = createAsyncThunk(
   "Appointments/fetchAllAppointments",
@@ -48,6 +49,18 @@ export const changeAppointment = createAsyncThunk(
     }
   }
 );
+export const cancelAppointment = createAsyncThunk(
+  "Appointments/cancelAppointment",
+  async (id, thunkAPI) => {
+    try {
+      const response = await ChangeAppointmentStatus(id, 0);
+      console.log(response);
+      return response.status === 200;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 export const DoctorPatients = createAsyncThunk(
   "Appointments/DoctorPatients",
   async (id, thunkAPI) => {
@@ -59,6 +72,18 @@ export const DoctorPatients = createAsyncThunk(
     }
   }
 );
+export const fetchPatientAppointments = createAsyncThunk(
+  "Appointments/fetchPatientAppointments",
+  async (id, thunkAPI) => {
+    try {
+      const appointments = await getPatientAppointments(id);
+      return appointments;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const AppointmentsSlice = createSlice({
   name: "Appointments",
   initialState: {
@@ -67,8 +92,17 @@ const AppointmentsSlice = createSlice({
     error: "",
     stats: {},
     doctorPatients: [],
+    PatientAppointments: [],
+    appointmentCancelled: false,
   }, // Initialize state from cookies
-  reducers: {},
+  reducers: {
+    resetCancelledStatus: (state) => {
+      state.appointmentCancelled = false;
+    },
+    resetError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllAppointments.pending, (state) => {
@@ -126,8 +160,42 @@ const AppointmentsSlice = createSlice({
       .addCase(DoctorPatients.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
+      })
+      .addCase(fetchPatientAppointments.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPatientAppointments.fulfilled, (state, action) => {
+        state.loading = false;
+        state.PatientAppointments = action.payload.map((el, i) => {
+          return {
+            ...el,
+            id: i + 1,
+            doctorName: el.doctorfirstname + " " + el.doctorlastname,
+            appointmentdate: formatDate(el.appointmentdate),
+            bookingdate: formatDate(el.bookingdate),
+          };
+        });
+      })
+      .addCase(fetchPatientAppointments.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(cancelAppointment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.appointmentCancelled = false;
+      })
+      .addCase(cancelAppointment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.appointmentCancelled = action.payload;
+      })
+      .addCase(cancelAppointment.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+        state.appointmentCancelled = false;
       });
   },
 });
-
+export const { resetCancelledStatus, resetError } = AppointmentsSlice.actions;
 export default AppointmentsSlice.reducer;
