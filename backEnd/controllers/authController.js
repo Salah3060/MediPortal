@@ -181,7 +181,7 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
   // const { jwt: token } = req.cookies;
-  //token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0NTUyMDYwLCJleHAiOjE3MzQ2Mzg0NjB9.pyfPkywWxuy7a0MpDyMwkhitBUn8n8a8yttAMsvyTEA`;
+  token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0NTUyMDYwLCJleHAiOjE3MzQ2Mzg0NjB9.pyfPkywWxuy7a0MpDyMwkhitBUn8n8a8yttAMsvyTEA`;
   if (!token)
     return next(
       new AppError("Protected Path , Plesase login to get access", 401)
@@ -414,6 +414,26 @@ const resstPassword = catchAsyncError(async (req, res, next) => {
 
   if (!user) return next(new AppError("Failed to update password", 404));
 
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    message: "Password updated succesfully..",
+  });
+});
+
+const changePassword = catchAsyncError(async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword) {
+    return next(new AppError("Missing old or new pass", 400));
+  }
+  const user = logInDb("_", req.user.id);
+  if (!(await user.bcrypt.compare(oldPassword, user.password))) {
+    return next(new AppError("wrong password", 401));
+  }
+  const encryptedPass = await bcrypt.hash(password, 10);
+  user = await updatePassword(user.email, undefined, encryptedPass);
+
+  if (!user) return next(new AppError("Failed to update password", 404));
   res.status(200).json({
     status: "success",
     ok: true,

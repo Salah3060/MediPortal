@@ -114,17 +114,16 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
     },
   ];
   appointmentDate = new Date(appointmentDate).getTime() / 1000;
+  console.log(appointmentDate);
   // 2) Create the checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     success_url: `${req.protocol}://${req.get(
       "host"
-    )}/MediPortal/booking/success/?date=${appointmentDate}&fees=${
+    )}/api/v1/appointments/booking-success?date=${appointmentDate}&fees=${
       doctor[0].fees
     }&docId=${doctorId}&locId=${locationId}`,
-    cancel_url: `${req.protocol}://${req.get(
-      "host"
-    )}/MediPortal/booking/paymenterror`,
+    cancel_url: `http://localhost:5173/MediPortal/booking/paymenterror`,
     customer_email: req.user.email,
     client_reference_id: doctorId,
     line_items: transformedData,
@@ -142,7 +141,7 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
 
 const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
   let { date, fees, docId, locId } = req.query;
-
+  console.log(date, fees, docId, locId);
   date = new Date(date * 1000).toISOString().split("T")[0];
 
   if (!date || !fees || !docId || !locId) return next();
@@ -166,7 +165,8 @@ const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
     return next(new AppError("Something wrong happened", 400));
   }
 
-  res.redirect(req.originalUrl.split("?")[0]);
+  //res.redirect(req.originalUrl.split("?")[0]);
+  res.redirect("http://localhost:5173/MediPortal/booking/success");
 });
 
 const bookAppointment = catchAsyncError(async (req, res, next) => {
