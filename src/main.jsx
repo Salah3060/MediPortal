@@ -33,6 +33,7 @@ import DocOffers from "./Components/DoctorDashboard/Offers.jsx";
 import AddUpdateOffer from "./Components/DoctorDashboard/AddUpdateOffer.jsx";
 import UpdateMyInfo from "./Components/DoctorDashboard/UpdateMyInfo.jsx";
 import PatientAppointments from "./Pages/PatientAppointments.jsx";
+import ResetPassword from "./Pages/ResetPassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -148,6 +149,10 @@ const router = createBrowserRouter([
       {
         path: "patient/myappointments",
         element: <PatientAppointments />,
+      },
+      {
+        path: "ResetPassword/",
+        element: <ResetPassword />,
       },
     ],
   },

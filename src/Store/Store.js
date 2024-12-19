@@ -8,6 +8,7 @@ import offersReducer from "@/Store/Slices/offersSlice";
 import questionsReducer from "@/Store/Slices/questionsSlice";
 import appointmentReducer from "@/Store/Slices/AppointmentsSlice";
 import workspaceReducer from "@/Store/Slices/WorkspaceSlice";
+import ResetPassword from "@/Store/Slices/resetPasswordSlice";
 import logger from "redux-logger";
 
 const store = configureStore({
@@ -20,6 +21,7 @@ const store = configureStore({
     questions: questionsReducer,
     appointments: appointmentReducer,
     workspaces: workspaceReducer,
+    resetPasswoed: ResetPassword,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
