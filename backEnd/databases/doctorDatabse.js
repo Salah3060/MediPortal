@@ -1,4 +1,5 @@
 import pool from "../server.js";
+import { catchAsyncError } from "../utilities.js";
 
 const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
   try {
@@ -280,6 +281,21 @@ const retrieveDoctorWorkspaces = async (id) => {
   }
 };
 
+const retrieveAllSpecializaions = async () => {
+  try {
+    const query = `
+    select 
+      distinct specialization
+    from doctors 
+  `;
+    const res = await pool.query(query);
+    return res.rows;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export {
   retrieveAllDoctors,
   retrieveDoctor,
@@ -288,4 +304,5 @@ export {
   deleteAvailability,
   retrieveDoctorsStats,
   retrieveDoctorWorkspaces,
+  retrieveAllSpecializaions,
 };
