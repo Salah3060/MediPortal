@@ -60,7 +60,7 @@ app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/stats", statsRouter);
 //:: TEMP SOLUTION for stripe
-app.use("/MediPortal/booking/success/", appointmentRouter);
+//app.use("/MediPortal/booking/success/", appointmentRouter);
 
 app.use("/", (req, res, next) =>
   next(new AppError("No such Route Founded....", 404))
