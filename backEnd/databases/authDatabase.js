@@ -117,10 +117,11 @@ const updatePassword = async (email, id, password) => {
   try {
     const query = `
       update Users 
-      set password = $1
+      set password = $1,
+      updatedAt = $2
       where ${email ? `email = '${email}'` : `id = " ${id}`} 
     `;
-    const res = await pool.query(query, [password]);
+    const res = await pool.query(query, [password, new Date()]);
     return res.rowCount;
   } catch (error) {
     console.log(error);

@@ -93,6 +93,20 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
     "ok": true,
     "message": "Password updated succesfully.."
     }
+    1.4 UpdatePassword 
+        endPoint : 127.0.0.1:3000/api/v1/auth/updatePassword
+        method:patch
+        body:
+        {
+            "oldPassword":"yousef123",
+            "newPassword":"yousef1234"
+        }
+        response:
+        {
+            "status": "success",
+            "ok": true,
+            "message": "Password updated succesfully.."
+        }
 
 2.Doctors
     2.1 getAllDoctors
@@ -962,7 +976,7 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         }
     7.2 checkout session -stripe-
         endPoint: 127.0.0.1:3000/api/v1/appointments/checkout-session/:doctorId/:locationId
-        method : get
+        method : post
         body:
         {
             "appointmentDate":"2025-01-27"
