@@ -38,6 +38,7 @@ export const fetchDoctorById = createAsyncThunk(
     try {
       const doctor = await getDoctorById(id);
       console.log("Doctor Data:", doctor.data.doctor[0]);
+
       return doctor.data.doctor[0];
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -89,6 +90,7 @@ const searchSlice = createSlice({
       })
       .addCase(fetchDoctorById.fulfilled, (state, action) => {
         state.selectedDoctor = action.payload;
+        state.selectedDoctor.gender = action.payload.gender.toLowerCase();
         state.loading = false;
       })
       .addCase(fetchDoctorById.rejected, (state, action) => {

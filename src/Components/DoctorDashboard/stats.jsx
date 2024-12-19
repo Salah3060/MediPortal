@@ -179,7 +179,7 @@ export default function Stats() {
                       fontWeight="bold"
                       color={colors.greenAccent[500]}
                     >
-                      {doctorPatients.length} {"  "}patients
+                      {doctorPatients?.length} {"  "}patients
                     </Typography>
                   </Box>
                 </Box>
@@ -210,7 +210,7 @@ export default function Stats() {
                       fontWeight="bold"
                       color={colors.greenAccent[500]}
                     >
-                      {reviews.length} {"  "}review
+                      {reviews?.length} {"  "}review
                     </Typography>
                   </Box>
                 </Box>
@@ -238,7 +238,7 @@ export default function Stats() {
                   My patients
                 </Typography>
               </Box>
-              {doctorPatients.map((el, i) => (
+              {doctorPatients?.map((el, i) => (
                 <Box
                   key={`${el.patientid}-${i}`}
                   display="flex"
@@ -293,7 +293,7 @@ export default function Stats() {
                   My reviews
                 </Typography>
               </Box>
-              {reviews.map((el, i) => (
+              {reviews?.map((el, i) => (
                 <Box
                   key={`${i}`}
                   display="flex"

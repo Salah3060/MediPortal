@@ -19,8 +19,10 @@ const initialState = {
   status: "empty",
   licenseNumber: "",
   specialization: "",
+  updated: false,
 };
 import { login, signUp } from "../../API/authAPI";
+import { updateMe } from "../../API/DoctorsApi";
 function loadUserFromCookies() {
   const savedUser = Cookies.get("user");
   return savedUser ? JSON.parse(savedUser) : initialState;
@@ -49,7 +51,6 @@ export const userSignup = createAsyncThunk(
   "user/Signup",
   async (payload, thunkAPI) => {
     try {
-      // console.log(payload);
       const userData = await signUp(payload);
       return userData.date.user;
     } catch (err) {
@@ -57,6 +58,18 @@ export const userSignup = createAsyncThunk(
     }
   }
 );
+export const updateDoctor = createAsyncThunk(
+  "user/updateDoctor",
+  async (data, thunkAPI) => {
+    try {
+      const userData = await updateMe(data);
+      return userData;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user", // Name of the slice
   initialState: loadUserFromCookies(), // Initial state defined earlier
@@ -73,6 +86,12 @@ const userSlice = createSlice({
       state.error = "";
       Cookies.remove("user");
       Cookies.remove("token");
+    },
+    resetError: (state) => {
+      state.error = null;
+    },
+    resetUpdate: (state) => {
+      state.update = false;
     },
   },
   extraReducers: (builder) =>
@@ -147,7 +166,22 @@ const userSlice = createSlice({
         state.status = "failed";
         // resetUser
         saveUserToCookies(state);
+      })
+      .addCase(updateDoctor.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.update = false;
+      })
+      .addCase(updateDoctor.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+        state.update = true;
+      })
+      .addCase(updateDoctor.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.update = false;
       }),
 });
-export const { clearUser, logout } = userSlice.actions;
+export const { clearUser, logout, resetError, resetUpdate } = userSlice.actions;
 export default userSlice.reducer;
