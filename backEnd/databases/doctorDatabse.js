@@ -31,12 +31,21 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
           CASE 
             WHEN AVG(r.waitingTime) IS NOT NULL THEN round (AVG(r.waitingTime), 2) 
             ELSE 0 
-          END AS averageWaitingTime
+          END AS averageWaitingTime ,
+          JSON_AGG(  
+            JSON_BUILD_OBJECT(
+            'insuranceid',i.insuranceId,
+            'insuranceName',i.insuranceName
+            ) 
+           )  as Insurances
           `;
     query += `  
           from Users u  
           join Doctors d on u .userId = d.doctorId     
           left join Reviews r on r.doctorId= d.doctorId  
+          LEFT JOIN DoctorAvailability da ON da.doctorId = d.doctorId
+          JOIN coverage c ON c.workspaceId = da.workspaceId
+          JOIN Insurances i ON i.insuranceId = c.insuranceId
                 `;
 
     if (filters) query += `where ${filters.join(" and ")}       `;
