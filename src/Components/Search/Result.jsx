@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import Filters from "./Filters";
 import DoctorsSection from "./DoctorsSection";
-import propTypes from "prop-types";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { setPage } from "@/Store/Slices/searchSlice";
+import { useDispatch } from "react-redux";
 
-const Result = ({ setPage }) => {
+const Result = () => {
+  const dispatch = useDispatch();
+
   return (
     <div className="container max-w-[1300px] mx-auto px-4 py-2 flex flex-col">
       {/* Header */}
@@ -45,7 +48,9 @@ const Result = ({ setPage }) => {
             count={5}
             variant="outlined"
             shape="rounded"
-            onChange={(e, value) => setPage(value)}
+            onChange={(e, value) => {
+              dispatch(setPage(value));
+            }}
             sx={{
               "& .MuiPagination-ul": {
                 width: "100%",
@@ -64,10 +69,6 @@ const Result = ({ setPage }) => {
       </div>
     </div>
   );
-};
-
-Result.propTypes = {
-  setPage: propTypes.func.isRequired,
 };
 
 export default Result;

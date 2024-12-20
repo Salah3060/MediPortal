@@ -20,10 +20,16 @@ export const bookAppointment = async (doctorId, worksapceId, data) => {
 };
 
 // create stripe session
-export const createStripeSession = async (docId) => {
+export const createStripeSession = async (docId, locId, data) => {
   try {
-    const response = await axiosInstance.get(
-      `/appointments/checkout-session/${docId}`,
+    console.log("data", data);
+    console.log("docId", docId);
+    console.log("locId", locId);
+    console.log("token", Cookies.get("token"));
+    console.log(data.toString());
+    const response = await axiosInstance.post(
+      `/appointments/checkout-session/${docId}/${locId}`,
+      { appointmentDate: data.toString() },
       {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,

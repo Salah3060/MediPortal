@@ -3,6 +3,8 @@ import {
   getAllDoctors,
   getDoctorById,
   getDoctorsBySpecialty,
+  getAllSpecialties,
+  getAllInsurances,
 } from "@/API/DoctorsApi";
 
 // Async thunk to fetch all Doctors
@@ -18,13 +20,41 @@ export const fetchAllDoctors = createAsyncThunk(
   }
 );
 
+// Async thunk to fetch all specialties
+export const fetchAllSpecialties = createAsyncThunk(
+  "doctors/fetchAllSpecialties",
+  async (_, thunkAPI) => {
+    try {
+      const specialties = await getAllSpecialties();
+      return specialties.data.specializations;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// Async thunk to fetch all insurances
+export const fetchAllInsurances = createAsyncThunk(
+  "doctors/fetchAllInsurances",
+  async (_, thunkAPI) => {
+    try {
+      const insurances = await getAllInsurances();
+      return insurances.data.insurances;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 // Async thunk to fetch doctors by specialty
 export const fetchDoctorsBySpecialty = createAsyncThunk(
   "doctors/fetchDoctorsBySpecialty",
-  async (specialty, thunkAPI) => {
+  async ({ specialty, page }, thunkAPI) => {
     try {
-      const doctors = await getDoctorsBySpecialty(specialty);
-      return doctors.doctors;
+      console.log(page);
+      console.log(specialty);
+      const doctors = await getDoctorsBySpecialty(specialty, page);
+      return doctors.data.doctors;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
@@ -52,8 +82,11 @@ const searchSlice = createSlice({
     doctors: [],
     filteredDoctors: [],
     specialties: [],
+    insurances: [],
     selectedDoctor: {},
+    page: 1,
     selectedSpecialty: "All Specialties",
+    selectedInsurance: "All Insurances",
     loading: false,
     error: null,
   },
@@ -66,6 +99,18 @@ const searchSlice = createSlice({
     },
     setSelectedDoctor: (state, action) => {
       state.selectedDoctor = action.payload;
+    },
+    setSpecialties: (state, action) => {
+      state.specialties = action.payload;
+    },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    setInsurances: (state, action) => {
+      state.insurances = action.payload;
+    },
+    setSelectedInsurance: (state, action) => {
+      state.selectedInsurance = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -110,11 +155,31 @@ const searchSlice = createSlice({
       .addCase(fetchAllDoctors.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
+      })
+      // Get all Specialties
+      .addCase(fetchAllSpecialties.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllSpecialties.fulfilled, (state, action) => {
+        state.specialties = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchAllSpecialties.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
       });
   },
 });
 
-export const { setSelectedSpecialty, setFilteredDoctors, setSelectedDoctor } =
-  searchSlice.actions;
+export const {
+  setSelectedSpecialty,
+  setFilteredDoctors,
+  setSelectedDoctor,
+  setSpecialties,
+  setPage,
+  setInsurances,
+  setSelectedInsurance,
+} = searchSlice.actions;
 
 export default searchSlice.reducer;

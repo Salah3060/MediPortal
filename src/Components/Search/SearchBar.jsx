@@ -2,10 +2,15 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FaAngleDown } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
-import { setFilteredDoctors } from "@/Store/Slices/searchSlice";
+import {
+  setFilteredDoctors,
+  fetchDoctorsBySpecialty,
+  fetchAllDoctors,
+} from "@/Store/Slices/searchSlice";
+import { IoIosSearch } from "react-icons/io";
 
 // DropdownMenu Component
-const DropdownMenu = ({ title, data, isOpen, onToggle }) => {
+const DropdownMenu = ({ title, data, isOpen, onToggle, onSelect }) => {
   return (
     <div className="relative inline-block text-left w-[800px] h-[100%]">
       {/* Button to open/close dropdown */}
@@ -41,6 +46,7 @@ const DropdownMenu = ({ title, data, isOpen, onToggle }) => {
                   {section.items.map((item, idx) => (
                     <li
                       key={idx}
+                      onClick={() => onSelect(item)} // Call onSelect with the selected value
                       className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     >
                       {item}
@@ -67,6 +73,7 @@ DropdownMenu.propTypes = {
   ).isRequired,
   isOpen: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired, // Add this prop type
 };
 
 const useDebounce = (value, delay) => {
@@ -88,10 +95,47 @@ const SearchBar = () => {
   const dispatch = useDispatch();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [query, setQuery] = useState("");
-  const { doctors } = useSelector((state) => state.search);
+  const { doctors, specialties, page, insurances, filteredDoctors } =
+    useSelector((state) => state.search);
+  const [selectedInsurance, setSelectedInsurance] = useState("All Insurances");
+  const [selectedSpecialty, setSelectedSpecialty] = useState("All Specialties");
 
   const handleToggleDropdown = (dropdownName) => {
     setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
+  };
+
+  const handleSearchClick = () => {
+    // Log the current page and selected specialty
+    console.log(page);
+    console.log(`Specialty: ${selectedSpecialty}`);
+
+    let filteredDoctors = doctors;
+
+    // Filter by specialty if a specific specialty is selected
+    if (selectedSpecialty !== "All Specialties") {
+      dispatch(fetchDoctorsBySpecialty({ specialty: selectedSpecialty, page }));
+      filteredDoctors = filteredDoctors.filter(
+        (doctor) => doctor.specialization === selectedSpecialty
+      );
+    } else {
+      dispatch(fetchAllDoctors(page));
+    }
+
+    // Filter by insurance if a specific insurance is selected
+    if (selectedInsurance !== "All Insurances") {
+      console.log(`Insurance: ${selectedInsurance}`);
+      filteredDoctors = filteredDoctors.filter((doctor) =>
+        doctor.insurances.some(
+          (insurance) => insurance.insuranceName === selectedInsurance
+        )
+      );
+    } else {
+      console.log("All Insurances");
+    }
+
+    // Dispatch the filtered doctors to update the state
+    console.log("Filtered Doctors:", filteredDoctors);
+    dispatch(setFilteredDoctors(filteredDoctors));
   };
 
   const debouncedQuery = useDebounce(query, 500);
@@ -100,13 +144,11 @@ const SearchBar = () => {
     if (debouncedQuery) {
       console.log(debouncedQuery);
 
-      // Split the query into parts by spaces
       const queryParts = debouncedQuery.trim().split(" ");
 
       let filtered;
 
       if (queryParts.length > 1) {
-        // If the query has a space, compare the first part with `firstname` and the second part with `lastname`
         filtered = doctors.filter(
           (doctor) =>
             doctor.firstname
@@ -117,7 +159,6 @@ const SearchBar = () => {
               .startsWith(queryParts[1].toLowerCase())
         );
       } else {
-        // If there is only one word, compare it with both `firstname` and `lastname`
         filtered = doctors.filter(
           (doctor) =>
             doctor.firstname
@@ -131,7 +172,6 @@ const SearchBar = () => {
 
       dispatch(setFilteredDoctors(filtered));
     } else {
-      // If the query is empty, show all doctors
       dispatch(setFilteredDoctors(doctors));
     }
   }, [debouncedQuery, doctors, dispatch]);
@@ -139,62 +179,40 @@ const SearchBar = () => {
   const specialtiesData = [
     {
       title: "Most Popular",
-      items: [
-        "Dermatology (Skin)",
-        "Dentistry (Teeth)",
-        "Psychiatry",
-        "Pediatrics",
-      ],
-    },
-    {
-      title: "Other Specialties",
-      items: [
-        "Allergy and Immunology",
-        "Audiology",
-        "Cardiology",
-        "Endocrinology",
-      ],
-    },
-  ];
-
-  const citiesData = [
-    {
-      title: "Major Cities",
-      items: ["New York", "Los Angeles", "Chicago", "Houston"],
-    },
-    {
-      title: "Other Cities",
-      items: ["Austin", "Miami", "San Francisco", "Seattle"],
+      items: specialties,
     },
   ];
 
   const insuranceData = [
     {
-      title: "Insurance Providers",
-      items: ["Aetna", "Blue Cross", "Cigna", "United Healthcare"],
+      title: "Available Insurances",
+      items: insurances,
     },
   ];
 
   return (
     <div className="flex items-center rounded-md h-12 border shadow-md">
-      {/* Dropdowns */}
+      {/* Specialty Dropdown */}
       <DropdownMenu
-        title="Select a Specialty"
+        title={selectedSpecialty || "Select a Specialty"}
         data={specialtiesData}
         isOpen={openDropdown === "specialty"}
         onToggle={() => handleToggleDropdown("specialty")}
+        onSelect={(item) => {
+          setSelectedSpecialty(item); // Update selected specialty
+          setOpenDropdown(null); // Close the dropdown
+        }}
       />
+      {/* Insurance Dropdown */}
       <DropdownMenu
-        title="In this City"
-        data={citiesData}
-        isOpen={openDropdown === "city"}
-        onToggle={() => handleToggleDropdown("city")}
-      />
-      <DropdownMenu
-        title="My Insurance is"
+        title={selectedInsurance || "My Insurance is"}
         data={insuranceData}
         isOpen={openDropdown === "insurance"}
         onToggle={() => handleToggleDropdown("insurance")}
+        onSelect={(item) => {
+          setSelectedInsurance(item); // Update selected insurance
+          setOpenDropdown(null); // Close the dropdown
+        }}
       />
 
       {/* Search by Name Input */}
@@ -209,8 +227,14 @@ const SearchBar = () => {
       </div>
 
       {/* Search Button */}
-      <button className="px-6 py-2 text-white bg-darkRed rounded-md hover:bg-darkRed/80 flex items-center h-full ">
-        <span className="mr-2">🔍</span> Search
+      <button
+        className="px-6 py-2 text-white bg-darkRed rounded-md hover:bg-darkRed/80 flex items-center h-full"
+        onClick={handleSearchClick}
+      >
+        <span className="mr-2">
+          <IoIosSearch className="text-2xl" />
+        </span>{" "}
+        Search
       </button>
     </div>
   );

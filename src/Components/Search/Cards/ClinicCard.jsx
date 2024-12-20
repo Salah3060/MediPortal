@@ -1,6 +1,6 @@
 import propTypes from "prop-types";
 import { BsCalendar2Date } from "react-icons/bs";
-import { formatTime, getNextDayDate } from "@/Utils/functions.util";
+import { formatTime } from "@/Utils/functions.util";
 import { useState } from "react";
 import Modal from "react-modal";
 import { useSelector } from "react-redux";
@@ -15,12 +15,42 @@ Modal.setAppElement("#root"); // Ensure accessibility by linking the app's root
 const ClinicCard = ({ workspace }) => {
   const navigate = useNavigate();
   const { selectedDoctor } = useSelector((state) => state.search);
-
   const { status, firstname, lastname } = useSelector((state) => state.user);
+
+  // Helper to calculate the next occurrence of a working day
+  const calculateNextWorkingDate = (workingDay) => {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    const today = new Date();
+    const targetDayIndex = daysOfWeek.indexOf(workingDay);
+
+    if (targetDayIndex === -1) {
+      throw new Error("Invalid day name");
+    }
+
+    const currentDayIndex = today.getDay();
+    let daysToAdd = targetDayIndex - currentDayIndex;
+
+    if (daysToAdd <= 0) {
+      daysToAdd += 7; // Ensure the next occurrence of the day is in the future
+    }
+
+    const nextDate = new Date(today);
+    nextDate.setDate(today.getDate() + daysToAdd);
+    return nextDate.toISOString().split("T")[0]; // Return YYYY-MM-DD
+  };
 
   const [bookingData, setBookingData] = useState({
     fees: selectedDoctor.fees,
-    appointmentDate: getNextDayDate(workspace.workingDay),
+    appointmentDate: calculateNextWorkingDate(workspace.workingDay),
     paymentStatus: "",
   });
 
@@ -28,7 +58,7 @@ const ClinicCard = ({ workspace }) => {
   const [timeSlots, setTimeSlots] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState("Cash");
   const [selectedTime, setSelectedTime] = useState("");
-  const [loading, setLoading] = useState(false); // New loading state
+  const [loading, setLoading] = useState(false); // Loading state
 
   const generateTimeSlots = () => {
     if (workspace.startTime && workspace.endTime) {
@@ -63,35 +93,32 @@ const ClinicCard = ({ workspace }) => {
     setLoading(true); // Show loader
     setModalOpen(false); // Close modal
     console.log("Booking data", bookingData);
-
-    if (bookingData.paymentStatus == "Online") {
-      const response = await createStripeSession(selectedDoctor.userid);
-      if (response.status === 200) {
-        console.log(response);
-        const stripeSessionId = response.data.session.id;
-        const stripePromise = loadStripe(
-          "pk_test_51QSgbWDCPB1zCmR3dCA8lpR7G211680TnxBZvOzxMLBysBUNrT0QTIesMkSqssVGfXRkAy265P91ufO0cql2ZOMP00vrDWtziR"
+    if (bookingData.paymentStatus === "Online") {
+      try {
+        console.log("Booking data", bookingData);
+        const appointmentDate = new Date(bookingData.appointmentDate);
+        const response = await createStripeSession(
+          selectedDoctor.userid,
+          workspace.locationId,
+          appointmentDate.toISOString()
         );
-        const stripe = await stripePromise;
-        stripe
-          .redirectToCheckout({
-            sessionId: stripeSessionId,
-          })
-          .then((result) => {
-            if (result.error) {
-              console.error(result.error.message);
-              toast.error("Payment failed. Please try again.");
-            } else {
-              toast.success("Payment successful!");
-              // Handle successful payment here
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            toast.error("Payment failed. Please try again.");
-          });
 
-        console.log("Booking data GGGGGGGGGG");
+        console.log(response);
+
+        if (response.status === 200) {
+          const stripeSessionId = response.data.session.id;
+          const stripePromise = loadStripe(
+            "pk_test_51QSgbWDCPB1zCmR3dCA8lpR7G211680TnxBZvOzxMLBysBUNrT0QTIesMkSqssVGfXRkAy265P91ufO0cql2ZOMP00vrDWtziR"
+          );
+          const stripe = await stripePromise;
+
+          await stripe.redirectToCheckout({ sessionId: stripeSessionId });
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Payment failed. Please try again.");
+      } finally {
+        setLoading(false);
       }
     } else {
       try {
@@ -101,8 +128,6 @@ const ClinicCard = ({ workspace }) => {
           bookingData
         );
         toast.success("Appointment booked successfully!");
-        toast.success("redirecting to appointments page");
-        // wait for 2 seconds before redirecting
         setTimeout(() => {
           navigate("/MediPortal/booking/success", {
             state: { appointment: response.data.appointment, isOffer: false },
@@ -112,7 +137,7 @@ const ClinicCard = ({ workspace }) => {
         console.error(error);
         toast.error("Failed to book appointment. Please try again.");
       } finally {
-        setLoading(false); // Hide loader
+        setLoading(false);
       }
     }
   };
