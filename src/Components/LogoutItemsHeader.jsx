@@ -1,11 +1,18 @@
 /* eslint-disable react/prop-types */
 import { IoIosLogOut } from "react-icons/io";
 
-export default function LogoutHeader({ handleLogout, firstname, id }) {
-
+export default function LogoutHeader({
+  handleLogout,
+  firstname,
+  id,
+  openUserInfoModal,
+}) {
   return (
     <div className="hidden md:flex gap-x-5 items-center">
-      <div className="flex flex-col justify-center items-center">
+      <div
+        className="flex flex-col justify-center items-center cursor-pointer"
+        onClick={openUserInfoModal}
+      >
         <img
           src={`https://i.pravatar.cc/48?u=${id + 122}`}
           alt="user's photo"

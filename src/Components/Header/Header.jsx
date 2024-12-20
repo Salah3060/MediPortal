@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import Logo from "./Logo";
 import Items from "./Items";
 
-const Header = () => {
+const Header = ({ openUserInfoModal }) => {
   return (
     <div className="bg-primary text-white flex justify-center items-center py-1 px-5">
       {/* CONTAINER */}
@@ -12,7 +13,7 @@ const Header = () => {
         xl:h-[4.375rem] lg:h-[3.75rem] h-[3.125rem]"
       >
         <Logo />
-        <Items />
+        <Items openUserInfoModal={openUserInfoModal} />
       </div>
     </div>
   );

@@ -127,18 +127,22 @@ export default function SingleOfferPage() {
       "Friday",
     ];
     const UniqueTimes = [];
-    const validForOffer = doctor?.availability?.filter(
-      (el) => el.workspaceId === selectedOffer.workspaceid
+    const validForOffer = doctor?.availibility?.filter(
+      (el) => el.workSpaceId === selectedOffer.workspaceid
     );
+
     for (let i = 0; i < 7; i++) {
       const today = [];
       const todaysApps = validForOffer?.filter(
         (el) => el.workingDay === days[i]
       );
+
       todaysApps?.forEach((el, index) =>
-        todaysApps.findLastIndex(
+        (todaysApps.findLastIndex(
           (x) => x.startTime === el.startTime && x.endTime === el.endTime
-        ) === index && todaysApps.length > 1
+        ) === index &&
+          todaysApps.length > 1) ||
+        todaysApps.length === 1
           ? today.push(el)
           : false
       );
@@ -150,8 +154,9 @@ export default function SingleOfferPage() {
           )
         : "";
     }
+
     setAvail(UniqueTimes);
-  }, [doctor?.availability, selectedOffer?.workspaceid]);
+  }, [doctor?.availibility, selectedOffer?.workspaceid]);
 
   const seeMoreClickHandler = function () {
     if (reviewMax + step >= doctor?.reviews?.length) {
@@ -169,7 +174,7 @@ export default function SingleOfferPage() {
         <Loader />
       ) : (
         <>
-          <div className="bg-gradient-to-r from-[#c2dfe3] to-[#9db4c0]">
+          <div className="bg-gradient-to-r from-[#c2dfe3] to-[#9db4c0] min-h-lvh">
             <div className="container max-w-[1300px] mx-auto px-4 py-2 flex flex-col">
               <OffersBreadcrumb offername={selectedOffer?.offername} />
 
