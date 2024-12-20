@@ -22,7 +22,7 @@ const initialState = {
   updated: false,
 };
 import { login, signUp } from "../../API/authAPI";
-import { updateMe } from "../../API/DoctorsApi";
+import { updateMe, updatepassword } from "../../API/DoctorsApi";
 function loadUserFromCookies() {
   const savedUser = Cookies.get("user");
   return savedUser ? JSON.parse(savedUser) : initialState;
@@ -63,6 +63,17 @@ export const updateDoctor = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const userData = await updateMe(data);
+      return userData;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+export const updatePassword = createAsyncThunk(
+  "user/updatePassword",
+  async (data, thunkAPI) => {
+    try {
+      const userData = await updatepassword(data);
       return userData;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
@@ -178,6 +189,21 @@ const userSlice = createSlice({
         state.update = true;
       })
       .addCase(updateDoctor.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.update = false;
+      })
+      .addCase(updatePassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.update = false;
+      })
+      .addCase(updatePassword.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+        state.update = true;
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.update = false;

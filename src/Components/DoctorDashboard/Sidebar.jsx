@@ -9,6 +9,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { PiHospitalBold, PiTimer } from "react-icons/pi";
 import {
+  FaKey,
   FaMoneyBill,
   FaPlus,
   FaRegAddressCard,
@@ -125,6 +126,13 @@ const Sidebar = ({ name, spec }) => {
               title="Update my info"
               to="./UpdateMe"
               icon={<FaRegAddressCard />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Change password"
+              to="./changePassword"
+              icon={<FaKey />}
               selected={selected}
               setSelected={setSelected}
             />
