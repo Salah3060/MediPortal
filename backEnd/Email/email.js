@@ -28,6 +28,7 @@ class Email {
         firstName: this.firstName,
         code,
         id: this.id,
+        subject,
       });
 
       //2) Defining the mail options
@@ -46,12 +47,12 @@ class Email {
   }
 
   async sendWelcome() {
-    await this.send("welcome", "Welcome to the MediPortal family!");
+    await this.send("Explore...", "Welcome to the MediPortal family!");
   }
   async sendVerification(code) {
     await this.send(
       "verify",
-      "Use the code below to verify to your MediPortal account..",
+      "Use the button below to verify to your MediPortal account..",
       code
     );
   }

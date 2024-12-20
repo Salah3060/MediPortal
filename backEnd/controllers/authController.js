@@ -224,6 +224,12 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
       new AppError("Protected Path , Plesase login to get access", 401)
     );
   const user = await logInDb(undefined, id);
+
+  //if blocked or pending
+  if (user.userstate !== "Active") {
+    return next(new AppError("Please activate your account first", 401));
+  }
+
   if (!user) new AppError("Protected Path , Plesase login to get access", 401);
   req.user = user;
   next();
