@@ -90,6 +90,7 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
   const doctorId = req.params.id;
   const locationId = req.params.secId;
   const doctor = await retrieveDoctor(doctorId);
+  const { user } = req;
   let { appointmentDate } = req.body;
   if (!appointmentDate) {
     return next(new AppError("Missing appointment date", 400));
@@ -122,7 +123,7 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
       "host"
     )}/api/v1/appointments/booking-success?date=${appointmentDate}&fees=${
       doctor[0].fees
-    }&docId=${doctorId}&locId=${locationId}`,
+    }&docId=${doctorId}&locId=${locationId}&userId=${user.userid}`,
     cancel_url: `http://localhost:5173/MediPortal/booking/paymenterror`,
     customer_email: req.user.email,
     client_reference_id: doctorId,
@@ -140,19 +141,20 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
 });
 
 const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
-  let { date, fees, docId, locId } = req.query;
+  let { date, fees, docId, locId, userId } = req.query;
   console.log(date, fees, docId, locId);
   date = new Date(date * 1000).toISOString().split("T")[0];
 
-  if (!date || !fees || !docId || !locId) return next();
-  const { user } = req;
+  if (!date || !fees || !docId || !locId || !userId)
+    return next(new AppError("Missing data", 400));
+
   let attributes = [
     date,
     "Scheduled",
     fees,
     "Online",
     Date.now(),
-    user.userid,
+    userId,
     docId,
   ];
 
