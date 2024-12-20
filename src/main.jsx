@@ -35,6 +35,7 @@ import UpdateMyInfo from "./Components/DoctorDashboard/UpdateMyInfo.jsx";
 import PatientAppointments from "./Pages/PatientAppointments.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
 import ChangePassword from "./Components/DoctorDashboard/ChangePassword.jsx";
+import { Rlogout } from "./Pages/RtoLogout.jsx";
 
 const router = createBrowserRouter([
   {
@@ -158,6 +159,10 @@ const router = createBrowserRouter([
       {
         path: "ResetPassword/",
         element: <ResetPassword />,
+      },
+      {
+        path: "redirectToLogout/",
+        element: <Rlogout />,
       },
     ],
   },

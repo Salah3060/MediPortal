@@ -90,7 +90,7 @@ const ResetPassword = createSlice({
       .addCase(CheckVeri.fulfilled, (state, action) => {
         //   state.offers = action.payload;
         state.loading = false;
-        if (action.payload) state.step = 2;
+        if (action.payload) state.step = 3;
       })
       .addCase(CheckVeri.rejected, (state, action) => {
         state.error = action.payload;

@@ -52,6 +52,7 @@ export const AddOffer = createAsyncThunk(
       const resp = await addOffer(id, data);
       return resp;
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }

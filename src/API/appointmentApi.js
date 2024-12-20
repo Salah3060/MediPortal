@@ -17,6 +17,7 @@ export const bookAppointment = async (doctorId, worksapceId, data) => {
     );
     return response.data;
   } catch (error) {
+    console.log(error);
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
@@ -41,6 +42,8 @@ export const createStripeSession = async (docId, locId, data) => {
     console.log(response);
     return response;
   } catch (error) {
+    console.log(error);
+
     throw new Error(error.response ? error.response.data : error.message);
   }
 };

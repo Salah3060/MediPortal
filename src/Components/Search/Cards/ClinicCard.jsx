@@ -51,7 +51,7 @@ const ClinicCard = ({ workspace }) => {
   const [bookingData, setBookingData] = useState({
     fees: selectedDoctor.fees,
     appointmentDate: calculateNextWorkingDate(workspace.workingDay),
-    paymentStatus: "",
+    paymentStatus: "Cash",
   });
 
   const [modalOpen, setModalOpen] = useState(false);

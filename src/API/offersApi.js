@@ -49,6 +49,7 @@ export const getOffersById = async (id) => {
 export const addOffer = async (id, data) => {
   try {
     data.percentage = data.percentage.toString();
+    console.log(data);
 
     const response = await axiosInstance.post(`/offers/${+id}`, data, {
       headers: {
@@ -57,7 +58,7 @@ export const addOffer = async (id, data) => {
     });
     return response.data;
   } catch (error) {
-
+    console.log(error);
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
@@ -71,7 +72,6 @@ export const updateOffer = async (id, data) => {
     });
     return response.data;
   } catch (error) {
-
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
