@@ -43,11 +43,9 @@ const registerDb = async (attributes, role, specificAtt) => {
     } else if (role === "Doctor") {
       secQuery = `insert into Doctors(doctorId , licenseNumber , specialization)
                   values($1 , $2 , $3);`;
-    } else {
-      return new AppError("Insert a valid role either Patient or doctor", 400);
     }
-
-    await pool.query(secQuery, [newUser.rows[0].userid, ...specificAtt]); //id,c1,c2
+    if (role !== "Admin")
+      await pool.query(secQuery, [newUser.rows[0].userid, ...specificAtt]); //id,c1,c2
     if (newUser.rowCount) return newUser.rows[0];
     return false;
   } catch (err) {
@@ -63,13 +61,16 @@ const updateUserDb = async (toBeEdited, specificAtt, role, id) => {
     if (!checkerUser.rowCount) {
       throw new AppError("there's no such a user with that id", 400);
     }
-    if (checkerUser.rows[0].userrole !== role) {
-      throw new AppError("roles didn't match, something went wrong", 400);
-    }
+    // if (checkerUser.rows[0].userrole !== role) {
+    //   throw new AppError("roles didn't match, something went wrong", 400);
+    // }
     let query = `update Users SET `;
     let cnt = 0;
     toBeEdited.updatedat = toBeEdited.updatedat
       ? new Date(new Date(toBeEdited.updatedat).toISOString())
+      : null;
+    toBeEdited.codeExpiresAt = toBeEdited.codeExpiresAt
+      ? new Date(new Date(toBeEdited.codeExpiresAt).toISOString())
       : null;
     Object.entries(toBeEdited).forEach(([k, v]) => {
       if (cnt && v) query += " , ";
@@ -128,15 +129,29 @@ const updatePassword = async (email, id, password) => {
     throw error;
   }
 };
-const updateVerificationCode = async (email, verCode) => {
+const updateVerificationCode = async (email, verCode, expiry) => {
   try {
     const query = `
       update Users 
-      set verificationCode = $1
+      set verificationCode = $1,
+      codeExpiresAt = $3      
       where email = $2
     `;
-    const res = await pool.query(query, [verCode, email]);
+    expiry = new Date(new Date(expiry).toISOString());
+    const res = await pool.query(query, [verCode, email, expiry]);
     return res.rowCount;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const getCodeExpiry = async (code) => {
+  try {
+    const query = `select codeExpiresAt from users where verificationCode = $1`;
+    const date = await pool.query(query, [code]);
+    if (date.rowCount) return date.rows.at(-1);
+    return false;
   } catch (error) {
     console.log(error);
     throw error;
@@ -148,4 +163,5 @@ export {
   updateUserDb,
   updatePassword,
   updateVerificationCode,
+  getCodeExpiry,
 };

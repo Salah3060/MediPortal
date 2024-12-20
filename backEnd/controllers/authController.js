@@ -6,6 +6,7 @@ import {
   updatePassword,
   updateUserDb,
   updateVerificationCode,
+  getCodeExpiry,
 } from "../databases/authDatabase.js";
 import { AppError, formatString, catchAsyncError } from "../utilities.js";
 const { data, JsonWebToken } = pkg;
@@ -13,8 +14,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import validator from "validator";
 import { promisify } from "util";
-import { appendFile, stat } from "fs";
-import e from "express";
+import Email from "../Email/email.js";
 dotenv.config("../../BE.env");
 
 const createToken = (id) => {
@@ -69,6 +69,7 @@ const registerController = catchAsyncError(async (req, res, next) => {
       birthDate,
       password,
       userRole,
+      adminId,
       bloodType,
       chronicDisease,
       licenseNumber,
@@ -83,8 +84,7 @@ const registerController = catchAsyncError(async (req, res, next) => {
       !gender ||
       !birthDate ||
       !password ||
-      !userRole ||
-      !(bloodType || (licenseNumber && specialization)) //either patient or doctor
+      !userRole
     ) {
       return next(new AppError("Missing data", 400));
     }
@@ -140,21 +140,41 @@ const registerController = catchAsyncError(async (req, res, next) => {
       phoneNumber,
       gender,
       Date.now(),
-      "Active",
+      "Pending",
       birthDate,
       encryptedPass,
     ];
     let specificAtt = [];
     if (userRole === "Patient") {
+      if (!bloodType) {
+        return next(new AppError("Missing bloodType", 400));
+      }
       specificAtt = [bloodType, chronicDisease];
     } else if (userRole === "Doctor") {
+      if (!licenseNumber || !specialization) {
+        return next(
+          new AppError("Missing licenseNumber or specialization", 400)
+        );
+      }
       specificAtt = [licenseNumber, specialization];
-    } else {
-      return next(
-        new AppError("Insert a valid role either Patient or doctor", 400)
-      );
+    } else if (userRole !== "Admin") {
+      return next(new AppError("Insert a valid role", 400));
     }
 
+    // admin checks
+    if (userRole === "Admin") {
+      if (!adminId)
+        return next(
+          new AppError("Provide an admin id to insert an admin", 401)
+        );
+      const checkerUser = await logInDb(null, adminId);
+      //console.log(checkerUser);
+      if (checkerUser.userrole !== "Admin") {
+        return next(
+          new AppError("Your are NOT an Admin to insert another admin", 401)
+        );
+      }
+    }
     const newUser = await registerDb(attributes, userRole, specificAtt);
     if (newUser.severity === "ERROR" || newUser.status === "fail") {
       console.log(newUser.message);
@@ -166,6 +186,17 @@ const registerController = catchAsyncError(async (req, res, next) => {
       return next(new AppError(message, 400));
     }
     delete newUser.password;
+
+    // generating a 6-digit code
+    const verificationCode = 100000 + Math.floor(Math.random() * 900000);
+    const expiry = Date.now() + 10 * 60 * 1000;
+    await updateVerificationCode(email, verificationCode, expiry);
+
+    // sending verification code
+    const mailer = new Email(newUser, "");
+
+    await mailer.sendVerification(verificationCode);
+
     sendAndSignToken(newUser, res);
   } catch (err) {
     console.log(err);
@@ -377,10 +408,10 @@ const sendEmailVerificationCode = catchAsyncError(async (req, res, next) => {
 
   if (!user) return next(new AppError("Invalid Email...", 404));
 
-  const verificationCode = Math.floor(Math.random() * 100000000);
-
-  await updateVerificationCode(email, verificationCode);
-
+  //const verificationCode = Math.floor(Math.random() * 100000000);
+  const verificationCode = 100000 + Math.floor(Math.random() * 900000);
+  const expiry = Date.now() + 10 * 60 * 1000;
+  await updateVerificationCode(email, verificationCode, expiry);
   // nodemailer calling here
 
   ///
@@ -391,7 +422,7 @@ const sendEmailVerificationCode = catchAsyncError(async (req, res, next) => {
   });
 });
 
-const resstPassword = catchAsyncError(async (req, res, next) => {
+const resetPassword = catchAsyncError(async (req, res, next) => {
   const { email } = req.params;
   const { password, verificationCode: verCode } = req.body;
 
@@ -433,13 +464,32 @@ const changePassword = catchAsyncError(async (req, res, next) => {
   }
   const encryptedPass = await bcrypt.hash(newPassword, 10);
   const result = await updatePassword(user.email, undefined, encryptedPass);
-  
+
   if (!result) return next(new AppError("Failed to update password", 404));
   res.status(200).json({
     status: "success",
     ok: true,
     message: "Password updated succesfully..",
   });
+});
+
+const verifyCode = catchAsyncError(async (req, res, next) => {
+  const { code, id } = req.params;
+  const result = await getCodeExpiry(code);
+  if (!result) {
+    return next(new AppError("something wrong happened!", 400));
+  }
+
+  if (new Date(result.codeexpiresat).getTime() < Date.now()) {
+    return next(new AppError("The verification code has expired", 401));
+  }
+  await updateUserDb(
+    { userState: "Active", codeExpiresAt: null, verificationCode: null },
+    {},
+    "",
+    id
+  );
+  res.redirect("http://localhost:5173/MediPortal/");
 });
 
 export {
@@ -449,6 +499,7 @@ export {
   restrictTo,
   updateUser,
   sendEmailVerificationCode,
-  resstPassword,
+  resetPassword,
   changePassword,
+  verifyCode,
 };

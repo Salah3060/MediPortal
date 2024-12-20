@@ -12,7 +12,8 @@ const createUsersTable = `create table Users
     createdAt timestamp default current_timestamp, 
     updatedAt timestamp default current_timestamp, 
     birthDate date, 
-    verificationCode int default nullو
+    verificationCode int default null,
+    codeExpiresAt timestamp default null,
     password varchar(110) not null, 
     userRole varchar(15) not null default 'Patient',
     userState varchar(10) default 'Pending' check (userState in ('Active', 'Pending', 'Blocked')),

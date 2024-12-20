@@ -29,42 +29,49 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
     ***JWT sent as cookie 
 
     1.2 register
-    endPoint: 127.0.0.1:3000/api/v1/auth/register
-    method : post
-    body :
-        {
-            "firstName" :"an",
-            "lastName":"example",
-            "email":"YousefIsTesting7@dum.com",
-            "phoneNumber":"01128606377",
-            "gender": "Male",
-            "birthDate": "2004-12-12",
-            "password": "yousef123",
-            "userRole": "Patient",
-            "bloodType":"o+",
-            "chronicDisease":"none"
-        }
-    response :
-        {
-            "status": "success",
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzI5NzY0MDksImV4cCI6MTczMzA2MjgwOX0.fuw9uLxq6GFHJMk9UvTmnGhhUgaP3tbqQsXkhGuy-PM",
-            "date": {
-                "user": {
-                    "userid": 26,
-                    "firstname": "an",
-                    "lastname": "example",
-                    "phonenumber": "01128606377",
-                    "email": "YousefIsTesting7@dum.com",
-                    "gender": "Male",
-                    "wallet": null,
-                    "createdat": "2024-11-30T14:20:08.300Z",
-                    "updatedat": "2024-11-30T14:20:08.300Z",
-                    "birthdate": "2004-12-11T22:00:00.000Z",
-                    "userstate": "Active",
-                    "userrole": "Patient"
+        endPoint: 127.0.0.1:3000/api/v1/auth/register
+        method : post
+        body :
+            {
+                "firstName" :"an",
+                "lastName":"example",
+                "email":"YousefIsTesting7@dum.com",
+                "phoneNumber":"01128606377",
+                "gender": "Male",
+                "birthDate": "2004-12-12",
+                "password": "yousef123",
+                "userRole": "Patient",
+                "bloodType":"o+",
+                "chronicDisease":"none",
+                "adminId":"140" // if u want to insert an admin
+            }
+        response :
+            {
+                "status": "success",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzI5NzY0MDksImV4cCI6MTczMzA2MjgwOX0.fuw9uLxq6GFHJMk9UvTmnGhhUgaP3tbqQsXkhGuy-PM",
+                "date": {
+                    "user": {
+                        "userid": 26,
+                        "firstname": "an",
+                        "lastname": "example",
+                        "phonenumber": "01128606377",
+                        "email": "YousefIsTesting7@dum.com",
+                        "gender": "Male",
+                        "wallet": null,
+                        "createdat": "2024-11-30T14:20:08.300Z",
+                        "updatedat": "2024-11-30T14:20:08.300Z",
+                        "birthdate": "2004-12-11T22:00:00.000Z",
+                        "userstate": "Active",
+                        "userrole": "Patient"
+                    }
                 }
             }
-        }
+        errors you might encounter
+            1- "Provide an admin id to insert an admin"
+                if you tried to insert an admin without providing another adminId
+            2- "Your are NOT an Admin to insert another admin"
+                if you provided a none-admin id trying to insert an admin
+        
     1.3 forgetPassword and send verification code to email
     endPoint:127.0.0.1:3000/api/v1/auth/forgetPassword/jane.smith@example.com
     method:get
