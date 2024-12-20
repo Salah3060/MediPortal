@@ -168,7 +168,7 @@ const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
   }
 
   //res.redirect(req.originalUrl.split("?")[0]);
-  res.redirect("http://localhost:5173/MediPortal/booking/success");
+  res.redirect("http://localhost:5173/MediPortal/redirectToLogout/");
 });
 
 const bookAppointment = catchAsyncError(async (req, res, next) => {
