@@ -492,6 +492,21 @@ const verifyCode = catchAsyncError(async (req, res, next) => {
   res.redirect("http://localhost:5173/MediPortal/");
 });
 
+const checkVerificationCode = catchAsyncError(async (req, res, next) => {
+  const { email } = req.params;
+  const { verificationCode } = req.body;
+  if (!email || !verificationCode)
+    return next(new AppError("Please Provide email and verificationCode"));
+  const user = await logInDb(email);
+  if (user.verificationcode != verificationCode)
+    return next(new AppError("Invalid verfication code...", 400));
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    message: "valid verfication code",
+  });
+});
+
 export {
   logInController,
   registerController,
@@ -502,4 +517,5 @@ export {
   resetPassword,
   changePassword,
   verifyCode,
+  checkVerificationCode,
 };

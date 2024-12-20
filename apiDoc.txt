@@ -114,6 +114,21 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
             "ok": true,
             "message": "Password updated succesfully.."
         }
+    1.6 checkVerificationCode
+    endPoint:127.0.0.1:3000/api/v1/auth/checkVerificationCode/jane.smith@example.com
+    method:post
+    body:
+    {
+    "verificationCode":58241257
+    }
+    response:
+    {
+        
+    "status": "success",
+    "ok": true,
+    "message": "valid verfication code"
+
+    }
 
 2.Doctors
     2.1 getAllDoctors

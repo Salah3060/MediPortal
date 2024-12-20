@@ -7,6 +7,7 @@ import {
   changePassword,
   validateLoggedIn,
   verifyCode,
+  checkVerificationCode,
 } from "../controllers/authController.js";
 const router = express.Router();
 
