@@ -506,11 +506,14 @@ const verifyCode = catchAsyncError(async (req, res, next) => {
 const checkVerificationCode = catchAsyncError(async (req, res, next) => {
   const { email } = req.params;
   const { verificationCode } = req.body;
-  console.log("hi");
+
   if (!email || !verificationCode)
     return next(new AppError("Please Provide email and verificationCode"));
   const user = await logInDb(email);
-  if (user.verificationcode != verificationCode)
+  if (
+    user.verificationcode != verificationCode ||
+    new Date(user.codeexpiresat).getTime() < Date.now()
+  )
     return next(new AppError("Invalid verfication code...", 400));
   res.status(200).json({
     status: "success",
