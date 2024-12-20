@@ -1,4 +1,4 @@
-import pool from "../server.js";
+import pool from "../../server.js";
 import { catchAsyncError } from "../utilities.js";
 
 const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {

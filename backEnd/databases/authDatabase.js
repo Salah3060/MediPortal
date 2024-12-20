@@ -1,4 +1,4 @@
-import pool from "../server.js";
+import pool from "../../server.js";
 import { AppError, catchAsyncError } from "../utilities.js";
 
 const logInDb = async (email, id) => {

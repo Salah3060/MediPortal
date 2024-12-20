@@ -1,4 +1,4 @@
-import pool from "../server.js";
+import pool from "../../server.js";
 
 const retrieveAllOffers = async (fields, filters, orders, limit, page) => {
   try {

@@ -1,4 +1,4 @@
-import pool from "../server.js";
+import pool from "../../server.js";
 
 const createOrder = async (attributes, cart, userId) => {
   try {

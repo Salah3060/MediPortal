@@ -1,5 +1,5 @@
 import app from "../app.js";
-import pool from "../server.js";
+import pool from "../../server.js";
 import { catchAsyncError } from "../utilities.js";
 
 const retrieveAllAppointments = async (

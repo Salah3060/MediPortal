@@ -24,6 +24,7 @@ import jwt from "jsonwebtoken";
 import { AppError, globalErrorHandler } from "./utilities.js";
 import { makeReview } from "./controllers/reviewController.js";
 
+dotenv.config({ path: `./../BE.env` });
 // const cors = require("cors");
 const app = express();
 app.use(cookieparser());

@@ -1,10 +1,10 @@
-import app from "./app.js";
+import app from "./backEnd/app.js";
 import dotenv from "dotenv";
 import pkg from "pg";
 const { Pool } = pkg;
 
 // Load environment variables from .env file
-dotenv.config({ path: "../BE.env" });
+dotenv.config({ path: "./BE.env" });
 
 const PORT = process.env.PORT || 3000;
 

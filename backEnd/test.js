@@ -1,4 +1,4 @@
-// import pool from "./server.js";
+// import pool from "../../server.js";
 
 // async function test() {
 //   try {
