@@ -366,5 +366,4 @@ const render = (template, options) => {
       `;
   return html;
 };
-
 export default render;

@@ -417,7 +417,12 @@ const sendEmailVerificationCode = catchAsyncError(async (req, res, next) => {
   //const verificationCode = Math.floor(Math.random() * 100000000);
   const verificationCode = 100000 + Math.floor(Math.random() * 900000);
   const expiry = Date.now() + 10 * 60 * 1000;
+
   await updateVerificationCode(email, verificationCode, expiry);
+
+  const mailer = new Email(user, "");
+
+  await mailer.sendVerificationReset(verificationCode);
   // nodemailer calling here
 
   ///
