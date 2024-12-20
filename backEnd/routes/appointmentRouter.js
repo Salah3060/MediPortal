@@ -11,11 +11,12 @@ import { validateLoggedIn, restrictTo } from "../controllers/authController.js";
 
 const router = express.Router();
 
+router.get("/booking-success", createAppointmentCheckout);
+
 router.use(validateLoggedIn);
 router.get("/stats", getAppointmentsStats);
 router.get("/allAppointments", getAllAppointments);
 
-router.get("/booking-success", createAppointmentCheckout);
 router.post("/checkout-session/:id/:secId", getCheckoutSession);
 router.post("/:id/:secId", bookAppointment);
 router.patch("/:id", editAppointment);
