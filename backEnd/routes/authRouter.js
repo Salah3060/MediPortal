@@ -11,6 +11,7 @@ import {
 } from "../controllers/authController.js";
 const router = express.Router();
 
+router.post("/checkVerificationCode/:email", checkVerificationCode);
 router.get("/forgetPassword/:email", sendEmailVerificationCode);
 router.post("/resetPassword/:email", resetPassword);
 router.post("/logIn", logInController);
