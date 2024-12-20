@@ -11,11 +11,7 @@ import Loader from "../Loader";
 import { useParams } from "react-router-dom";
 import { resetError } from "../../Store/Slices/offersSlice";
 import { fetchDoctorById } from "../../Store/Slices/searchSlice";
-import {
-  resetUpdate,
-  updateDoctor,
-  updatePassword,
-} from "../../Store/Slices/userSlice";
+import { resetUpdate, updatePassword } from "../../Store/Slices/userSlice";
 
 export default function ChangePassword() {
   const isNonMobile = useMediaQuery("(min-width:700px)");

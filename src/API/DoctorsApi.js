@@ -55,6 +55,18 @@ export const updateMe = async (data) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+export const updateMePatient = async (data) => {
+  try {
+    const response = await axiosInstance.patch(`/patients/updateMe`, data, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    console.log(response);
+
+    return response.data.data.updatedUser;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
 export const updatepassword = async (data) => {
   try {
     const response = await axiosInstance.patch(`/auth/updatePassword`, data, {

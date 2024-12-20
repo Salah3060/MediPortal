@@ -22,7 +22,11 @@ const initialState = {
   updated: false,
 };
 import { login, signUp } from "../../API/authAPI";
-import { updateMe, updatepassword } from "../../API/DoctorsApi";
+import {
+  updateMe,
+  updateMePatient,
+  updatepassword,
+} from "../../API/DoctorsApi";
 function loadUserFromCookies() {
   const savedUser = Cookies.get("user");
   return savedUser ? JSON.parse(savedUser) : initialState;
@@ -63,6 +67,17 @@ export const updateDoctor = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const userData = await updateMe(data);
+      return userData;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+export const updatePatient = createAsyncThunk(
+  "user/updatePatient",
+  async (data, thunkAPI) => {
+    try {
+      const userData = await updateMePatient(data);
       return userData;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
@@ -118,7 +133,7 @@ const userSlice = createSlice({
         state.phonenumber = action.payload.phonenumber;
         state.email = action.payload.email;
         state.gender = action.payload.gender;
-        state.birthdate = action.payload.birthdate;
+        state.birthdate = action.payload.birthdate.split("T")[0];
         state.wallet = action.payload.wallet;
         state.bloodType = action.payload.bloodType;
         state.chronicDiseases = action.payload.chronicDiseases;
@@ -154,7 +169,7 @@ const userSlice = createSlice({
         state.userid = action.payload.userid;
         state.email = action.payload.email;
         state.gender = action.payload.gender;
-        state.birthdate = action.payload.birthdate;
+        state.birthdate = action.payload.birthdate.split("T")[0];
         state.bloodType = action.payload.bloodType;
         state.chronicDiseases = action.payload.chronicDiseases;
         state.licenseNumber = action.payload.licenseNumber;
@@ -204,6 +219,36 @@ const userSlice = createSlice({
         state.update = true;
       })
       .addCase(updatePassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.update = false;
+      })
+      .addCase(updatePatient.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.update = false;
+      })
+      .addCase(updatePatient.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.update = true;
+        state.firstname = action.payload.firstname;
+        state.lastname = action.payload.lastname;
+        state.phonenumber = action.payload.phonenumber;
+        state.email = action.payload.email;
+        state.gender = action.payload.gender;
+        state.birthdate = action.payload.birthdate.split("T")[0];
+        state.bloodType = action.payload.bloodType;
+        state.licenseNumber = action.payload.licenseNumber;
+        state.createdAt = action.payload.createdat;
+        state.updatedAt = action.payload.updatedat;
+        state.userState = action.payload.userstate;
+        state.error = "";
+        state.loading = false;
+        state.status = "success";
+        saveUserToCookies(state);
+      })
+      .addCase(updatePatient.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.update = false;

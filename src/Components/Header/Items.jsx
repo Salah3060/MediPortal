@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser, logout } from "../../Store/Slices/userSlice";
 import LogoutHeader from "../LogoutItemsHeader";
 
-export default function Items() {
+export default function Items({ openUserInfoModal }) {
   const dispath = useDispatch();
   const { status, firstname } = useSelector((state) => state.user); // Select the necessary state
   function toogleSideBar() {
@@ -26,6 +26,7 @@ export default function Items() {
           handleLogout={handleLogout}
           firstname={firstname}
           id={firstname}
+          openUserInfoModal={openUserInfoModal}
         />
       ) : (
         <>
