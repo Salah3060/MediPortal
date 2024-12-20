@@ -2,22 +2,20 @@ import { Box, Button, TextField } from "@mui/material";
 import { Field, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetUpdate, updatePatient } from "../Store/Slices/userSlice";
+import {
+  resetUpdate,
+  updatePassword,
+  updatePatient,
+} from "../Store/Slices/userSlice";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
 
 export default function UserInfo() {
   const [state, setState] = useState("");
   const initialValues = {
-    firstname: "",
-    lastname: "",
-    phonenumber: "",
-    email: "",
-    birthdate: "",
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
-    gender: "",
   };
   const user = useSelector((state) => state.user);
   const { loading, update } = useSelector((state) => state.user);
@@ -28,6 +26,7 @@ export default function UserInfo() {
       //   dispatch(fetchDoctorById(doctorid));
       dispatch(resetUpdate());
       toast.success("Successfully updated!");
+      setState("");
     }
   }, [dispatch, update]);
 
@@ -43,6 +42,18 @@ export default function UserInfo() {
       };
       console.log(data);
       dispatch(updatePatient(data));
+    } else if (state === "pass") {
+      const data = {
+        oldPassword: values.oldPassword,
+        newPassword: values.newPassword,
+        confirmPassword: values.confirmPassword,
+      };
+      if (data.confirmPassword !== data.newPassword) {
+        toast.error("New password and confirm password must be the same");
+        return;
+      }
+      console.log(data);
+      dispatch(updatePassword(data));
     }
   }
   return (
@@ -78,6 +89,65 @@ export default function UserInfo() {
       </div>
       {loading ? (
         <Loader />
+      ) : state === "pass" ? (
+        <Formik onSubmit={handleFormSubmit} initialValues={user}>
+          {({ values, handleBlur, handleChange }) => (
+            <form>
+              <Box
+                display="grid"
+                gap="30px"
+                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+              >
+                {
+                  <>
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      type="password"
+                      label="Old password"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.oldPassword}
+                      name={`oldPassword`}
+                      sx={{ gridColumn: "span 4" }}
+                    />
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      type="password"
+                      label="New password"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.newPassword}
+                      name={`newPassword`}
+                      sx={{ gridColumn: "span 4" }}
+                    />
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      type="password"
+                      label="Confirm password"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.confirmPassword}
+                      name={`confirmPassword`}
+                      sx={{ gridColumn: "span 4" }}
+                    />
+                  </>
+                }
+              </Box>
+              <Box display="flex" justifyContent="end" mt="20px" fullWidth>
+                <Button
+                  onClick={() => handleFormSubmit(values)}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Update
+                </Button>
+              </Box>
+            </form>
+          )}
+        </Formik>
       ) : (
         <Formik onSubmit={handleFormSubmit} initialValues={user}>
           {({ values, handleBlur, handleChange }) => (

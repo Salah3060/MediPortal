@@ -15,7 +15,7 @@ function App() {
 
   const isPharmacyPage = location.pathname.startsWith("/MediPortal/pharmacy");
   const isDoctorDashboard = location.pathname.startsWith("/MediPortal/doctor");
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
   return (
     <>
       {isPharmacyPage ? (
