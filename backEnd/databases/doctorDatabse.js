@@ -42,10 +42,10 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
     query += `  
           from Users u  
           join Doctors d on u .userId = d.doctorId     
-          left join Reviews r on r.doctorId= d.doctorId  
-          LEFT JOIN DoctorAvailability da ON da.doctorId = d.doctorId
-          JOIN coverage c ON c.workspaceId = da.workspaceId
-          JOIN Insurances i ON i.insuranceId = c.insuranceId
+          left  join Reviews r on r.doctorId= d.doctorId  
+          left  JOIN DoctorAvailability da ON da.doctorId = d.doctorId
+          left  JOIN coverage c ON c.workspaceId = da.workspaceId
+          left  JOIN Insurances i ON i.insuranceId = c.insuranceId
                 `;
 
     if (filters) query += `where ${filters.join(" and ")}       `;
