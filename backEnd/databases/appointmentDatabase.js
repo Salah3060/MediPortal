@@ -32,9 +32,9 @@ const retrieveAllAppointments = async (
                   `;
     query += `
                   from Appointments a 
-                  join doctors d on d.doctorId = a.doctorId
-                  join Users  ud  on ud.userId = a.doctorId 
-                  join Users  up on up.userId = a.patientId
+                  left join doctors d on d.doctorId = a.doctorId
+                  left join Users  ud  on ud.userId = a.doctorId 
+                  left join Users  up on up.userId = a.patientId
                   left join WorkspaceLocations wl on wl.locationId = a.locationId
                   `;
     if (filters) query += `where ${filters.join(" and ")}       `;
