@@ -8,6 +8,7 @@ import {
   validateLoggedIn,
   verifyCode,
   checkVerificationCode,
+  updateUser,
 } from "../controllers/authController.js";
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.post("/register", registerController);
 router.get("/verifyCode/:code/:id", verifyCode);
 
 router.use(validateLoggedIn);
+router.patch("/updateMe", updateUser("Admin"));
 router.patch("/updatePassword", changePassword);
 export default router;

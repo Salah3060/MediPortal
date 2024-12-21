@@ -129,6 +129,35 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
     "message": "valid verfication code"
 
     }
+    1.7 Update Admin
+        endPoint: http://127.0.0.1:3000/api/v1/auth/updateMe
+        method: patch
+        body:
+        {
+            "lastname":"meshSalah"
+        }
+        response:
+        {
+            "status": "successful",
+            "data": {
+                "updatedUser": {
+                    "userid": 202,
+                    "firstname": "Salah",
+                    "lastname": "Meshsalah",
+                    "phonenumber": "01128636373",
+                    "email": "admMail5@gmail.com",
+                    "gender": "Male",
+                    "wallet": "0.00",
+                    "createdat": "2024-12-21T16:09:32.437Z",
+                    "updatedat": "2024-12-21T16:10:46.584Z",
+                    "birthdate": "2004-12-11T22:00:00.000Z",
+                    "userrole": "Admin",
+                    "userstate": "Active",
+                    "verificationcode": 794109,
+                    "codeexpiresat": "2024-12-21T16:19:33.755Z"
+                }
+            }
+        }
 
 2.Doctors
     2.1 getAllDoctors
