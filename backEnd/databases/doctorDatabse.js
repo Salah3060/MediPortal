@@ -105,7 +105,30 @@ const retrieveDoctor = async (id) => {
            'workSpaceId',da.workspaceId , 
            'location', (select workspacesLocation  from WorkspaceLocations wl where wl.locationId =da.locationId limit 1 )
         )
-      ) as availibility 
+      ) as availibility ,
+        JSON_AGG(
+        JSON_BUILD_OBJECT(
+          'rate', r.rate,
+          'review', r.review,
+          'reviewDate', r.reviewDate,
+          'waitingTime', r.waitingTime,
+          'patient', (
+            SELECT 
+              JSON_BUILD_OBJECT(
+                'userId', u2.userId,
+                'firstName', u2.firstName,
+                'lastName', u2.lastName
+              )
+            FROM 
+              Users u2
+            JOIN 
+              Patients p ON u2.userId = p.patientId
+            WHERE 
+              p.patientId = r.patientId
+            LIMIT 1
+          )
+        )
+      ) AS reviews
     FROM 
         Users u  
     JOIN 

@@ -47,7 +47,7 @@ const logInController = async (req, res, next) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return next(new AppError("Invalid email or password", 404));
     }
-    if (user.userstate != "Active") {
+    if (user.userstate == "Blocked") {
       return next(new AppError("Sorry , this user is blocked", 401));
     }
     delete user.password;
