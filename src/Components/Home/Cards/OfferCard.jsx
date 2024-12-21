@@ -1,8 +1,18 @@
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const OfferCard = ({ offer }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/MediPortal/offers/${offer?.offerid}`);
+  };
+
   return (
-    <div className="flex flex-col gap-4 items-center md:items-start w-full hover:scale-95 transition-all duration-300">
+    <div
+      className="flex flex-col gap-4 items-center md:items-start w-full hover:scale-95 transition-all duration-300 hover:cursor-pointer"
+      onClick={handleClick}
+    >
       {/* Image Section */}
       <div className="image rounded-lg h-[190px] w-full max-w-[400px] min-w-[280px] overflow-hidden relative">
         <img

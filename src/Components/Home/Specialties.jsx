@@ -12,69 +12,97 @@ import "swiper/swiper-bundle.css"; // For Swiper v8+
 // import required modules
 import { FreeMode, Pagination } from "swiper/modules";
 
+import { getAllSpecialties } from "@/API/DoctorsApi";
+import { setSpecialties } from "@/Store/Slices/searchSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 const Specialties = () => {
-  const specialties = [
-    {
-      id: 1,
-      title: "Dental",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 2,
-      title: "Eye",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 3,
-      title: "Skin",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 4,
-      title: "Hair",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 1,
-      title: "Dental",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 2,
-      title: "Eye",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 3,
-      title: "Skin",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 4,
-      title: "Hair",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 1,
-      title: "Dental",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 2,
-      title: "Eye",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 3,
-      title: "Skin",
-      image: "https://placehold.co/400x220",
-    },
-    {
-      id: 4,
-      title: "Hair",
-      image: "https://placehold.co/400x220",
-    },
-  ];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchSpecialties = async () => {
+      try {
+        let count = 1;
+        const specialtiessss = await getAllSpecialties();
+        // loop on and make a new list and add id and image to them
+        const specialtiesbb = specialtiessss.map((specialty) => ({
+          id: count++,
+          title: specialty.specialization,
+          image: `https://res.cloudinary.com/djuhk9ozp/image/upload/v1734771678/${specialty.specialization}.png`,
+        }));
+        dispatch(setSpecialties(specialtiesbb));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSpecialties();
+  }, [dispatch]);
+
+  const { specialties } = useSelector((state) => state.search);
+
+  // const specialties = [
+  //   {
+  //     id: 1,
+  //     title: "Dental",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Eye",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Skin",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Hair",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 1,
+  //     title: "Dental",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Eye",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Skin",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Hair",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 1,
+  //     title: "Dental",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Eye",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Skin",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Hair",
+  //     image: "https://placehold.co/400x220",
+  //   },
+  // ];
   return (
     <div className="container max-w-[1500px] mx-auto px-4 py-6 flex flex-col gap-8">
       {/* Header Section */}

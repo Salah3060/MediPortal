@@ -6,6 +6,8 @@ import Specialities from "@/Components/Home/Specialties";
 import Features from "@/Components/Home/Features";
 import { useDispatch } from "react-redux";
 import { fetchAllOffers } from "@/Store/Slices/offersSlice";
+import { setSelectedSpecialty } from "@/Store/Slices/searchSlice";
+import { scrollToTop } from "@/Utils/functions.util";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -13,6 +15,12 @@ const Home = () => {
   useEffect(() => {
     dispatch(fetchAllOffers());
   }, [dispatch]);
+
+  useEffect(() => {
+    document.title = "MediPortal | Home";
+    scrollToTop();
+    dispatch(setSelectedSpecialty("All Specialties"));
+  }, []);
 
   const images = [
     "/MediPortal/Home/back1.jpg",

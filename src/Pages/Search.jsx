@@ -2,21 +2,22 @@ import SearchHeader from "@/Components/Search/SearchHeader";
 import Result from "@/Components/Search/Result";
 import { useDispatch } from "react-redux";
 import { fetchAllDoctors } from "@/Store/Slices/searchSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { setSpecialties, setInsurances } from "@/Store/Slices/searchSlice";
 import { getAllSpecialties, getAllInsurances } from "@/API/DoctorsApi";
+import { scrollToTop } from "@/Utils/functions.util";
 
 const Search = () => {
   const dispatch = useDispatch();
-  const { doctors, specialties, insurances } = useSelector(
-    (state) => state.search
-  );
+  const { selectedSpecialty } = useSelector((state) => state.search);
   const { page } = useSelector((state) => state.search);
 
   useEffect(() => {
-    dispatch(fetchAllDoctors(page));
-  }, [dispatch, page]);
+    if (selectedSpecialty === "All Specialties") {
+      dispatch(fetchAllDoctors(page));
+    }
+  }, [dispatch, page, selectedSpecialty]);
 
   // fetch specs when the componenrt mounts
   const fetchData = async () => {
@@ -44,6 +45,8 @@ const Search = () => {
 
   useEffect(() => {
     fetchData();
+    document.title = `Doctors | ${selectedSpecialty}`;
+    scrollToTop();
   }, []);
 
   return (

@@ -95,8 +95,9 @@ const SearchBar = () => {
   const dispatch = useDispatch();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [query, setQuery] = useState("");
-  const { doctors, specialties, page, insurances, filteredDoctors } =
-    useSelector((state) => state.search);
+  const { doctors, specialties, page, insurances } = useSelector(
+    (state) => state.search
+  );
   const [selectedInsurance, setSelectedInsurance] = useState("All Insurances");
   const [selectedSpecialty, setSelectedSpecialty] = useState("All Specialties");
 

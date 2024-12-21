@@ -5,6 +5,8 @@ import SuccessPopup from "@/Components/SuccessPopup";
 import ErrorPopup from "@/Components/ErrorPopup";
 import Loader from "@/Components/Loader";
 import Chatbot from "@/Components/Questions/Chatbot";
+import { useEffect } from "react";
+import { scrollToTop } from "@/Utils/functions.util";
 
 const AskQuestion = () => {
   const [selectedStatus, setSelectedStatus] = useState("myself"); // Default selection
@@ -22,6 +24,11 @@ const AskQuestion = () => {
   const handleStatusChange = (type) => {
     setSelectedStatus(type);
   };
+
+  useEffect(() => {
+    document.title = "MediPortal | Ask Question";
+    scrollToTop();
+  }, []);
 
   const handleGenderChange = (gender) => {
     setSelectedGender(gender);

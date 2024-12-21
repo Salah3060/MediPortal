@@ -27,6 +27,10 @@ const SingleProductPage = () => {
     toast.success("Added to cart successfully!");
   };
 
+  useEffect(() => {
+    document.title = `Pharmacy | ${selectedProduct?.productname}`;
+  }, [selectedProduct]);
+
   if (isLoading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
 

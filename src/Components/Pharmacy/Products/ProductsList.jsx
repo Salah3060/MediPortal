@@ -15,11 +15,15 @@ const ProductsList = ({ catName }) => {
     dispatch(fetchProducts(catName));
   }, [dispatch, catName]);
 
+  useEffect(() => {
+    document.title = `Pharmacy | ${catName}`;
+  }, [catName]);
+
   if (isLoading) return <Loader />;
 
   if (error) return <div>Error: {error}</div>;
   return (
-    <div className="container max-w-[1300px] mx-auto px-4 py-8">
+    <div className="container max-w-[1300px] mx-auto px-4 py-8 min-h-[71vh]">
       {/* Header */}
       <div className="textHeader font-bold text-primary text-xl mb-4">
         <h1>{catName}</h1>
