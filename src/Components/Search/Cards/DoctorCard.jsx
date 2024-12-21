@@ -47,7 +47,7 @@ const DoctorCard = ({ doctor }) => {
           </div>
           <div className="feat flex items-center gap-2 justify-center md:justify-start">
             <MdOutlineLocationOn className="text-lg text-darkRed" />
-            <p className="text-[14px]">RedSea : Hurghada</p>
+            <p className="text-[14px]">{doctor?.cliniclocation}</p>
           </div>
           <div className="feat flex items-center gap-2 justify-center md:justify-start">
             <BsCashStack className="text-lg text-darkRed" />
@@ -56,7 +56,7 @@ const DoctorCard = ({ doctor }) => {
           <div className="feat flex items-center gap-2 justify-center md:justify-start">
             <FaRegClock className="text-lg text-darkRed" />
             <p className="text-[14px] text-tertiary/90">
-              Waiting Time: To Be Updated Later
+              Waiting Time: {doctor?.averagewaitingtime}
             </p>
           </div>
           <div className="feat flex items-center gap-2 justify-center md:justify-start">
