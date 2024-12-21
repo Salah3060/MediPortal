@@ -6,6 +6,7 @@ import {
   setFilteredDoctors,
   fetchDoctorsBySpecialty,
   fetchAllDoctors,
+  setSelectedSpecialty,
 } from "@/Store/Slices/searchSlice";
 import { IoIosSearch } from "react-icons/io";
 
@@ -99,7 +100,8 @@ const SearchBar = () => {
     (state) => state.search
   );
   const [selectedInsurance, setSelectedInsurance] = useState("All Insurances");
-  const [selectedSpecialty, setSelectedSpecialty] = useState("All Specialties");
+  const [selectedSpecialty, setSelectedSpecialtyy] =
+    useState("All Specialties");
 
   const handleToggleDropdown = (dropdownName) => {
     setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
@@ -107,6 +109,8 @@ const SearchBar = () => {
 
   const handleSearchClick = () => {
 
+
+    dispatch(setSelectedSpecialty(selectedSpecialty)); // Update the selected specialty
 
     let filteredDoctors = doctors;
 
@@ -194,7 +198,7 @@ const SearchBar = () => {
         isOpen={openDropdown === "specialty"}
         onToggle={() => handleToggleDropdown("specialty")}
         onSelect={(item) => {
-          setSelectedSpecialty(item); // Update selected specialty
+          setSelectedSpecialtyy(item); // Update selected specialty
           setOpenDropdown(null); // Close the dropdown
         }}
       />
