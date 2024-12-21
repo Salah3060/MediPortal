@@ -8,6 +8,7 @@ import {
   getDoctorsStats,
   getDoctorWorkspaces,
   getAllSpecializaions,
+  getDoctorReviews,
 } from "../controllers/doctorController.js";
 import {
   validateLoggedIn,
@@ -17,6 +18,7 @@ import {
 const router = express.Router();
 
 router.get("/allDoctors", getAllDoctors);
+router.get("/reviews/:id", getDoctorReviews);
 router.get("/allSpecializaions", getAllSpecializaions);
 router.get("/stats", getDoctorsStats);
 router.get("/workspaces/:id", getDoctorWorkspaces);

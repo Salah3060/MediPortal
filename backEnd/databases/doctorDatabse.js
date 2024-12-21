@@ -42,10 +42,10 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
     query += `  
           from Users u  
           join Doctors d on u .userId = d.doctorId     
-          left join Reviews r on r.doctorId= d.doctorId  
-          LEFT JOIN DoctorAvailability da ON da.doctorId = d.doctorId
-          JOIN coverage c ON c.workspaceId = da.workspaceId
-          JOIN Insurances i ON i.insuranceId = c.insuranceId
+          left  join Reviews r on r.doctorId= d.doctorId  
+          left  JOIN DoctorAvailability da ON da.doctorId = d.doctorId
+          left  JOIN coverage c ON c.workspaceId = da.workspaceId
+          left  JOIN Insurances i ON i.insuranceId = c.insuranceId
                 `;
 
     if (filters) query += `where ${filters.join(" and ")}       `;
@@ -105,30 +105,7 @@ const retrieveDoctor = async (id) => {
            'workSpaceId',da.workspaceId , 
            'location', (select workspacesLocation  from WorkspaceLocations wl where wl.locationId =da.locationId limit 1 )
         )
-      ) as availibility , 
-      JSON_AGG(
-        JSON_BUILD_OBJECT(
-          'rate', r.rate,
-          'review', r.review,
-          'reviewDate', r.reviewDate,
-          'waitingTime', r.waitingTime,
-          'patient', (
-            SELECT 
-              JSON_BUILD_OBJECT(
-                'userId', u2.userId,
-                'firstName', u2.firstName,
-                'lastName', u2.lastName
-              )
-            FROM 
-              Users u2
-            JOIN 
-              Patients p ON u2.userId = p.patientId
-            WHERE 
-              p.patientId = r.patientId
-            LIMIT 1
-          )
-        )
-      ) AS reviews
+      ) as availibility 
     FROM 
         Users u  
     JOIN 
@@ -305,6 +282,22 @@ const retrieveAllSpecializaions = async () => {
   }
 };
 
+const retrieveDotorReviews = async (id) => {
+  try {
+    const query = `
+                  select * 
+                  from
+                    reviews
+                  where 
+                    doctorId= $1
+    `;
+    const res = await pool.query(query, [id]);
+    return res.rows;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export {
   retrieveAllDoctors,
   retrieveDoctor,
@@ -314,4 +307,5 @@ export {
   retrieveDoctorsStats,
   retrieveDoctorWorkspaces,
   retrieveAllSpecializaions,
+  retrieveDotorReviews,
 };
