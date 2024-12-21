@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { GoHome } from "react-icons/go";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/Components/Loader";
 import { renderStars } from "@/Utils/functions.util";
 import { FaInfo } from "react-icons/fa";
@@ -11,17 +11,43 @@ import { MdOutlineTimelapse } from "react-icons/md";
 import { ImLocation2 } from "react-icons/im";
 import { useEffect, useState } from "react";
 import ClinicCard from "./Cards/ClinicCard";
+import ReactStars from "react-rating-stars-component";
+import {
+  resetError,
+  resetUpdate,
+  userReview,
+} from "../../Store/Slices/userSlice";
+import { toast } from "react-toastify";
+import { fetchDoctorById } from "../../Store/Slices/searchSlice";
 
-const DoctorInfo = () => {
+const DoctorInfo = ({ id }) => {
   const { selectedDoctor, loading, error } = useSelector(
     (state) => state.search
   );
+  const { update, error: error2 } = useSelector((state) => state.user);
 
   const [reviews, setReviews] = useState(5);
-
+  const [rate, setRate] = useState(0);
+  const [reviewed, setReview] = useState(false);
+  const [textReview, setTextReview] = useState("");
   const [availability, setAvailability] = useState([]);
   const [selectedClinic, setSelectedClinic] = useState("");
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (update) {
+      setReview(true);
+      toast.success("You have successfully reviewed the doctor");
+      dispatch(fetchDoctorById(id));
+      dispatch(resetUpdate());
+    }
+  }, [update]);
+  useEffect(() => {
+    if (error2) {
+      toast.error("You have already review this doctor before!");
+      dispatch(resetError());
+    }
+  }, [error2]);
   useEffect(() => {
     if (selectedDoctor && selectedDoctor.availability) {
       // Take the availability and store the objects with unique workspaceId
@@ -36,7 +62,18 @@ const DoctorInfo = () => {
 
   if (loading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
-
+  function handleReview() {
+    if (!textReview || !rate) {
+      toast.error("You have to fullfill all the required data!");
+      return;
+    }
+    const data = {
+      rate: rate,
+      review: textReview,
+      waitingTime: "15",
+    };
+    dispatch(userReview({ data, id }));
+  }
   return (
     <div className="container max-w-[1300px] mx-auto px-4 py-2 flex flex-col">
       {/* Breadcrumb */}
@@ -107,6 +144,42 @@ const DoctorInfo = () => {
               </h1>
             </div>
             <p className="text-md text-primary">{selectedDoctor?.about}</p>
+          </div>
+          <div className="About bg-white w-full px-6 py-4 rounded-xl flex flex-col gap-4">
+            {reviewed ? (
+              <h1 className="text-md font-semibold text-secondary">
+                You have already reviewed the doctor
+              </h1>
+            ) : (
+              <>
+                <div className="head flex items-center gap-4">
+                  <FaRegStarHalfStroke className="text-lg text-darkRed" />
+                  <h1 className="text-md font-semibold text-secondary">
+                    Rate Doctor
+                  </h1>
+                  <ReactStars
+                    count={5}
+                    size={24}
+                    activeColor="#ffd700"
+                    onChange={(e) => {
+                      setRate(e);
+                    }}
+                  />
+                </div>
+                <textarea
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  rows="4"
+                  placeholder="Write your review here..."
+                  onChange={(e) => {
+                    setTextReview(e.target.value);
+                  }}
+                  value={textReview}
+                ></textarea>
+                <button className="btn-2" onClick={handleReview}>
+                  Review
+                </button>
+              </>
+            )}
           </div>
 
           {/* Reviews Section */}
