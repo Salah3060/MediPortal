@@ -4,6 +4,10 @@ import {
   retrieveAllorders,
 } from "../databases/orderDatabase.js";
 import {
+  retrieveAllProducts,
+  updateProduct,
+} from "../databases/productDatabase.js";
+import {
   AppError,
   catchAsyncError,
   filterQueryHandler,
@@ -27,9 +31,28 @@ const placeOrder = catchAsyncError(async (req, res, next) => {
   console.log(cart);
   let attribute = [Date.now(), totalAmount, "Successful"];
   const order = await createOrder(attribute, cart, user.userid);
+
   if (order.status === "fail" || order.severity === "ERROR") {
     return next(new AppError(order.message || "something went wrong"));
   }
+  cart.forEach(async (product) => {
+    const obj = await retrieveAllProducts(
+      [" p.productStackQuantity"],
+      [`p.productId = ${product.productId}`],
+      null,
+      10,
+      1
+    );
+    console.log(obj[0].productstackquantity - product.productQuantity);
+    const response = await updateProduct(
+      {
+        productstackquantity:
+          obj[0].productstackquantity - product.productQuantity,
+      },
+      product.productId
+    );
+    console.log(response);
+  });
   res.status(200).json({
     status: "successful",
     data: { order },

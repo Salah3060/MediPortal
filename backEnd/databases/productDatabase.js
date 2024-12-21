@@ -78,6 +78,7 @@ const updateProduct = async (attributes, productId) => {
   query += ` where productId = $${++cnt}
     returning *`;
   const readyAtt = Object.values(attributes).filter((val) => val);
+  console.log(query, attributes);
   const product = await pool.query(query, [...readyAtt, productId]);
   if (product.rowCount) return product.rows[0];
   return false;

@@ -68,12 +68,12 @@ const getAllInsurances = catchAsyncError(async (req, res, next) => {
 });
 
 const addInsurance = catchAsyncError(async (req, res, next) => {
-  let { startDate, duration, workspaceId } = req.body;
+  let { startDate, duration, workspaceId, insuranceName } = req.body;
   const providerId = req.params.id;
-  if (!startDate || !duration || !workspaceId) {
+  if (!startDate || !duration || !workspaceId || !insuranceName) {
     return next(new AppError("Missing data", 400));
   }
-  let attributes = [startDate, duration];
+  let attributes = [startDate, duration, insuranceName];
   const insurance = await createInsurance(attributes, providerId, workspaceId);
   if (insurance.status === "fail" || insurance.severity === "ERROR") {
     return next(new AppError(insurance.message || "something went wrong"));
