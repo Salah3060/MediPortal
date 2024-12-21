@@ -75,15 +75,12 @@ const OrderCheckout = () => {
 
   const handleLocationSelect = (selectedLocation) => {
     setLocation(selectedLocation);
-    console.log("Selected Location:", selectedLocation);
   };
 
   const handlePlaceOrder = async () => {
-    console.log("Order Data:", orderData);
     setLoading(true);
     try {
       const response = await placeOrder(orderData);
-      console.log("Order Response:", response);
 
       // Show success message
       setPopupMessage("Order placed successfully!");

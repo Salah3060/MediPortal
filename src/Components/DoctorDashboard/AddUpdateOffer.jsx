@@ -52,6 +52,10 @@ export default function AddUpdateOffer() {
       dispatch(AddOffer({ data, id: +wid }));
     }
     if (state === "update") {
+      if (!values.offerid) {
+        toast.error("You have to select an offer first!");
+        return;
+      }
       const data = {
         percentage: values.updatePercentage,
         startDate: values.updateStartDate,
@@ -67,13 +71,21 @@ export default function AddUpdateOffer() {
     dispatch(DoctorOffer(doctorid));
   }, [dispatch, doctorid]);
   useEffect(() => {
+    if (state === "update") {
+      dispatch(DoctorOffer(doctorid));
+    }
+  }, [dispatch, doctorid, state]);
+  useEffect(() => {
     if (added) {
       toast.success("Added successfully!");
       dispatch(resetAdded());
+      setState("");
     }
     if (updated) {
       toast.success("Updated successfully!");
       dispatch(resetUpdated());
+      setSelected(false);
+      setState("");
     }
     if (error) {
       toast.error("Something went wrong, please try again!");
@@ -141,7 +153,7 @@ export default function AddUpdateOffer() {
                       onChange={handleChange}
                     >
                       <option value="" disabled selected>
-                        Choose a workspace id...
+                        Choose a workspace location...
                       </option>
                       {selectedDoctorWorkspaces?.map((option, index) => (
                         <option key={index} value={option.workspaceid}>
@@ -211,11 +223,14 @@ export default function AddUpdateOffer() {
                         const offer = doctorOffers.find(
                           (el) => el.offerid == values.offerid
                         );
+
                         setValues({
                           ...values,
                           updateDescription: offer.offerdescription,
                           updatename: offer.offername,
                           updatePercentage: offer.percentage,
+                          updateStartDate: offer.startDate.split("T")[0],
+                          updateEndDate: offer.endDate.split("T")[0],
                         });
                         setSelected(true);
                       }}

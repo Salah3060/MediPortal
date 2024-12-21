@@ -16,11 +16,9 @@ export const getAllDoctors = async (page) => {
 // get doctors by specialty
 export const getDoctorsBySpecialty = async (specialty, page) => {
   try {
-    console.log(page);
     const response = await axiosInstance.get(
       `/doctors/allDoctors?limit=10&&page=${page}&&specialization=${specialty}`
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
@@ -41,7 +39,6 @@ export const getAllSpecialties = async () => {
 export const getAllInsurances = async () => {
   try {
     const response = await axiosInstance.get(`/insurances/allInsurances`);
-    console.log(response.data.data.Insurances);
     return response.data.data.Insurances;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
@@ -83,7 +80,6 @@ export const updateMePatient = async (data) => {
     const response = await axiosInstance.patch(`/patients/updateMe`, data, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
-    console.log(response);
 
     return response.data.data.updatedUser;
   } catch (error) {
@@ -95,7 +91,6 @@ export const updatepassword = async (data) => {
     const response = await axiosInstance.patch(`/auth/updatePassword`, data, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
-    console.log(response);
 
     return response.status === 200;
   } catch (error) {

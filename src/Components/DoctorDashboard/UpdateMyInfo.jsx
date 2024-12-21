@@ -119,7 +119,7 @@ export default function UpdateMyInfo() {
                       label="Birthdate"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      value={values.birthdate}
+                      value={values.birthdate.split("T")[0]}
                       name={`birthdate`}
                       sx={{ gridColumn: "span 4" }}
                       InputLabelProps={{

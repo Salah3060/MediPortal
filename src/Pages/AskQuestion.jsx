@@ -45,7 +45,6 @@ const AskQuestion = () => {
     try {
       // Call the askQuestion API function
       const response = await askQuestion(questionData);
-      console.log("Response:", response);
 
       // Set success state and reset loading
       setSuccess(true);

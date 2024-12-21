@@ -7,6 +7,7 @@ import SuccessPopup from "../Components/Successpopup";
 import LoginForm from "../Components/Login/LoginForm";
 import ErrorPopup from "../Components/ErrorPopup";
 import { useNavigate } from "react-router-dom";
+import { scrollToTop } from "../Utils/functions.util";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
@@ -19,6 +20,10 @@ export default function Login() {
     userid,
   } = useSelector((state) => state.user); // Select the necessary state
   const navigate = useNavigate();
+  useEffect(() => {
+    document.title = "MediPortal | Login";
+    scrollToTop();
+  }, []);
   // use function login to login user
   useEffect(() => {
     if (status === "success") {

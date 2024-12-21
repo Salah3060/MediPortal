@@ -108,9 +108,7 @@ const SearchBar = () => {
   };
 
   const handleSearchClick = () => {
-    // Log the current page and selected specialty
-    console.log(page);
-    console.log(`Specialty: ${selectedSpecialty}`);
+
 
     dispatch(setSelectedSpecialty(selectedSpecialty)); // Update the selected specialty
 
@@ -128,18 +126,15 @@ const SearchBar = () => {
 
     // Filter by insurance if a specific insurance is selected
     if (selectedInsurance !== "All Insurances") {
-      console.log(`Insurance: ${selectedInsurance}`);
       filteredDoctors = filteredDoctors.filter((doctor) =>
         doctor.insurances.some(
           (insurance) => insurance.insuranceName === selectedInsurance
         )
       );
     } else {
-      console.log("All Insurances");
     }
 
     // Dispatch the filtered doctors to update the state
-    console.log("Filtered Doctors:", filteredDoctors);
     dispatch(setFilteredDoctors(filteredDoctors));
   };
 
@@ -147,7 +142,6 @@ const SearchBar = () => {
 
   useEffect(() => {
     if (debouncedQuery) {
-      console.log(debouncedQuery);
 
       const queryParts = debouncedQuery.trim().split(" ");
 

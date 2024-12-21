@@ -8,6 +8,7 @@ import ErrorPopup from "../Components/ErrorPopup";
 import OffersSection from "../Components/Offers/OffersSection";
 import Expandit from "../Components/Offers/ShowAll";
 import PhotoSlider from "../Components/Offers/PhotoSlider";
+import { scrollToTop } from "../Utils/functions.util";
 export default function Offers() {
   const [cat, setCat] = useState("");
   const [Beauty, setBeautyData] = useState([]);
@@ -17,6 +18,10 @@ export default function Offers() {
 
   const { offers, loading, error } = useSelector((state) => state.offers);
   const dispatch = useDispatch();
+  useEffect(() => {
+    document.title = "MediPortal | Offers";
+    scrollToTop();
+  }, []);
   useEffect(() => {
     if (!offers.length) dispatch(fetchAllOffers());
     setBeautyData(offers.filter((el) => el.specialization === "Skin"));

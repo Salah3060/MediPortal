@@ -8,6 +8,7 @@ import {
   addAvailibility,
   createClinic,
   fetchAllhospitals,
+  resetErrorState,
   resetUpdateState,
 } from "../../Store/Slices/WorkspaceSlice";
 import Availability from "./hospitalAvailibility";
@@ -21,7 +22,7 @@ export default function Workspaces() {
   const [place, setPlace] = useState("");
   const {
     Allhospitals: hospitals,
-    errorUpdate,
+    error,
     loading,
     updated,
     newClinic,
@@ -65,8 +66,9 @@ export default function Workspaces() {
     }
   };
   useEffect(() => {
-    if (errorUpdate) {
+    if (error) {
       toast.error("An error happened, please try again!");
+      dispatch(resetErrorState());
       return;
     }
     if (updated) {
@@ -75,7 +77,7 @@ export default function Workspaces() {
       dispatch(fetchDoctorById(doctorid));
       setPlace("");
     }
-  }, [dispatch, errorUpdate, updated]);
+  }, [dispatch, doctorid, error, updated]);
 
   useEffect(() => {
     dispatch(fetchAllhospitals());

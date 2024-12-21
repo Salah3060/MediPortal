@@ -11,9 +11,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { IoIosLogOut } from "react-icons/io";
 import { clearUser, logout } from "../../Store/Slices/userSlice";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const Topbar = () => {
+const Topbar = ({ setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -22,7 +23,10 @@ const Topbar = () => {
   function handleLogout() {
     dispath(clearUser());
     dispath(logout());
-    navigate("/MediPortal");
+    toast.success("Logging out...");
+    setTimeout(() => {
+      navigate("/MediPortal/");
+    }, 1000);
   }
 
   return (
@@ -48,13 +52,28 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            navigate(".");
+            setSelected("Dashboard");
+          }}
+        >
           <NotificationsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            navigate("./changePassword");
+            setSelected("Change password");
+          }}
+        >
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            navigate("./UpdateMe");
+            setSelected("Update my info");
+          }}
+        >
           <PersonOutlinedIcon />
         </IconButton>
         <IconButton onClick={handleLogout}>

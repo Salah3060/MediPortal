@@ -52,7 +52,6 @@ export const AddOffer = createAsyncThunk(
       const resp = await addOffer(id, data);
       return resp;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }
@@ -62,7 +61,8 @@ export const UpdateOffer = createAsyncThunk(
   async ({ data, id }, thunkAPI) => {
     try {
       const resp = await updateOffer(id, data);
-      return resp;
+
+      return resp.data.updatedOffer;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
@@ -130,6 +130,8 @@ const offersSlice = createSlice({
         state.loading = false;
         state.doctorOffers = action.payload.map((el) => ({
           ...el,
+          startDate: el.startdate,
+          endDate: el.enddate,
           startdate: formatDate(el.startdate),
           enddate: formatDate(el.enddate),
         }));
@@ -154,9 +156,18 @@ const offersSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(UpdateOffer.fulfilled, (state) => {
+      .addCase(UpdateOffer.fulfilled, (state, action) => {
         state.loading = false;
         state.updated = true;
+
+        const ofr = state.doctorOffers.find(
+          (el) => el.offerid === action.payload.offerid
+        );
+        ofr.endDate = action.payload.enddate;
+        ofr.offerdescription = action.payload.offerdescription;
+        ofr.offername = action.payload.offername;
+        ofr.percentage = action.payload.percentage;
+        ofr.startDate = action.payload.startdate;
       })
       .addCase(UpdateOffer.rejected, (state, action) => {
         state.error = action.payload;

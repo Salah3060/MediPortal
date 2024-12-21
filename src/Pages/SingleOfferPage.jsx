@@ -13,7 +13,11 @@ import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { BsCashStack } from "react-icons/bs";
 import { renderStars } from "@/Utils/functions.util";
 import OffersBreadcrumb from "../Components/Offers/singleOfferPage/OfferBreadcrumb";
-import { formatPrice, getNextDayDate } from "../Utils/functions.util";
+import {
+  formatPrice,
+  getNextDayDate,
+  scrollToTop,
+} from "../Utils/functions.util";
 import { IoCloseSharp } from "react-icons/io5";
 import Booking from "../Components/BookingSwiper";
 import { toast } from "react-toastify";
@@ -40,6 +44,11 @@ export default function SingleOfferPage() {
   const dispath = useDispatch();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "MediPortal | Offers";
+    scrollToTop();
+  }, []);
   const handleBooking = async () => {
     try {
       if (status !== "success") {

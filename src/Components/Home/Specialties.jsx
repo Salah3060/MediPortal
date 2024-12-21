@@ -32,9 +32,7 @@ const Specialties = () => {
           image: `https://res.cloudinary.com/djuhk9ozp/image/upload/v1734771678/${specialty.specialization}.png`,
         }));
         dispatch(setSpecialties(specialtiesbb));
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchSpecialties();
   }, [dispatch]);
