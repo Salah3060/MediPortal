@@ -51,7 +51,6 @@ export const fetchDoctorsBySpecialty = createAsyncThunk(
   "doctors/fetchDoctorsBySpecialty",
   async ({ specialty, page }, thunkAPI) => {
     try {
-
       const doctors = await getDoctorsBySpecialty(specialty, page);
       return doctors.data.doctors;
     } catch (error) {
@@ -135,6 +134,9 @@ const searchSlice = createSlice({
         state.selectedDoctor = action.payload;
         state.selectedDoctor.gender = action.payload.gender.toLowerCase();
         state.loading = false;
+        state.selectedDoctor.reviews = action.payload.reviews.filter(
+          (el) => el.rate !== null
+        );
       })
       .addCase(fetchDoctorById.rejected, (state, action) => {
         state.error = action.payload;

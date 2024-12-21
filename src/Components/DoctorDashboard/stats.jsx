@@ -63,10 +63,10 @@ export default function Stats() {
               justifyContent="center"
             >
               <StatBox
-                title={appStats.completedappointments}
+                title={appStats.completedappointments || 0}
                 subtitle="Completed appointments"
-                progress={appStats.completedpercentage / 100.0}
-                increase={`${appStats.completedpercentage}%`}
+                progress={appStats.completedpercentage / 100.0 || 0}
+                increase={`${appStats.completedpercentage || 0}%`}
                 icon={
                   <CheckCircleOutlineSharp
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -82,10 +82,10 @@ export default function Stats() {
               justifyContent="center"
             >
               <StatBox
-                title={appStats.scheduledappointments}
+                title={appStats.scheduledappointments || 0}
                 subtitle="Scheduled appointments"
-                progress={appStats.scheduledpercentage / 100.0}
-                increase={`${appStats.scheduledpercentage}%`}
+                progress={appStats.scheduledpercentage / 100.0 || 0}
+                increase={`${appStats.scheduledpercentage || 0}%`}
                 icon={
                   <CalendarMonthSharp
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -101,10 +101,10 @@ export default function Stats() {
               justifyContent="center"
             >
               <StatBox
-                title={appStats.cancelledappointments}
+                title={appStats.cancelledappointments || 0}
                 subtitle="Cancelled appointments"
-                progress={appStats.cancelledpercentage / 100.0}
-                increase={`${appStats.cancelledpercentage}%`}
+                progress={appStats.cancelledpercentage / 100.0 || 0}
+                increase={`${appStats.cancelledpercentage || 0}%`}
                 icon={
                   <RemoveCircleOutlineSharp
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -120,10 +120,10 @@ export default function Stats() {
               justifyContent="center"
             >
               <StatBox
-                title={appStats.cashappointments}
+                title={appStats.cashappointments || 0}
                 subtitle="Cash paid"
-                progress={appStats.cashpercentage / 100.0}
-                increase={`${appStats.cashpercentage}%`}
+                progress={appStats.cashpercentage / 100.0 || 0}
+                increase={`${appStats.cashpercentage || 0}%`}
                 icon={
                   <AttachMoneySharp
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -139,10 +139,10 @@ export default function Stats() {
               justifyContent="center"
             >
               <StatBox
-                title={appStats.onlineappointments}
+                title={appStats.onlineappointments || 0}
                 subtitle="Visa Paid"
-                progress={appStats.onlinepercentage / 100.0}
-                increase={`${appStats.onlinepercentage}%`}
+                progress={appStats.onlinepercentage / 100.0 || 0}
+                increase={`${appStats.onlinepercentage || 0}%`}
                 icon={
                   <CreditCard
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
