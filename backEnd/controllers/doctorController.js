@@ -8,6 +8,7 @@ import {
   retrieveDoctorsStats,
   retrieveDoctorWorkspaces,
   retrieveAllSpecializaions,
+  retrieveDotorReviews,
 } from "../databases/doctorDatabse.js";
 import { retrieveUsersStats } from "../databases/statsDatabase.js";
 import {
@@ -177,6 +178,17 @@ const getAllSpecializaions = catchAsyncError(async (req, res, next) => {
   });
 });
 
+const getDoctorReviews = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) return next(new AppError("Please Provide DoctorId", 404));
+  const reviews = await retrieveDotorReviews(id);
+  res.status(200).json({
+    status: "success",
+    ok: true,
+    data: reviews,
+  });
+});
+
 // const editAvailability = catchAsyncError(async (req,res,next)=>{
 //   let {workingDay, startTime, endTime, locationId}
 // })
@@ -190,4 +202,5 @@ export {
   getDoctorsStats,
   getDoctorWorkspaces,
   getAllSpecializaions,
+  getDoctorReviews,
 };
