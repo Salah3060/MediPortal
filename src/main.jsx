@@ -11,7 +11,7 @@ import AskQuestion from "@/Pages/AskQuestion.jsx";
 import Offers from "@/Pages/Offers.jsx";
 import Cart from "@/Pages/Cart.jsx";
 import OrderCheckout from "@/Pages/OrderCheckout.jsx";
-import PaymentError from "@/Pages/paymentError.jsx";
+import PaymentError from "@/Pages/PaymentError.jsx";
 import Error from "@/Pages/Error.jsx";
 import QuestionsCats from "@/Pages/QuestionsCats.jsx";
 import QuestionsGroup from "@/Pages/QuestionsGroup.jsx";
