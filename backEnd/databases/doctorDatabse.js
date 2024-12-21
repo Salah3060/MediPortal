@@ -96,6 +96,10 @@ const retrieveDoctor = async (id) => {
       d.yearsOfExperience, 
       d.about,
       d.fees,
+       CASE 
+          WHEN AVG(r.rate) IS NOT NULL THEN round (AVG(r.rate), 2) 
+          ELSE 0 
+        END AS overallRating  , 
       JSON_AGG(
         JSON_BUILD_OBJECT(
           'locationId',da.locationId,
@@ -128,7 +132,7 @@ const retrieveDoctor = async (id) => {
             LIMIT 1
           )
         )
-      ) AS reviews
+      ) AS reviews 
     FROM 
         Users u  
     JOIN 
