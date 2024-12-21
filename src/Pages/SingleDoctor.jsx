@@ -21,7 +21,7 @@ const SingleDoctor = () => {
       <SearchHeader />
 
       <div className="bg-gradient-to-r from-[#c2dfe3] to-[#9db4c0]">
-        <DoctorInfo />
+        <DoctorInfo id={doctorId} />
       </div>
     </div>
   );

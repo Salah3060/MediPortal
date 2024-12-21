@@ -107,7 +107,7 @@ const OrderCheckout = () => {
       {popupMessage && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white px-12 py-8 rounded-lg shadow-lg text-center">
-            <h2 className="text-xl font-bold text-darkRed">{popupMessage}</h2>
+            <h2 className="text-xl font-bold text-green-500">{popupMessage}</h2>
             {popupMessage === "Order placed successfully!" && (
               <p className="text-gray-700 mt-2">
                 Redirecting to the home page...

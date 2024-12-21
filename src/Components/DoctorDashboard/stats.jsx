@@ -309,7 +309,7 @@ export default function Stats() {
                       variant="h5"
                       fontWeight="600"
                     >
-                      {el?.patient.firstName + " " + el?.patient.lastName}
+                      {el?.patient?.firstName + " " + el?.patient?.lastName}
                     </Typography>
                   </Box>
                   <Box color={colors.grey[100]}>

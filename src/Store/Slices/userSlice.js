@@ -20,8 +20,9 @@ const initialState = {
   licenseNumber: "",
   specialization: "",
   updated: false,
+  reviewed: false,
 };
-import { login, signUp } from "../../API/authAPI";
+import { login, review, signUp } from "../../API/authAPI";
 import {
   updateMe,
   updateMePatient,
@@ -56,7 +57,19 @@ export const userSignup = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const userData = await signUp(payload);
+      saveTokenToCookies(userData.token);
       return userData.date.user;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+export const userReview = createAsyncThunk(
+  "user/userReview",
+  async ({ data, id }, thunkAPI) => {
+    try {
+      const response = await review(id, data);
+      return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }
@@ -148,6 +161,7 @@ const userSlice = createSlice({
         state.userState = action.payload.userstate;
         state.error = "";
         state.loading = false;
+
         state.status = "success";
         saveUserToCookies(state);
       })
@@ -251,6 +265,23 @@ const userSlice = createSlice({
       .addCase(updatePatient.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.update = false;
+      })
+      .addCase(userReview.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+        state.update = true;
+        state.reviewed = true;
+      })
+      .addCase(userReview.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.update = false;
+        state.reviewed = false;
+      })
+      .addCase(userReview.pending, (state) => {
+        state.loading = true;
+        state.error = null;
         state.update = false;
       }),
 });
