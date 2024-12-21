@@ -22,6 +22,7 @@ const validAttributes = [
   "productPrice",
   "productDescription",
   "categoryName",
+  "productStackQuantity",
 ];
 
 const getAllProducts = catchAsyncError(async (req, res, next) => {
@@ -59,6 +60,7 @@ const getAllProducts = catchAsyncError(async (req, res, next) => {
     if (filters.length == 0) filters = undefined;
     if (filters) filters = filters.join(",").replaceAll("p", "p.p").split(",");
   }
+  console.log(filters);
 
   const products = await retrieveAllProducts(
     fields,
