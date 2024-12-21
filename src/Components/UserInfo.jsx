@@ -40,7 +40,6 @@ export default function UserInfo() {
         birthdate: values.birthdate,
         phonenumber: values.phonenumber,
       };
-      console.log(data);
       dispatch(updatePatient(data));
     } else if (state === "pass") {
       const data = {
@@ -52,7 +51,6 @@ export default function UserInfo() {
         toast.error("New password and confirm password must be the same");
         return;
       }
-      console.log(data);
       dispatch(updatePassword(data));
     }
   }

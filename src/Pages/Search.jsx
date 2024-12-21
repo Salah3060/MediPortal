@@ -33,13 +33,11 @@ const Search = () => {
         "All Insurances",
         ...insurancesData.map((insurance) => insurance.insurancename),
       ];
-      console.log(specialtiesArray);
-      console.log(insuranceArray);
+
       // Dispatch the updated array
       dispatch(setSpecialties(specialtiesArray));
       dispatch(setInsurances(insuranceArray));
     } catch (error) {
-      console.log(error);
     }
   };
 

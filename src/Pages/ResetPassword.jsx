@@ -27,7 +27,6 @@ export default function ResetPassword() {
           verificationCode: code,
         },
       };
-      console.log(data);
 
       dispatch(CheckVeri(data));
     }
@@ -39,7 +38,6 @@ export default function ResetPassword() {
           password: password,
         },
       };
-      console.log(data);
       dispatch(ChangePass(data));
     }
   }

@@ -54,7 +54,6 @@ export const cancelAppointment = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await ChangeAppointmentStatus(id, 0);
-      console.log(response);
       return response.status === 200;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);

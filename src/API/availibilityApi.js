@@ -28,7 +28,6 @@ export const CancelAv = async (data, id) => {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
     });
-    console.log(response);
 
     return response.status === 200
       ? Promise.resolve(1)

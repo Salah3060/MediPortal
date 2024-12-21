@@ -1,18 +1,33 @@
 import { PiHandbag } from "react-icons/pi";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, logout } from "../../Store/Slices/userSlice";
 import LogoutHeader from "../LogoutItemsHeader";
+import { toast } from "react-toastify";
 
 const PharmacyHeader = () => {
-  const dispath = useDispatch();
   const { status, firstname } = useSelector((state) => state.user); // Select the necessary state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const cartLength = useSelector((state) => state.cart.totalQuantity);
+  const navigate = useNavigate();
+  const dispath = useDispatch();
+  const { userRole, userid } = useSelector((state) => state.user); // Select the necessary state
+  useEffect(() => {
+    if (userRole.toLowerCase() === "doctor") {
+      if (!location.pathname.startsWith("/MediPortal/doctor"));
+      {
+        navigate(`/MediPortal/doctor/${userid}`);
+      }
+    }
+  }, [navigate, userRole, userid]);
   function handleLogout() {
     dispath(clearUser());
     dispath(logout());
+    toast.success("Logging out...");
+    setTimeout(() => {
+      navigate("/MediPortal/");
+    }, 1000);
   }
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);

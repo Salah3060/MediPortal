@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SuccessPopup from "../Components/Successpopup";
 import ErrorPopup from "../Components/ErrorPopup";
 import { useNavigate } from "react-router-dom";
+import { scrollToTop } from "../Utils/functions.util";
 export default function Signup() {
   const dispath = useDispatch();
   const navigate = useNavigate();
@@ -53,6 +54,10 @@ export default function Signup() {
     };
     dispath(userSignup(userData));
   }
+  useEffect(() => {
+    document.title = "MediPortal | Signup";
+    scrollToTop();
+  }, []);
   useEffect(() => {
     if (status === "success") {
       const timer = setTimeout(() => {

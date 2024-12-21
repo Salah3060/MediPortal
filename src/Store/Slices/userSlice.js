@@ -104,7 +104,7 @@ const userSlice = createSlice({
       state.status = "Empty";
       state.error = "";
       state.loading = "false";
-      saveUserToCookies(state);
+      state.userRole = "";
     },
     logout: (state) => {
       state.status = "Empty";

@@ -18,8 +18,13 @@ import { tokens } from "../Components/DoctorDashboard/theme";
 import { useTheme } from "@emotion/react";
 
 import { toast } from "react-toastify";
+import { scrollToTop } from "../Utils/functions.util";
 
 export default function PatientAppointments() {
+  useEffect(() => {
+    document.title = "MediPortal | My Appointments";
+    scrollToTop();
+  }, []);
   const { userid: patientId } = useSelector((state) => state.user);
   const {
     loading,

@@ -92,10 +92,8 @@ const ClinicCard = ({ workspace }) => {
   const handleBooking = async () => {
     setLoading(true); // Show loader
     setModalOpen(false); // Close modal
-    console.log("Booking data", bookingData);
     if (bookingData.paymentStatus === "Online") {
       try {
-        console.log("Booking data", bookingData);
         const appointmentDate = new Date(bookingData.appointmentDate);
         const response = await createStripeSession(
           selectedDoctor.userid,
@@ -103,7 +101,6 @@ const ClinicCard = ({ workspace }) => {
           appointmentDate.toISOString()
         );
 
-        console.log(response);
 
         if (response.status === 200) {
           const stripeSessionId = response.data.session.id;

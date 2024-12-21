@@ -4,8 +4,6 @@ import Cookies from "js-cookie";
 // book an appointment
 export const bookAppointment = async (doctorId, worksapceId, data) => {
   try {
-    console.log(data);
-
     const response = await axiosInstance.post(
       `/appointments/${doctorId}/${worksapceId}`,
       data,
@@ -17,7 +15,6 @@ export const bookAppointment = async (doctorId, worksapceId, data) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
@@ -25,11 +22,6 @@ export const bookAppointment = async (doctorId, worksapceId, data) => {
 // create stripe session
 export const createStripeSession = async (docId, locId, data) => {
   try {
-    console.log("data", data);
-    console.log("docId", docId);
-    console.log("locId", locId);
-    console.log("token", Cookies.get("token"));
-    console.log(data.toString());
     const response = await axiosInstance.post(
       `/appointments/checkout-session/${docId}/${locId}`,
       { appointmentDate: data.toString() },
@@ -39,11 +31,8 @@ export const createStripeSession = async (docId, locId, data) => {
         },
       }
     );
-    console.log(response);
     return response;
   } catch (error) {
-    console.log(error);
-
     throw new Error(error.response ? error.response.data : error.message);
   }
 };

@@ -89,6 +89,10 @@ const workspaceSlice = createSlice({
     resetUpdateState: (state) => {
       state.updated = false;
     },
+    resetErrorState(state) {
+      state.error = null;
+    },
+    // resetUError(state)
   },
   extraReducers: (builder) =>
     builder
@@ -106,17 +110,17 @@ const workspaceSlice = createSlice({
       .addCase(addAvailibility.fulfilled, (state) => {
         state.loading = false;
         state.updated = true;
-        state.errorUpdate = "";
+        state.error = "";
       })
       .addCase(addAvailibility.pending, (state) => {
         state.loading = true;
         state.updated = false;
-        state.errorUpdate = "";
+        state.error = "";
       })
       .addCase(addAvailibility.rejected, (state, action) => {
         state.updated = false;
         state.loading = false;
-        state.errorUpdate = action.payload;
+        state.error = action.payload;
       })
       .addCase(createClinic.fulfilled, (state, action) => {
         state.loading = false;
@@ -134,17 +138,17 @@ const workspaceSlice = createSlice({
       .addCase(cancelAvailibility.fulfilled, (state) => {
         state.loading = false;
         state.updated = true;
-        state.errorUpdate = "";
+        state.error = null;
       })
       .addCase(cancelAvailibility.pending, (state) => {
         state.loading = true;
         state.updated = false;
-        state.errorUpdate = "";
+        state.error = null;
       })
       .addCase(cancelAvailibility.rejected, (state, action) => {
         state.updated = false;
         state.loading = false;
-        state.errorUpdate = action.payload;
+        state.error = action.payload;
       })
       .addCase(fetchDoctorworkspaces.fulfilled, (state, action) => {
         state.loading = false;
@@ -157,7 +161,7 @@ const workspaceSlice = createSlice({
       })
       .addCase(fetchDoctorworkspaces.pending, (state) => {
         state.loading = true;
-        state.errorUpdate = "";
+        state.error = "";
       })
       .addCase(fetchDoctorworkspaces.rejected, (state, action) => {
         state.loading = false;
@@ -165,4 +169,4 @@ const workspaceSlice = createSlice({
       }),
 });
 export default workspaceSlice.reducer;
-export const { resetUpdateState } = workspaceSlice.actions;
+export const { resetUpdateState, resetErrorState } = workspaceSlice.actions;

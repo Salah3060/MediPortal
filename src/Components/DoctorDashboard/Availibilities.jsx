@@ -8,16 +8,18 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import {
   cancelAvailibility,
+  resetErrorState,
   resetUpdateState,
 } from "../../Store/Slices/WorkspaceSlice";
 import { fetchDoctorById } from "../../Store/Slices/searchSlice";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 export default function Availibilities() {
   const dispatch = useDispatch();
   const { availibility: rows } = useSelector(
     (state) => state?.search?.selectedDoctor
   );
-  const { loading, updated } = useSelector((state) => state?.workspaces);
+  const { loading, updated, error } = useSelector((state) => state?.workspaces);
 
   const { doctorid } = useParams();
 
@@ -25,10 +27,16 @@ export default function Availibilities() {
     if (updated) {
       dispatch(fetchDoctorById(doctorid));
       dispatch(resetUpdateState());
+      toast.success("Cancelled Successfully");
     }
-  }, [updated]);
+  }, [dispatch, doctorid, updated]);
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(resetErrorState());
+    }
+  }, [dispatch, error]);
   async function deleteSelected() {
-    console.log(selectedRows, rows);
     const data = selectedRows.map((el) => {
       return {
         data: {
@@ -102,7 +110,7 @@ export default function Availibilities() {
           >
             <DataGrid
               checkboxSelection
-              rows={rows?.map((el, i) => ({ ...el, id: i })) || []}
+              rows={rows?.map((el, i) => ({ ...el, id: i + 1 })) || []}
               columns={columns}
               onSelectionModelChange={handleSelectionChange}
             />

@@ -37,7 +37,6 @@ const Chatbot = () => {
         // Send user input to the Gemini API and get a response
         const result = await model.generateContent(prompt);
 
-        console.log("Gemini Response:", result);
         const botResponse =
           result?.response.candidates[0].content.parts[0].text ||
           "I'm sorry, I couldn't process your request.";

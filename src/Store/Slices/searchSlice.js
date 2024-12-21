@@ -51,8 +51,7 @@ export const fetchDoctorsBySpecialty = createAsyncThunk(
   "doctors/fetchDoctorsBySpecialty",
   async ({ specialty, page }, thunkAPI) => {
     try {
-      console.log(page);
-      console.log(specialty);
+
       const doctors = await getDoctorsBySpecialty(specialty, page);
       return doctors.data.doctors;
     } catch (error) {
@@ -67,7 +66,6 @@ export const fetchDoctorById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const doctor = await getDoctorById(id);
-      console.log("Doctor Data:", doctor.data.doctor[0]);
 
       return doctor.data.doctor[0];
     } catch (error) {

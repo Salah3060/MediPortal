@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchDoctorById } from "@/Store/Slices/searchSlice";
-
+import { scrollToTop } from "../Utils/functions.util";
 
 const SingleDoctor = () => {
   const { doctorId } = useParams();
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    scrollToTop();
+  }, []);
   useEffect(() => {
     dispatch(fetchDoctorById(doctorId));
   }, [dispatch, doctorId]);
