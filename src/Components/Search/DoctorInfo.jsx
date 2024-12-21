@@ -30,6 +30,7 @@ const DoctorInfo = ({ id }) => {
   const [rate, setRate] = useState(0);
   const [reviewed, setReview] = useState(false);
   const [textReview, setTextReview] = useState("");
+  const [waitingTime, setWaitingTime] = useState("");
   const [availability, setAvailability] = useState([]);
   const [selectedClinic, setSelectedClinic] = useState("");
   const dispatch = useDispatch();
@@ -45,6 +46,8 @@ const DoctorInfo = ({ id }) => {
   useEffect(() => {
     if (error2) {
       toast.error("You have already review this doctor before!");
+      setReview(true);
+
       dispatch(resetError());
     }
   }, [error2]);
@@ -63,14 +66,14 @@ const DoctorInfo = ({ id }) => {
   if (loading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
   function handleReview() {
-    if (!textReview || !rate) {
+    if (!textReview || !rate || !waitingTime) {
       toast.error("You have to fullfill all the required data!");
       return;
     }
     const data = {
       rate: rate,
       review: textReview,
-      waitingTime: "15",
+      waitingTime: waitingTime,
     };
     dispatch(userReview({ data, id }));
   }
@@ -160,9 +163,20 @@ const DoctorInfo = ({ id }) => {
                   <ReactStars
                     count={5}
                     size={24}
-                    activeColor="#ffd700"
+                    activeColor="#CA8A04"
                     onChange={(e) => {
                       setRate(e);
+                    }}
+                  />
+                  <input
+                    type="number"
+                    className="w-20 px-2 py-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="W.time"
+                    min="1"
+                    max="5"
+                    value={waitingTime}
+                    onChange={(e) => {
+                      if (e.target.value <= 100) setWaitingTime(e.target.value);
                     }}
                   />
                 </div>
