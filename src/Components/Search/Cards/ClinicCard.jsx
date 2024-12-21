@@ -36,7 +36,7 @@ const ClinicCard = ({ workspace }) => {
     const targetDayIndex = daysOfWeek.indexOf(workingDay);
 
     if (targetDayIndex === -1) {
-      throw new Error("Invalid day name");
+      return "Nothing";
     }
 
     const currentDayIndex = today.getDay();
@@ -53,7 +53,7 @@ const ClinicCard = ({ workspace }) => {
 
   const [bookingData, setBookingData] = useState({
     fees: selectedDoctor.fees,
-    appointmentDate: calculateNextWorkingDate(workspace.workingDay),
+    appointmentDate: calculateNextWorkingDate(workspace?.workingDay),
     paymentStatus: "Cash",
   });
 

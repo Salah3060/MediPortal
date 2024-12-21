@@ -108,8 +108,6 @@ const SearchBar = () => {
   };
 
   const handleSearchClick = () => {
-
-
     dispatch(setSelectedSpecialty(selectedSpecialty)); // Update the selected specialty
 
     let filteredDoctors = doctors;
@@ -142,7 +140,6 @@ const SearchBar = () => {
 
   useEffect(() => {
     if (debouncedQuery) {
-
       const queryParts = debouncedQuery.trim().split(" ");
 
       let filtered;
@@ -203,7 +200,7 @@ const SearchBar = () => {
         }}
       />
       {/* Insurance Dropdown */}
-      <DropdownMenu
+      {/* <DropdownMenu
         title={selectedInsurance || "My Insurance is"}
         data={insuranceData}
         isOpen={openDropdown === "insurance"}
@@ -212,7 +209,7 @@ const SearchBar = () => {
           setSelectedInsurance(item); // Update selected insurance
           setOpenDropdown(null); // Close the dropdown
         }}
-      />
+      /> */}
 
       {/* Search by Name Input */}
       <div className="relative w-full">
