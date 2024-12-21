@@ -6,6 +6,7 @@ import {
   getAllSpecialties,
   getAllInsurances,
 } from "@/API/DoctorsApi";
+import { getDoctorReviews } from "../../API/DoctorsApi";
 
 // Async thunk to fetch all Doctors
 export const fetchAllDoctors = createAsyncThunk(
@@ -14,6 +15,17 @@ export const fetchAllDoctors = createAsyncThunk(
     try {
       const doctors = await getAllDoctors(page);
       return doctors.data.doctors;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+export const fetchDoctorReviews = createAsyncThunk(
+  "doctors/fetchDoctorReviews",
+  async (id, thunkAPI) => {
+    try {
+      const reviews = await getDoctorReviews(id);
+      return reviews;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
@@ -134,9 +146,11 @@ const searchSlice = createSlice({
         state.selectedDoctor = action.payload;
         state.selectedDoctor.gender = action.payload.gender.toLowerCase();
         state.loading = false;
-        state.selectedDoctor.reviews = action.payload.reviews.filter(
-          (el) => el.rate !== null
-        );
+        const rv = action.payload.reviews;
+        const uniqueReviews = Array.from(
+          new Set(rv?.map((review) => JSON.stringify(review)))
+        ).map((json) => JSON.parse(json));
+        state.selectedDoctor.reviews = uniqueReviews;
       })
       .addCase(fetchDoctorById.rejected, (state, action) => {
         state.error = action.payload;
@@ -166,6 +180,18 @@ const searchSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchAllSpecialties.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchDoctorReviews.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchDoctorReviews.fulfilled, (state, action) => {
+        state.reviews = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchDoctorReviews.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       });

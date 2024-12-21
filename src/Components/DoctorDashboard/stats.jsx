@@ -20,6 +20,7 @@ import {
   getAppointmentStats,
 } from "../../Store/Slices/AppointmentsSlice.js";
 import { formatDate } from "../../Utils/functions.util.jsx";
+import { fetchDoctorReviews } from "../../Store/Slices/searchSlice.js";
 export default function Stats() {
   const { doctorid } = useParams();
   const { doctorPatients, loading } = useSelector(
@@ -308,21 +309,18 @@ export default function Stats() {
                       variant="h5"
                       fontWeight="600"
                     >
-                      {el.patient}
-                    </Typography>
-                    <Typography color={colors.grey[100]}>
-                      {el.patientname}
+                      {el?.patient.firstName + " " + el?.patient.lastName}
                     </Typography>
                   </Box>
                   <Box color={colors.grey[100]}>
-                    {formatDate(el.reviewDate)}
+                    {formatDate(el?.reviewDate)}
                   </Box>
                   <Box
                     backgroundColor={colors.greenAccent[500]}
                     p="5px 10px"
                     borderRadius="4px"
                   >
-                    {el.rate}
+                    {el?.rate}
                   </Box>
                 </Box>
               ))}

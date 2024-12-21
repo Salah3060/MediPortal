@@ -97,3 +97,16 @@ export const updatepassword = async (data) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+export const getDoctorReviews = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/doctors/reviews/${id}`, {
+      headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    console.log(response);
+    return response.data.data.reviews;
+  } catch (error) {
+    console.log(error);
+
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
