@@ -67,20 +67,28 @@ const createProduct = async (attributes, activeIngredient) => {
   }
 };
 const updateProduct = async (attributes, productId) => {
-  let query = `update MedicalProducts SET `;
-  let cnt = 0;
-  Object.entries(attributes).forEach(([k, v]) => {
-    if (cnt && v) query += " , ";
-    if (v) {
-      query += k + " = " + `$${++cnt}`;
-    }
-  });
-  query += ` where productId = $${++cnt}
-    returning *`;
-  const readyAtt = Object.values(attributes).filter((val) => val);
-  console.log(query, attributes);
-  const product = await pool.query(query, [...readyAtt, productId]);
-  if (product.rowCount) return product.rows[0];
-  return false;
+  try {
+    let query = `update MedicalProducts SET `;
+    let cnt = 0;
+    Object.entries(attributes).forEach(([k, v]) => {
+      if (cnt && v) query += " , ";
+      if (v || v === 0) {
+        query += k + " = " + `$${++cnt}`;
+      }
+    });
+    query += ` where productId = $${++cnt}
+      returning *`;
+    const readyAtt = Object.values(attributes).filter((val) => {
+      if (val || val === 0) {
+        return val + "";
+      }
+    });
+    const product = await pool.query(query, [...readyAtt, productId]);
+    if (product.rowCount) return product.rows[0];
+    return false;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };
 export { retrieveAllProducts, createProduct, updateProduct };

@@ -43,7 +43,8 @@ const placeOrder = catchAsyncError(async (req, res, next) => {
       10,
       1
     );
-    console.log(obj[0].productstackquantity - product.productQuantity);
+    if (obj[0].productstackquantity - product.productQuantity < 0)
+      return next(new AppError("Invalid quantity", 400));
     const response = await updateProduct(
       {
         productstackquantity:
@@ -51,7 +52,6 @@ const placeOrder = catchAsyncError(async (req, res, next) => {
       },
       product.productId
     );
-    console.log(response);
   });
   res.status(200).json({
     status: "successful",
