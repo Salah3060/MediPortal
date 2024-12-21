@@ -41,73 +41,11 @@ const Specialties = () => {
 
   const { specialties } = useSelector((state) => state.search);
 
-  // const specialties = [
-  //   {
-  //     id: 1,
-  //     title: "Dental",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Eye",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Skin",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Hair",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Dental",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Eye",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Skin",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Hair",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Dental",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Eye",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Skin",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Hair",
-  //     image: "https://placehold.co/400x220",
-  //   },
-  // ];
   return (
     <div className="container max-w-[1500px] mx-auto px-4 py-6 flex flex-col gap-8">
       {/* Header Section */}
       <div className="headerText flex justify-between items-center">
-        <h1 className="text-secondary text-3xl font-bold">
+        <h1 className="text-secondary text-xl md:text-3xl font-bold">
           Book from top specialties
         </h1>
       </div>

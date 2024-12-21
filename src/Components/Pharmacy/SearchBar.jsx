@@ -61,7 +61,7 @@ const SearchBar = () => {
       <div className="container max-w-[1300px] mx-auto flex justify-between items-center px-4 py-8 flex-col relative">
         <div className="Landing flex flex-col gap-9 w-full">
           <div className="text text-left">
-            <h1 className="text-3xl font-bold text-primary">
+            <h1 className="md:text-3xl text-xl font-bold text-primary">
               Get your medicine with delivery to your location
             </h1>
           </div>

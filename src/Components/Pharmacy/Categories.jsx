@@ -6,6 +6,18 @@ import Loader from "../Loader";
 
 const Categories = () => {
   const dispatch = useDispatch();
+  const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+
+  <div
+    className="grid gap-6"
+    style={{
+      gridTemplateColumns: isSmallScreen
+        ? "repeat(auto-fit, minmax(160px, 0.5fr))"
+        : "repeat(auto-fit, minmax(215px, 1fr))",
+    }}
+  >
+    {/* Your content here */}
+  </div>;
 
   // Select necessary state from Redux store
   const { isLoading, error, categories } = useSelector(
@@ -37,7 +49,9 @@ const Categories = () => {
       <div
         className="grid gap-6"
         style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(215px, 1fr))",
+          gridTemplateColumns: isSmallScreen
+            ? "repeat(auto-fit, minmax(160px, 0.5fr))"
+            : "repeat(auto-fit, minmax(215px, 1fr))",
         }}
       >
         {categories?.map((category) => (

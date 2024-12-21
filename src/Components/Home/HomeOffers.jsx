@@ -27,11 +27,11 @@ const HomeOffers = () => {
     <div className="container max-w-[1500px] mx-auto px-4 py-6 flex flex-col gap-8">
       {/* Header Section */}
       <div className="headerText flex justify-between items-center">
-        <h1 className="text-secondary text-3xl font-bold">
+        <h1 className="text-secondary text-xl md:text-3xl font-bold">
           Choose from top offers
         </h1>
         <Link
-          className="px-4 py-2 font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out flex items-center"
+          className="px-4 py-2 text-sm md:text-md font-semibold bg-[#c2dfe3] w-[fit-content] rounded-lg text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out flex items-center"
           to={"/MediPortal/offers"}
         >
           All Offers

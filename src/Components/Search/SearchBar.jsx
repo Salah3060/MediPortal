@@ -130,6 +130,7 @@ const SearchBar = () => {
         )
       );
     } else {
+      // Null
     }
 
     // Dispatch the filtered doctors to update the state

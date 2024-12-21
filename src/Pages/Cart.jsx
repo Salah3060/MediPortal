@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineMinus } from "react-icons/ai";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,10 @@ const Cart = () => {
 
   const handleCheckout = () => {
     if (status === "success") {
+      if (products.length === 0) {
+        toast.error("Your cart is empty");
+        return;
+      }
       navigate("/MediPortal/pharmacy/checkout");
     } else {
       navigate("/MediPortal/login");
@@ -28,7 +33,7 @@ const Cart = () => {
 
   return (
     <div className="py-6 px-6">
-      <div className="container max-w-[1300px] m-auto py-[10px] flex flex-col gap-[24px] text-primary">
+      <div className="container max-w-[1300px] m-auto py-[10px] flex flex-col gap-[24px] text-primary min-h-[620px] md:min-h-[789px] justify-center">
         <div className="title text-primary">
           <h1 className="text-[32px] md:text-[40px] font-bold capitalize">
             Your Cart

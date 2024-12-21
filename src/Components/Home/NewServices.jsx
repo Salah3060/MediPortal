@@ -88,9 +88,15 @@ const QuestionsSectionSmallScreen = () => {
       </p>
       <Link
         className="px-[20px] py-[8px] text-sm font-semibold w-full bg-[#c2dfe3] rounded-lg text-center text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out"
-        to={"/MediPortal/question"}
+        to={"/MediPortal/askquestion"}
       >
         Ask Now
+      </Link>
+      <Link
+        className="px-[20px] py-[8px] text-sm font-semibold w-full bg-[#c2dfe3] rounded-lg text-center text-primary hover:bg-primary hover:text-tertiary transition duration-300 ease-in-out"
+        to={"/MediPortal/questions"}
+      >
+        See All Questions
       </Link>
     </div>
   );

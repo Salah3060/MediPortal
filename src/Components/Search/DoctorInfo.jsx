@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/Components/Loader";
@@ -155,9 +155,9 @@ const DoctorInfo = ({ id }) => {
               </h1>
             ) : (
               <>
-                <div className="head flex items-center gap-4">
+                <div className="head flex items-center gap-4 justify-start">
                   <FaRegStarHalfStroke className="text-lg text-darkRed" />
-                  <h1 className="text-md font-semibold text-secondary">
+                  <h1 className="md:text-md text-sm font-semibold text-secondary">
                     Rate Doctor
                   </h1>
                   <ReactStars
@@ -170,7 +170,7 @@ const DoctorInfo = ({ id }) => {
                   />
                   <input
                     type="number"
-                    className="w-20 px-2 py-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    className="w-[20%] px-2 py-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     placeholder="W.time"
                     min="1"
                     max="5"

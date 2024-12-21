@@ -124,7 +124,7 @@ const PharmacyHeader = () => {
             Sign Up
           </Link>
           <Link
-            to={"/MediPortal/"}
+            to={"/MediPortal/pharmacy/cart"}
             className="hover:text-tertiary transition-all duration-300 w-full text-left"
             onClick={() => setIsMenuOpen(false)}
           >
