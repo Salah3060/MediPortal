@@ -37,15 +37,19 @@ export default function Availibilities() {
     }
   }, [dispatch, error]);
   async function deleteSelected() {
-    const data = selectedRows.map((el) => {
+    const data = selectedRows.map((el, i) => {
+      console.log(rows);
+
       return {
         data: {
-          workingDay: rows[el].workingDay,
-          startTime: rows[el].startTime,
+          workingDay: rows[i]?.workingDay,
+          startTime: rows[i]?.startTime,
         },
-        id: rows[el].workSpaceId,
+        id: rows[i]?.workSpaceId,
       };
     });
+    console.log(data);
+
     dispatch(cancelAvailibility(data));
   }
   const theme = useTheme();
