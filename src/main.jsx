@@ -8,7 +8,7 @@ import Home from "@/Pages/Home.jsx";
 import Pharmacy from "@/Pages/Pharmacy.jsx";
 import Products from "@/Pages/Products.jsx";
 import AskQuestion from "@/Pages/AskQuestion.jsx";
-import Offers from "@/Pages/Offers.jsx";
+import Offers from "@/Pages/offers.jsx";
 import Cart from "@/Pages/Cart.jsx";
 import OrderCheckout from "@/Pages/OrderCheckout.jsx";
 import PaymentError from "@/Pages/PaymentError.jsx";
