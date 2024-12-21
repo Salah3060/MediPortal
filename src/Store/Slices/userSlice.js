@@ -56,6 +56,7 @@ export const userSignup = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const userData = await signUp(payload);
+      saveTokenToCookies(userData.token);
       return userData.date.user;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

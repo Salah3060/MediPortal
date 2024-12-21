@@ -116,6 +116,16 @@ const offersSlice = createSlice({
       .addCase(getOfferById.fulfilled, (state, action) => {
         state.selectedOffer = action.payload.offer;
         state.selectedDoctor = action.payload.doctor;
+        const rv = action.payload.doctor.reviews?.filter(
+          (el) => el.rate !== null
+        );
+        const uniqueReviews = Array.from(
+          new Set(rv?.map((review) => JSON.stringify(review)))
+        ).map((json) => JSON.parse(json));
+        state.selectedDoctor.reviews = uniqueReviews;
+        state.selectedDoctor.availibility = action.payload.availibility?.filter(
+          (el) => el.workSpaceId != null
+        );
         state.loading = false;
       })
       .addCase(getOfferById.rejected, (state, action) => {

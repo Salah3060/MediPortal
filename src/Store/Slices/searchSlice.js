@@ -146,11 +146,14 @@ const searchSlice = createSlice({
         state.selectedDoctor = action.payload;
         state.selectedDoctor.gender = action.payload.gender.toLowerCase();
         state.loading = false;
-        const rv = action.payload.reviews;
+        const rv = action.payload.reviews?.filter((el) => el.rate !== null);
         const uniqueReviews = Array.from(
           new Set(rv?.map((review) => JSON.stringify(review)))
         ).map((json) => JSON.parse(json));
         state.selectedDoctor.reviews = uniqueReviews;
+        state.selectedDoctor.availibility = action.payload.availibility?.filter(
+          (el) => el.workSpaceId != null
+        );
       })
       .addCase(fetchDoctorById.rejected, (state, action) => {
         state.error = action.payload;

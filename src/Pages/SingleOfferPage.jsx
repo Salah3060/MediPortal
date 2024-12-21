@@ -69,7 +69,7 @@ export default function SingleOfferPage() {
 
       const response = await bookAppointment(
         doctor.userid,
-        selectedOffer.workspaceid,
+        selectedOffer.locations[0],
         bookingData
       );
       toast.success("Appointment booked successfully!");
