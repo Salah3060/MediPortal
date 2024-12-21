@@ -86,7 +86,6 @@ const createWorkspace = async (req, res, next) => {
       workspacePhone,
       workspaceLocation
     );
-    console.log(workspace, 1111111);
     if (!workspace) {
       return next("something went wrong", 400);
     }

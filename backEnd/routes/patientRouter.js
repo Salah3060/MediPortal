@@ -16,7 +16,7 @@ router.get("/allPatients", restrictTo("Admin", "Doctor"), getAllPatients);
 router.get("/stats", restrictTo("Admin"), getPatientsStats);
 
 // doctor-side update
-router.patch("/updateMe", updateUser("Patient"));
+router.patch("/updateMe", restrictTo("Patient"), updateUser("Patient"));
 
 // admin-side update
 router.patch("/:id", restrictTo("Admin"), updateUser("Patient"));

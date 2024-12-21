@@ -1,5 +1,5 @@
 import express from "express";
-import { validateLoggedIn } from "../controllers/authController.js";
+import { restrictTo, validateLoggedIn } from "../controllers/authController.js";
 import {
   placeOrder,
   editOrder,
@@ -8,7 +8,8 @@ import {
 
 const router = express.Router();
 router.use(validateLoggedIn);
-router.post("/", placeOrder);
 router.get("/allOrders", getAllorders);
+router.use(restrictTo("Patient"));
+router.post("/", placeOrder);
 router.patch("/:id", editOrder);
 export default router;

@@ -27,7 +27,10 @@ router.get("/:id", getDoctor);
 router.use(validateLoggedIn);
 
 router.get("/patients/:id", restrictTo("Admin", "Doctor"), doctorPatients);
+// admin-side update
+router.patch("/:id", restrictTo("Admin"), updateUser("Doctor"));
 
+router.use(restrictTo("Doctor"));
 router
   .route("/availability/:id")
   .post(addAvailability)
@@ -35,7 +38,5 @@ router
 
 // doctor-side update
 router.patch("/updateMe", updateUser("Doctor"));
-// admin-side update
-router.patch("/:id", restrictTo("Admin"), updateUser("Doctor"));
 
 export default router;
