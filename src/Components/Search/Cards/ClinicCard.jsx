@@ -9,11 +9,14 @@ import { bookAppointment, createStripeSession } from "@/API/appointmentApi";
 import Loader from "@/Components/Loader";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
+import { setSelectedDoctor } from "@/Store/Slices/searchSlice";
+import { useDispatch } from "react-redux";
 
 Modal.setAppElement("#root"); // Ensure accessibility by linking the app's root
 
 const ClinicCard = ({ workspace }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { selectedDoctor } = useSelector((state) => state.search);
   const { status, firstname, lastname } = useSelector((state) => state.user);
 
@@ -62,13 +65,41 @@ const ClinicCard = ({ workspace }) => {
 
   const generateTimeSlots = () => {
     if (workspace.startTime && workspace.endTime) {
-      const start = new Date(`1970-01-01T${workspace.startTime}`);
-      const end = new Date(`1970-01-01T${workspace.endTime}`);
+      const parseTime = (timeString) => {
+        const [time, modifier] = timeString.split(" ");
+        let [hours, minutes] = time.split(":").map(Number);
+
+        if (modifier === "PM" && hours !== 12) {
+          hours += 12; // Convert PM to 24-hour time
+        } else if (modifier === "AM" && hours === 12) {
+          hours = 0; // Convert midnight to 0 hours
+        }
+
+        return { hours, minutes };
+      };
+
+      const { hours: startHours, minutes: startMinutes } = parseTime(
+        workspace.startTime
+      );
+      const { hours: endHours, minutes: endMinutes } = parseTime(
+        workspace.endTime
+      );
+
+      const start = new Date(1970, 0, 1, startHours, startMinutes);
+      const end = new Date(1970, 0, 1, endHours, endMinutes);
       const slots = [];
-      while (start < end) {
-        slots.push(formatTime(start.toTimeString().slice(0, 5))); // Format to "HH:MM"
-        start.setHours(start.getHours() + 1, 0, 0, 0); // Increment hour and reset minutes
+
+      while (start <= end) {
+        slots.push(
+          start.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          })
+        );
+        start.setHours(start.getHours() + 1, 0, 0, 0); // Increment hour
       }
+
       return slots.map((time) => ({ value: time, label: time }));
     }
     return [];
@@ -92,18 +123,46 @@ const ClinicCard = ({ workspace }) => {
   const handleBooking = async () => {
     setLoading(true); // Show loader
     setModalOpen(false); // Close modal
-    console.log("Booking data", bookingData);
-    if (bookingData.paymentStatus === "Online") {
-      try {
-        console.log("Booking data", bookingData);
-        const appointmentDate = new Date(bookingData.appointmentDate);
+
+    try {
+      const selectedDate = bookingData.appointmentDate;
+      const selectedTimeObj = timeSlots.find(
+        (slot) => slot.value === selectedTime
+      );
+
+      if (!selectedTimeObj) {
+        toast.error("Please select a valid time slot.");
+        setLoading(false);
+        return;
+      }
+
+      const [time, modifier] = selectedTime.split(" ");
+      let [hours, minutes] = time.split(":").map(Number);
+
+      if (modifier === "PM" && hours !== 12) {
+        hours += 12;
+      } else if (modifier === "AM" && hours === 12) {
+        hours = 0;
+      }
+
+      const appointmentDate = new Date(selectedDate);
+      appointmentDate.setHours(hours, minutes, 0, 0);
+
+      const formattedAppointmentDate = appointmentDate.toISOString(); // 1985-09-24T21:00:00.000Z
+
+      const bookingPayload = {
+        ...bookingData,
+        appointmentDate: formattedAppointmentDate,
+      };
+
+      if (bookingPayload.paymentStatus === "Online") {
         const response = await createStripeSession(
           selectedDoctor.userid,
           workspace.locationId,
-          appointmentDate.toISOString()
+          formattedAppointmentDate
         );
 
-        console.log(response);
+        dispatch(setSelectedDoctor(response.doctor));
 
         if (response.status === 200) {
           const stripeSessionId = response.data.session.id;
@@ -114,31 +173,28 @@ const ClinicCard = ({ workspace }) => {
 
           await stripe.redirectToCheckout({ sessionId: stripeSessionId });
         }
-      } catch (error) {
-        console.error(error);
-        toast.error("Payment failed. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      try {
+      } else {
+        console.log("Booking payload: ", bookingPayload);
+        console.log("Selected doctor: ", selectedDoctor);
+        console.log("Workspace location ID: ", workspace.locationId);
         const response = await bookAppointment(
           selectedDoctor.userid,
           workspace.locationId,
-          bookingData
+          bookingPayload
         );
+        console.log(response);
         toast.success("Appointment booked successfully!");
         setTimeout(() => {
           navigate("/MediPortal/booking/success", {
             state: { appointment: response.data.appointment, isOffer: false },
           });
         }, 2000);
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to book appointment. Please try again.");
-      } finally {
-        setLoading(false);
       }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to book appointment. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
