@@ -17,6 +17,8 @@ const DoctorInfo = () => {
     (state) => state.search
   );
 
+  const [reviews, setReviews] = useState(5);
+
   const [availability, setAvailability] = useState([]);
   const [selectedClinic, setSelectedClinic] = useState("");
 
@@ -124,10 +126,19 @@ const DoctorInfo = () => {
             </div>
 
             <div className="reviews flex flex-col gap-2">
-              {selectedDoctor?.reviews?.map((review) => (
+              {selectedDoctor?.reviews?.slice(0, reviews).map((review) => (
                 <ReviewCard key={review.id} review={review} />
               ))}
             </div>
+
+            {selectedDoctor?.reviews?.length > reviews && (
+              <button
+                className="flex justify-center items-center bg-primary text-white py-2 rounded-xl"
+                onClick={() => setReviews(reviews + 5)}
+              >
+                Load More
+              </button>
+            )}
           </div>
         </div>
 
