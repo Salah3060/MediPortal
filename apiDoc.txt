@@ -1545,21 +1545,23 @@ Api Documentaion will be here    إن شاء الله يا بتوع الفرون
         {
             "startDate":"2025-12-12",
             "duration":"6 years 3 months 15 days",
-            "workspaceId":8 // which it covers
+            "workspaceId":9,
+            "insuranceName":"the"
         }
         response:
         {
             "status": "successful",
             "data": {
                 "insurance": {
-                    "insuranceid": 12,
+                    "insuranceid": 13,
                     "startdate": "2025-12-11T22:00:00.000Z",
                     "duration": {
                         "years": 6,
                         "months": 3,
                         "days": 15
                     },
-                    "providerid": 6
+                    "providerid": 6,
+                    "insurancename": "the"
                 }
             }
         }

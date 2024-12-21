@@ -63,8 +63,8 @@ const createInsuranceProvider = async (attributes) => {
 };
 const createInsurance = async (attributes, providerId, workspaceId) => {
   try {
-    const query = `insert into Insurances(startDate, duration,providerId)
-                  values($1,$2,$3) returning *`;
+    const query = `insert into Insurances(startDate, duration,insuranceName,providerId)
+                  values($1,$2,$3,$4) returning *`;
     const insurance = await pool.query(query, [...attributes, providerId]);
     if (!insurance.rowCount) return false;
     const secQuery = `insert into Coverage(insuranceId,workspaceId)
