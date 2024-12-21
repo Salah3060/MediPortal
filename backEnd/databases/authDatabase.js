@@ -56,14 +56,6 @@ const registerDb = async (attributes, role, specificAtt) => {
 
 const updateUserDb = async (toBeEdited, specificAtt, role, id) => {
   try {
-    let helperQuery = `select userRole from users where userId=$1`;
-    const checkerUser = await pool.query(helperQuery, [id]);
-    if (!checkerUser.rowCount) {
-      throw new AppError("there's no such a user with that id", 400);
-    }
-    // if (checkerUser.rows[0].userrole !== role) {
-    //   throw new AppError("roles didn't match, something went wrong", 400);
-    // }
     let query = `update Users SET `;
     let cnt = 0;
     toBeEdited.updatedat = toBeEdited.updatedat
@@ -80,6 +72,7 @@ const updateUserDb = async (toBeEdited, specificAtt, role, id) => {
     });
     query += ` where userId = $${++cnt}
               returning *`;
+    console.log(query);
 
     const readyAtt = Object.values(toBeEdited).filter((val) => val);
     const user = await pool.query(query, [...readyAtt, id]);

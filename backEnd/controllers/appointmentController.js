@@ -197,6 +197,7 @@ const bookAppointment = catchAsyncError(async (req, res, next) => {
   const appointment = await createAppointmentDb(attributes, locationId);
   if (!appointment || appointment.status === "fail")
     return next(new AppError("Something wronge happened", 400));
+  console.log(appointment);
   res.status(200).json({
     status: "successful",
     data: {

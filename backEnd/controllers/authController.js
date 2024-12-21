@@ -262,16 +262,19 @@ const updateUser = (role) => {
           );
         }
       } else if (user.userrole === "Admin") {
-        if (role === "Me")
-          return next(
-            new AppError(
-              "You must be an patient or a doctor to use updateMe",
-              400
-            )
-          );
-        id = req.params.id;
+        if (role === "Admin") {
+          id = user.userid;
+        } else id = req.params.id;
       }
-
+      const checkerUser = await logInDb(null, id);
+      if (!checkerUser) {
+        return next(new AppError("there's no such a user with that id", 400));
+      }
+      if (role !== "Me" && checkerUser.userrole !== role) {
+        return next(
+          new AppError("roles didn't match, something went wrong", 400)
+        );
+      }
       let {
         firstname,
         lastname,
@@ -381,10 +384,10 @@ const updateUser = (role) => {
         specificAtt.about = about;
         specificAtt.specialization = specialization;
         specificAtt.fees = fees;
-      } else {
-        return next(new AppError("something wrong happened!", 400));
       }
+
       const updatedUser = await updateUserDb(toBeEdited, specificAtt, role, id);
+      console.log(updatedUser);
       if (updatedUser.severity === "ERROR" || updatedUser.status === "fail") {
         let message = updatedUser.message
           ? updatedUser.message
