@@ -8,8 +8,9 @@ import {
 import { restrictTo, validateLoggedIn } from "../controllers/authController.js";
 
 const router = express.Router();
-router.use(validateLoggedIn, restrictTo("Admin"));
 router.get("/allCategories", getAllCategories);
+router.use(validateLoggedIn);
+router.use(restrictTo("Admin"));
 router.post("/", createCategory);
 router.patch("/:id", editCategory);
 export default router;
