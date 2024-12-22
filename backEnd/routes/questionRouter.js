@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.use(validateLoggedIn);
 router.get("/allQuestions", getAllQuestion);
-router.patch("answer/:id", restrictTo("Doctor"), answerQuestion);
+router.patch("/answer/:id", restrictTo("Doctor"), answerQuestion);
 
 router.use(restrictTo("Patient"));
 router.post("/", askQuestion);

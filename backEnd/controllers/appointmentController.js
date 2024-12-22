@@ -227,6 +227,10 @@ const editAppointment = catchAsyncError(async (req, res, next) => {
   if (!Object.values(toBeEdited).filter((v) => v).length)
     return next(new AppError("Specify at least one attribute to update"));
   const updatedAppointment = await updateAppointment(toBeEdited, appointmentId);
+
+  if (!updatedAppointment) {
+    return next(new AppError("This appointment does not exist", 400));
+  }
   if (updatedAppointment.status === "fail") {
     return next(new AppError("something went very wrong", 400));
   }

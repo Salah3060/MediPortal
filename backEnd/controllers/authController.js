@@ -237,6 +237,7 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
 
 const restrictTo = (...roles) => {
   return (req, res, next) => {
+    console.log(roles);
     if (!roles.includes(req.user.userrole)) {
       throw new AppError(
         "You don't have the permission to perform this action",

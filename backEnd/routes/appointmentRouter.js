@@ -17,7 +17,7 @@ router.use(validateLoggedIn);
 router.get("/stats", getAppointmentsStats);
 router.get("/allAppointments", getAllAppointments);
 
-router.patch("/:id", restrictTo("Admin"), editAppointment);
+router.patch("/:id", restrictTo("Admin", "Doctor"), editAppointment);
 
 router.use(restrictTo("Patient"));
 router.post("/checkout-session/:id/:secId", getCheckoutSession);
