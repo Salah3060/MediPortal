@@ -26,7 +26,7 @@ const upload = multer({ storage, fileFilter: multerFilter });
 // Expect the field name to be 'image' (change this if needed)
 const uploadPhoto = upload.single("image"); // Match this with your frontend field name
 
-const upploadToCloud = async (req, res, next) => {
+const uploadToCloud = async (req, res, next) => {
   try {
     console.log(req);
     const filePath = req.file?.path; // Use optional chaining in case req.file is undefined
@@ -151,6 +151,6 @@ export {
   orderQueryHandler,
   formatString,
   uploadPhoto,
-  upploadToCloud,
+  uploadToCloud,
   deleteFromCloud,
 };
