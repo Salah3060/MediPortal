@@ -12,6 +12,7 @@ import {
   FaKey,
   FaMoneyBill,
   FaPlus,
+  FaQuestion,
   FaRegAddressCard,
   FaRegClock,
 } from "react-icons/fa";
@@ -175,6 +176,20 @@ const Sidebar = ({ name, spec, selected, setSelected }) => {
               title="Add/Update offer"
               to="./Add-UpdateOffers"
               icon={<FaPlus />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Questions
+            </Typography>
+            <Item
+              title="Answer Questions"
+              to="./answerQuestions"
+              icon={<FaQuestion />}
               selected={selected}
               setSelected={setSelected}
             />

@@ -64,3 +64,21 @@ export const askQuestion = async (questionData) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+export const answerQ = async (id, data) => {
+  try {
+    const response = await axiosInstance.patch(
+      `/questions/answer/${id}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
+    console.log(response);
+
+    return response.data.data.answerRes;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
