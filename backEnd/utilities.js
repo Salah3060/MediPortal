@@ -28,6 +28,7 @@ const uploadPhoto = upload.single();
 const upploadToCloud = async (req, res, next) => {
   try {
     const filePath = req.file.path;
+    if (!filePath) return next(new AppError("Please Provide the file", 400));
 
     const result = await cloudinary.uploader.upload(filePath);
     const url = cloudinary.url(result.public_id, {
