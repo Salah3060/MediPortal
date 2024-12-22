@@ -13,7 +13,6 @@ import {
 } from "../controllers/authController.js";
 import { uploadPhoto, uploadToCloud } from "../utilities.js";
 const router = express.Router();
-router.post("/editPhoto", uploadPhoto, uploadToCloud);
 router.post("/checkVerificationCode/:email", checkVerificationCode);
 router.get("/forgetPassword/:email", sendEmailVerificationCode);
 router.post("/resetPassword/:email", resetPassword);
@@ -26,7 +25,7 @@ router.patch(
   "/updateMe",
   restrictTo("Admin"),
   uploadPhoto,
-  upploadToCloud,
+  uploadToCloud,
   updateUser("Admin")
 );
 router.patch("/updatePassword", changePassword);

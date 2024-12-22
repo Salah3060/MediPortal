@@ -64,7 +64,8 @@ const deleteFromCloud = async (url) => {
     const publicId = url.split("/").at(-1).split("?")[0];
     console.log(publicId);
     const result = await cloudinary.uploader.destroy(publicId);
-    if (result.result === "OK") {
+    console.log(result);
+    if (result === "OK") {
       console.log("DELETED SUCCESSFULLY");
       return true;
     }

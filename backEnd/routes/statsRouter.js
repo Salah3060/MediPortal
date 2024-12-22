@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/delete", (req, res, next) => {
   try {
     const url =
-      "https://res.cloudinary.com/dgljetjdr/image/upload/v1734871307/wdhbqrgnhpj4ush4gxyl.png";
+      "https://res.cloudinary.com/dgljetjdr/image/upload/c_fill,f_auto,g_faces,h_200,q_auto,w_200/vy1ck4c9mizw5mvfsur7?_a=BAMCkGFD0";
     console.log(deleteFromCloud(url));
     res.end("hi");
   } catch (error) {

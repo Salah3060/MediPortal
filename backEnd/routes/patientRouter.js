@@ -8,7 +8,7 @@ import {
   updateUser,
   validateLoggedIn,
 } from "../controllers/authController.js";
-import { uploadPhoto, upploadToCloud } from "../utilities.js";
+import { uploadPhoto, uploadToCloud } from "../utilities.js";
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.patch(
   "/updateMe",
   restrictTo("Patient"),
   uploadPhoto,
-  upploadToCloud,
+  uploadToCloud,
   updateUser("Patient")
 );
 

@@ -15,7 +15,7 @@ import {
   updateUser,
   restrictTo,
 } from "../controllers/authController.js";
-import { uploadPhoto, upploadToCloud } from "../utilities.js";
+import { uploadPhoto, uploadToCloud } from "../utilities.js";
 const router = express.Router();
 
 router.get("/allDoctors", getAllDoctors);
@@ -38,6 +38,6 @@ router
   .delete(removeAvailability);
 
 // doctor-side update
-router.patch("/updateMe", uploadPhoto, upploadToCloud, updateUser("Doctor"));
+router.patch("/updateMe", uploadPhoto, uploadToCloud, updateUser("Doctor"));
 
 export default router;
