@@ -75,10 +75,15 @@ export default function Availability({ index, hospitals, cols, values }) {
       <select
         className={`w-full bg-gray-800 text-white py-3 px-4 rounded-md border border-gray-700 focus:ring-2 focus:ring-teal-500 focus:outline-none col-start-1 col-span-${cols}`}
         onChange={(e) => {
-          setLocations(
-            hospitals.filter((el) => el.workspaceid == e.target.value)[0]
-              ?.locations
-          );
+          const z = hospitals.filter(
+            (el) => el.workspaceid == e.target.value
+          )[0]?.locations;
+          const uniqueLocations = Array.from(
+            new Set(z?.map((review) => JSON.stringify(review)))
+          ).map((json) => JSON.parse(json));
+          setLocations(uniqueLocations);
+          console.log(uniqueLocations);
+
           values.hospitalId = e.target.value;
           values.hospitalName[index] = e.target.value;
         }}
