@@ -11,8 +11,9 @@ import {
   updateUser,
   restrictTo,
 } from "../controllers/authController.js";
+import { uploadPhoto, upploadToCloud } from "../utilities.js";
 const router = express.Router();
-
+router.post("/editPhoto", uploadPhoto, upploadToCloud);
 router.post("/checkVerificationCode/:email", checkVerificationCode);
 router.get("/forgetPassword/:email", sendEmailVerificationCode);
 router.post("/resetPassword/:email", resetPassword);
