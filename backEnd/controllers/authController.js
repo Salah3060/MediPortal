@@ -15,7 +15,7 @@ import bcrypt from "bcryptjs";
 import validator from "validator";
 import { promisify } from "util";
 import Email from "../Email/email.js";
-dotenv.config("../../BE.env");
+dotenv.config();
 
 const createToken = (id) => {
   const JWT = jwt.sign({ id }, process.env.JWT_SECRET_KEY, {

@@ -4,7 +4,7 @@ import pkg from "pg";
 const { Pool } = pkg;
 
 // Load environment variables from .env file
-dotenv.config({ path: "./BE.env" });
+dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 

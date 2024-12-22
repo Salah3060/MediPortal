@@ -17,7 +17,7 @@ import Stripe from "stripe";
 import dotenv from "dotenv";
 import app from "../app.js";
 import validator from "validator";
-dotenv.config("../../BE.env");
+dotenv.config();
 
 const validAttributes = [
   "appointmentId",
