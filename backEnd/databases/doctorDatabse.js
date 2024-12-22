@@ -7,6 +7,7 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
     if (fields) query += fields;
     else
       query += ` userId, 
+          userimg,
           firstName, 
           lastName, 
           phoneNumber,
@@ -65,7 +66,8 @@ const retrieveAllDoctors = async (fields, filters, orders, limit, page) => {
           yearsOfExperience , 
           about ,
           fees,
-          clinicLocation 
+          clinicLocation ,
+          userimg
               `;
     if (orders) query += `order by ${orders.join(" , ")}       `;
     query += ` LIMIT ${limit} OFFSET ${page - 1} * ${limit} ; `;
@@ -84,6 +86,7 @@ const retrieveDoctor = async (id) => {
       u.userId, 
       u.firstName, 
       u.lastName, 
+      u.userimg,
       u.phoneNumber,
       u.email, 
       u.gender, 
@@ -158,7 +161,8 @@ const retrieveDoctor = async (id) => {
         d.specialization, 
         d.yearsOfExperience, 
         d.about,
-        d.fees
+        d.fees,
+        u.userimg
   `;
 
     const res = await pool.query(query, [id]);

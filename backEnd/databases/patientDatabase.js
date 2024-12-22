@@ -6,7 +6,7 @@ const retrieveAllPatients = async (fields, filters, orders, limit, page) => {
     if (fields) query += fields;
     else
       query +=
-        " userId, firstName, lastName, phoneNumber, email, gender, wallet,userState ,createdAt, updatedAt, birthDate ,  bloodType ,  chronicDisease ";
+        "userimg, userId, firstName, lastName, phoneNumber, email, gender, wallet,userState ,createdAt, updatedAt, birthDate ,  bloodType ,  chronicDisease ";
     query += `   from Users u  join Patients p on u .userId = p.PatientId   `;
     if (filters) query += `   where ${filters.join(" and ")}   `;
     if (orders) query += `    order by ${orders.join(" , ")}    `;

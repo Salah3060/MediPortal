@@ -13,6 +13,7 @@ const retrieveAllProducts = async (fields, filters, orders, limit, page) => {
                 p.productdescription,
                 p.productexpirydate,
                 p.manufacture,
+                p.productimg,
                 p.productname ,
                 c.categoryName ,
                 COALESCE(JSON_AGG(a.activeingredient) FILTER (WHERE a.activeingredient IS NOT NULL), '[]') AS activeingredients
