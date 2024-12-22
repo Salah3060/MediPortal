@@ -21,6 +21,7 @@ const initialState = {
   specialization: "",
   updated: false,
   reviewed: false,
+  userimg: null,
 };
 import { login, review, signUp } from "../../API/authAPI";
 import {
@@ -132,6 +133,11 @@ const userSlice = createSlice({
     resetUpdate: (state) => {
       state.update = false;
     },
+    setUser: (state, userimg) => {
+      console.log(userimg);
+
+      state.userimg = userimg;
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -161,6 +167,7 @@ const userSlice = createSlice({
         state.userState = action.payload.userstate;
         state.error = "";
         state.loading = false;
+        state.userimg = action.payload.userimg;
 
         state.status = "success";
         saveUserToCookies(state);
@@ -198,6 +205,8 @@ const userSlice = createSlice({
         state.error = "";
         state.loading = false;
         state.status = "success";
+        state.userimg = action.payload.userimg;
+
         saveUserToCookies(state);
       })
       .addCase(userSignup.rejected, (state, action) => {
@@ -285,5 +294,6 @@ const userSlice = createSlice({
         state.update = false;
       }),
 });
-export const { clearUser, logout, resetError, resetUpdate } = userSlice.actions;
+export const { clearUser, logout, resetError, resetUpdate, setUser } =
+  userSlice.actions;
 export default userSlice.reducer;
