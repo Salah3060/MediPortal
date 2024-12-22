@@ -4,6 +4,7 @@ import {
   getAllQuestionsBySpeciality,
   getQuestionByPatientId,
 } from "@/API/questionsApi";
+import { answerQ } from "../../API/questionsApi";
 
 // Async thunk to fetch all questions
 export const fetchAllQuestions = createAsyncThunk(
@@ -44,6 +45,17 @@ export const fetchQuestionByPatientId = createAsyncThunk(
   }
 );
 
+export const answerQuestion = createAsyncThunk(
+  "questions/answerQuestion",
+  async ({ id, data }, thunkAPI) => {
+    try {
+      const questions = await answerQ(id, data);
+      return questions;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 const questionsSlice = createSlice({
   name: "questions",
   initialState: {
@@ -96,7 +108,19 @@ const questionsSlice = createSlice({
         state.loading = false;
         state.selectedSpeciality = "";
       })
-      .addCase(fetchQuestionByPatientId.rejected, (state, action) => {
+      .addCase(answerQuestion.pending, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(answerQuestion.fulfilled, (state, action) => {
+        state.selectedQuestions[
+          state.selectedQuestions.findIndex(
+            (el) => el.questionid === action.payload.questionid
+          )
+        ] = action.payload;
+        state.loading = false;
+      })
+      .addCase(answerQuestion.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       });
