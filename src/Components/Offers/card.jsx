@@ -16,7 +16,13 @@ export default function Card({
       className={`block rounded-lg bg-white hover:scale-95 transition-all
        border shadow-sm duration-300 ${myClass} relative`}
     >
-      <img className="rounded-t-lg" src="https://placehold.co/400x250" alt="" />
+      <img
+        className="rounded-t-lg"
+        src="/MediPortal/discount.png"
+        width="400px"
+        height="200px"
+        alt=""
+      />
       <div className="discount-ratio">{ratio}% OFF</div>
       <div className="discount-value">{formatPrice(previousPrice)}</div>
       <div className="p-6">
