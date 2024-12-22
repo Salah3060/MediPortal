@@ -258,7 +258,7 @@ const updateUser = (role) => {
     try {
       const { user } = req;
       let userimg = null;
-      if (req.url) {
+      if (req.imgurl) {
         //checking if there is an existing photo to delete it
         if (user.userimg) {
           // if (!(await deleteFromCloud(user.userimg))) {
@@ -271,7 +271,7 @@ const updateUser = (role) => {
           // }
         }
         //uploading the new img
-        userimg = req.url;
+        userimg = req.imgurl;
       }
       let id;
       console.log(role);

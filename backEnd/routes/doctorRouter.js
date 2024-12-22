@@ -28,16 +28,16 @@ router.get("/:id", getDoctor);
 router.use(validateLoggedIn);
 
 router.get("/patients/:id", restrictTo("Admin", "Doctor"), doctorPatients);
+// doctor-side update
+router.patch("/updateMe", uploadPhoto, uploadToCloud, updateUser("Doctor"));
+
 // admin-side update
-router.patch("/:id", restrictTo("Admin"), updateUser("Doctor"));
+router.patch("/:id", updateUser("Doctor"));
 
 router.use(restrictTo("Doctor"));
 router
   .route("/availability/:id")
   .post(addAvailability)
   .delete(removeAvailability);
-
-// doctor-side update
-router.patch("/updateMe", uploadPhoto, uploadToCloud, updateUser("Doctor"));
 
 export default router;

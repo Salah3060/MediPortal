@@ -148,11 +148,11 @@ const editProduct = catchAsyncError(async (req, res, next) => {
     manufacture,
   } = req.body;
   let productImg = null;
-  if (req.url) {
+  if (req.imgurl) {
     //checking if there is an existing photo to delete it
 
     //uploading the new img
-    productImg = req.url;
+    productImg = req.imgurl;
   }
   const productId = req.params.id;
   productName = productName ? formatString(productName) : null;

@@ -144,11 +144,11 @@ const updateOffer = catchAsyncError(async (req, res, next) => {
       );
     }
     let offerImg = null;
-    if (req.url) {
+    if (req.imgurl) {
       //checking if there is an existing photo to delete it
 
       //uploading the new img
-      offerImg = req.url;
+      offerImg = req.imgurl;
     }
     offerDescription = offerDescription ? offerDescription.trim() : null;
     offerName = offerName ? formatString(offerName) : null;

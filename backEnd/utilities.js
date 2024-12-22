@@ -49,8 +49,8 @@ const uploadToCloud = async (req, res, next) => {
     // console.log(result);
     // return url;
     //propagation of parameters
-    if (url) req.url = url;
-    else req.url = null;
+    if (url) req.imgurl = url;
+    else req.imgurl = null;
     next();
   } catch (error) {
     console.log(error);

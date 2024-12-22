@@ -36,11 +36,11 @@ const editCategory = catchAsyncError(async (req, res, next) => {
   let { categoryName, categoryDescription } = req.body;
   const categoryId = req.params.id;
   let categoryImg = null;
-  if (req.url) {
+  if (req.imgurl) {
     //checking if there is an existing photo to delete it
 
     //uploading the new img
-    categoryImg = req.url;
+    categoryImg = req.imgurl;
   }
   categoryName = categoryName ? formatString(categoryName) : null;
   categoryDescription = categoryDescription ? categoryDescription.trim() : null;
