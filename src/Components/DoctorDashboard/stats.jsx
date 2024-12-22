@@ -20,7 +20,6 @@ import {
   getAppointmentStats,
 } from "../../Store/Slices/AppointmentsSlice.js";
 import { formatDate } from "../../Utils/functions.util.jsx";
-import { fetchDoctorReviews } from "../../Store/Slices/searchSlice.js";
 export default function Stats() {
   const { doctorid } = useParams();
   const { doctorPatients, loading } = useSelector(

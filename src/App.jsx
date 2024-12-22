@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import Overlay from "./Components/Header/Overlay.jsx";
 import UserInfo from "./Components/UserInfo.jsx";
-import { BiSolidMessageRounded, BiSolidTime } from "react-icons/bi";
+import {  BiSolidTime } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
 function App() {

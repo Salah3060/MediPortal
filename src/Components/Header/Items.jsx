@@ -9,6 +9,7 @@ import LogoutHeader from "../LogoutItemsHeader";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+// eslint-disable-next-line react/prop-types
 export default function Items({ openUserInfoModal }) {
   const dispath = useDispatch();
   const { status, firstname, userRole, userid } = useSelector(
