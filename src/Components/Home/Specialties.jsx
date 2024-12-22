@@ -25,6 +25,7 @@ const Specialties = () => {
       try {
         let count = 1;
         const specialtiessss = await getAllSpecialties();
+        console.log(specialtiessss);
         // loop on and make a new list and add id and image to them
         const specialtiesbb = specialtiessss.map((specialty) => ({
           id: count++,

@@ -47,6 +47,7 @@ export default function ChangePassword() {
   const handleFormSubmit = async (values) => {
     if (values.confirmPassword !== values.newPassword) {
       toast.error("New password & confirm password are not the same!");
+      return;
     }
     const data = {
       oldPassword: values.oldPassword,

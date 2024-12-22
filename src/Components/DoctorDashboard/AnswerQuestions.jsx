@@ -90,7 +90,7 @@ export default function AnswerQuestions() {
             <>
               <div className="p-6 bg-gray-900 min-h-screen text-white">
                 <h1 className="text-2xl font-bold mb-4">
-                  Answer Psychiatry Questions
+                  Answer {specialization} Questions
                 </h1>
                 <div className="space-y-6">
                   {selectedQuestions?.map((q) => (

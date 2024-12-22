@@ -12,8 +12,8 @@ export function Rlogout() {
         text-3xl
       "
         onClick={() => {
-          dispatch(logout());
-          navigate("/MediPortal");
+          // dispatch(logout());
+          navigate("/MediPortal/");
         }}
       >
         GO HOME
