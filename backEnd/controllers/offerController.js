@@ -143,6 +143,13 @@ const updateOffer = catchAsyncError(async (req, res, next) => {
         new AppError("An id must be provided to update an offer", 400)
       );
     }
+    let offerImg = null;
+    if (req.url) {
+      //checking if there is an existing photo to delete it
+
+      //uploading the new img
+      offerImg = req.url;
+    }
     offerDescription = offerDescription ? offerDescription.trim() : null;
     offerName = offerName ? formatString(offerName) : null;
 
@@ -153,8 +160,12 @@ const updateOffer = catchAsyncError(async (req, res, next) => {
     toBeEdited.workspaceId = workspaceId;
     toBeEdited.offerDescription = offerDescription;
     toBeEdited.offerName = offerName;
+    toBeEdited.offerImg = offerImg;
 
     const updatedOffer = await updateOfferDb(offerId, toBeEdited);
+    if (!updatedOffer) {
+      return next(new AppError("there is no such an offer with that id", 400));
+    }
     if (updatedOffer.severity === "ERROR") {
       return next(new AppError("Somthing went very wrong", 400));
     }

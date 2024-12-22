@@ -14,6 +14,7 @@ const createUsersTable = `create table Users
     birthDate date, 
     verificationCode int default null,
     codeExpiresAt timestamp default null,
+    userImg varchar(255) default null,
     password varchar(110) not null, 
     userRole varchar(15) not null default 'Patient',
     userState varchar(10) default 'Pending' check (userState in ('Active', 'Pending', 'Blocked')),
@@ -45,6 +46,7 @@ const createCategoriesTable = `create table Categories
     categoryId INT generated always as identity (start with 1 increment by 1),
     categoryName varchar(20) unique not null, 
     categoryDescription VARCHAR(50),
+    categoryImg varchar(255) default null,
     primary KEY (categoryId)
 )
 `;
@@ -58,6 +60,7 @@ const createMedicalProductsTable = `create table MedicalProducts
         productExpiryDate date not null  ,
         productCategory int , 
         manufacture  varchar(30) not null default 'Eva-Pharma' ,
+        productImg varchar(255) default null,
         primary KEY (productId),
         foreign KEY (productCategory) REFERENCES Categories(categoryId) 
     )
@@ -170,6 +173,7 @@ const createOffersTable = `create table Offers
     workspaceId int,
     offerDescription varchar(100),
     offerName varchar(100) not null,
+    offerImg varchar(255) default null,
     constraint validateDates check (startDate < endDate),
     primary key (doctorId,workspaceId),
     foreign key (doctorId) references Doctors(doctorId) on delete cascade,

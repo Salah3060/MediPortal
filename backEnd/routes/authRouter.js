@@ -22,6 +22,12 @@ router.post("/register", registerController);
 router.get("/verifyCode/:code/:id", verifyCode);
 
 router.use(validateLoggedIn);
-router.patch("/updateMe", restrictTo("Admin"), updateUser("Admin"));
+router.patch(
+  "/updateMe",
+  restrictTo("Admin"),
+  uploadPhoto,
+  upploadToCloud,
+  updateUser("Admin")
+);
 router.patch("/updatePassword", changePassword);
 export default router;
