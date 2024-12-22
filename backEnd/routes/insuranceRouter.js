@@ -9,8 +9,10 @@ import {
 import { restrictTo, validateLoggedIn } from "../controllers/authController.js";
 const router = express.Router();
 
-router.use(validateLoggedIn, restrictTo("Admin"));
+router.use(validateLoggedIn);
 router.get("/allInsurances", getAllInsurances);
+
+router.use(restrictTo("Admin"));
 router.post("/provider", addInsuranceProvider);
 router.post("/:id", addInsurance);
 router.patch("/:id", editInsurance);

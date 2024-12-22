@@ -9,11 +9,11 @@ import {
 import { restrictTo } from "../controllers/authController.js";
 
 const router = express.Router();
+router.get("/allWorkSpaces", getAllWorkSpaces);
+
 router.use(restrictTo("Admin", "Doctor"));
 router.post("/", createWorkspace);
 router
   .route(["/:id", "/:id/:secId", "/:id/:secId/:thirdId"])
   .patch(editWorkspace);
-
-router.get("/allWorkSpaces", getAllWorkSpaces);
 export default router;
