@@ -1,18 +1,18 @@
-import axiosInstance from "./axiosInstance";
-
+import Axios from "axios";
+import Cookies from "js-cookie";
 export const upload = async (data) => {
   try {
-    data.forEach((value, key) => {
-      console.log(key, value);
-    });
+    const response = await Axios.patch(
+      `https://mediportal-api-production.up.railway.app/api/v1/patients/updateMe`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
 
-    const response = await axiosInstance.post("/auth/editPhoto", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    console.log("Upload successful:", response);
     return response.data;
   } catch (error) {
     const errorMessage =

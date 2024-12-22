@@ -2,6 +2,8 @@
 import { upload } from "@/API/uploadApi";
 import { useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser, logout, setUser } from "../Store/Slices/userSlice";
 
 export default function LogoutHeader({
   handleLogout,
@@ -11,14 +13,13 @@ export default function LogoutHeader({
 }) {
   const [isUploading, setIsUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const { userimg: myImg } = useSelector((state) => state.user);
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-
+  const dispatch = useDispatch();
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert("Please select a file first!");
       return;
     }
 
@@ -27,17 +28,10 @@ export default function LogoutHeader({
 
       const formData = new FormData();
       formData.append("image", selectedFile); // Append the file
-
-      // Upload the file and get the file path from the server
       const res = await upload(formData);
-      alert("File uploaded successfully!");
-
-      console.log("Upload response:", res);
-      const filePath = res.filePath; // Assuming your server returns the file path
-      console.log("Uploaded file path:", filePath); // Use the file path as needed
+      dispatch(logout());
+      dispatch(clearUser());
     } catch (error) {
-      console.error("Upload failed:", error);
-      alert("Failed to upload the file. Please try again.");
     } finally {
       setIsUploading(false); // Reset uploading state
     }
@@ -49,7 +43,7 @@ export default function LogoutHeader({
         onClick={openUserInfoModal}
       >
         <img
-          src={`https://i.pravatar.cc/48?u=${id + 122}`}
+          src={`${myImg || `https://i.pravatar.cc/48?u=${id + 122}`}`}
           alt="user's photo"
           className="w-10 rounded-full"
         />
