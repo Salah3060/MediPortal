@@ -18,7 +18,10 @@ const ProductCard = ({ product }) => {
     >
       <div className="image">
         <img
-          src={`https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png`}
+          src={
+            product.productimg ||
+            `https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png`
+          }
           alt={product.productname}
           className="w-full h-[160px] object-contain"
         />

@@ -9,7 +9,10 @@ const CategoryCard = ({ category }) => {
     >
       <div className="image flex-1 overflow-hidden">
         <img
-          src={`https://res.cloudinary.com/djuhk9ozp/image/upload/v1732921047/DB%20categories/${category.categoryid}.png`}
+          src={
+            category.categoryimg ||
+            `https://res.cloudinary.com/djuhk9ozp/image/upload/v1732921047/DB%20categories/${category.categoryid}.png`
+          }
           alt={category.categoryname}
           className="w-full h-full object-cover"
         />

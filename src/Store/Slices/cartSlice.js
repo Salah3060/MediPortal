@@ -36,8 +36,7 @@ const cartSlice = createSlice({
           categoryName: selectedProduct.categoryname,
           quantity: quantity,
           totalPrice: selectedProduct.productprice * quantity,
-          image:
-            "https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png", // Add image for display purposes
+          image: selectedProduct.productimg, // Add image for display purposes
         });
       }
       state.totalQuantity += quantity;

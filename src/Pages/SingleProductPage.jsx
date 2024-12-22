@@ -40,7 +40,10 @@ const SingleProductPage = () => {
       <div className="productInfo container bg-gradient-to-r from-[#c2dfe3] to-[#9db4c0] p-4 md:p-6 lg:p-8 flex flex-col md:flex-row gap-8 rounded-xl flex-grow">
         <div className="image">
           <img
-            src={`https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png`}
+            src={
+              selectedProduct?.productimg ||
+              `https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png`
+            }
             alt={selectedProduct?.productname}
             className="w-full h-[200px] object-contain rounded-lg"
           />

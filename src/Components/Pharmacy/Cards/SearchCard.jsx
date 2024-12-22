@@ -9,7 +9,10 @@ const SearchCard = ({ product }) => {
     >
       <div className="flex items-center gap-4">
         <img
-          src="https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png"
+          src={
+            product.productimg ||
+            "https://res.cloudinary.com/djuhk9ozp/image/upload/v1732922264/DB%20Medicine/v5glkgokpvu1oodc75cy.png"
+          }
           alt={product.productname}
           className="w-16 h-16 object-contain"
         />
@@ -34,6 +37,7 @@ SearchCard.propTypes = {
     productname: PropTypes.string.isRequired,
     categoryname: PropTypes.string.isRequired,
     productprice: PropTypes.number.isRequired,
+    productimg: PropTypes.string,
   }).isRequired,
 };
 
