@@ -4,7 +4,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieparser from "cookie-parser";
-dotenv.config({ path: "../BE.env" });
+import bodyParser from "body-parser";
+dotenv.config();
 import authRouter from "./routes/authRouter.js";
 import doctorRouter from "./routes/doctorRouter.js";
 import patientRouter from "./routes/patientRouter.js";
@@ -24,9 +25,11 @@ import jwt from "jsonwebtoken";
 import { AppError, globalErrorHandler } from "./utilities.js";
 import { makeReview } from "./controllers/reviewController.js";
 
-dotenv.config({ path: `./../BE.env` });
+dotenv.config();
 // const cors = require("cors");
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cookieparser());
 
 app.use(

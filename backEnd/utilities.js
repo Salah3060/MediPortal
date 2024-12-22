@@ -2,7 +2,69 @@ import { query } from "express";
 import pkg from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-dotenv.config("../../BE.env");
+dotenv.config();
+import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new AppError("Not an image! Please upload only images.", 400), false);
+  }
+};
+
+const storage = multer.diskStorage({});
+const upload = multer({ storage, fileFilter: multerFilter });
+
+const uploadPhoto = upload.single();
+
+const upploadToCloud = async (req, res, next) => {
+  try {
+    const filePath = req.file.path;
+    if (!filePath) return next(new AppError("Please Provide the file", 400));
+
+    const result = await cloudinary.uploader.upload(filePath);
+    const url = cloudinary.url(result.public_id, {
+      transformation: [
+        {
+          responsive: true,
+          width: 200,
+          height: 200,
+          gravity: "auto",
+          crop: "fill",
+          quality: "auto",
+          fetch_format: "auto",
+          gravity: "faces",
+        },
+      ],
+    });
+    console.log(result);
+    return url;
+  } catch (error) {
+    console.log(error);
+    throw err;
+  }
+};
+
+const deleteFromCloud = async (url) => {
+  try {
+    //https://res.cloudinary.com/dgljetjdr/image/upload/c_fill,f_auto,g_faces,h_200,q_auto,w_200/znia0eeexizaoq8f76un?_a=BAMCkGFD0
+    const publicId = url.split("/").at(-1).split("?")[0];
+    const result = await cloudinary.uploader.destroy(publicId);
+    if (result.result === "OK") return true;
+    return false;
+  } catch (error) {
+    console.log(error);
+    throw err;
+  }
+};
 
 class AppError extends Error {
   constructor(message, statusCode) {
@@ -86,4 +148,7 @@ export {
   fieldsQueryHandler,
   orderQueryHandler,
   formatString,
+  uploadPhoto,
+  upploadToCloud,
+  deleteFromCloud,
 };
