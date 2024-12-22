@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import Overlay from "./Components/Header/Overlay.jsx";
 import UserInfo from "./Components/UserInfo.jsx";
-import {  BiSolidTime } from "react-icons/bi";
+import { BiSolidTime } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -31,15 +31,9 @@ function App() {
       )}
 
       {status === "success" && !isDoctorDashboard && (
-        <Link
-          className="w-full px-6 py-4"
-          to={"/MediPortal/patient/myappointments"}
-        >
+        <Link className="w-full " to={"/MediPortal/patient/myappointments"}>
           <div className="flex items-center space-x-4 fixed right-5 bottom-5 z-20">
-            <button
-              // onClick={() => setIsOpen(true)}
-              className="bg-primary text-tertiary p-4 rounded-full shadow-lg hover:bg-[#9db4c0] hover:text-primary flex items-center transition-all duration-300"
-            >
+            <button className="bg-primary text-tertiary p-4 rounded-full shadow-lg hover:bg-[#9db4c0] hover:text-primary flex items-center transition-all duration-300">
               <BiSolidTime className="text-xl" />
               <span className="text-sm sm:text-base font-medium hidden sm:block px-4 py-2 rounded-xl">
                 My Appointments
