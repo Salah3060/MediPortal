@@ -8,6 +8,7 @@ import {
   updateUser,
   validateLoggedIn,
 } from "../controllers/authController.js";
+import { uploadPhoto, upploadToCloud } from "../utilities.js";
 
 const router = express.Router();
 
@@ -16,7 +17,13 @@ router.get("/allPatients", restrictTo("Admin", "Doctor"), getAllPatients);
 router.get("/stats", restrictTo("Admin"), getPatientsStats);
 
 // doctor-side update
-router.patch("/updateMe", restrictTo("Patient"), updateUser("Patient"));
+router.patch(
+  "/updateMe",
+  restrictTo("Patient"),
+  uploadPhoto,
+  upploadToCloud,
+  updateUser("Patient")
+);
 
 // admin-side update
 router.patch("/:id", restrictTo("Admin"), updateUser("Patient"));

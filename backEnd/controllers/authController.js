@@ -8,7 +8,12 @@ import {
   updateVerificationCode,
   getCodeExpiry,
 } from "../databases/authDatabase.js";
-import { AppError, formatString, catchAsyncError } from "../utilities.js";
+import {
+  AppError,
+  formatString,
+  catchAsyncError,
+  deleteFromCloud,
+} from "../utilities.js";
 const { data, JsonWebToken } = pkg;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -237,7 +242,6 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
 
 const restrictTo = (...roles) => {
   return (req, res, next) => {
-    console.log(roles);
     if (!roles.includes(req.user.userrole)) {
       throw new AppError(
         "You don't have the permission to perform this action",
@@ -253,6 +257,22 @@ const updateUser = (role) => {
   return async (req, res, next) => {
     try {
       const { user } = req;
+      let userimg = null;
+      if (req.url) {
+        //checking if there is an existing photo to delete it
+        if (user.userimg) {
+          // if (!(await deleteFromCloud(user.userimg))) {
+          //   return next(
+          //     new AppError(
+          //       "something went wrong with uploading your lovable photo",
+          //       400
+          //     )
+          //   );
+          // }
+        }
+        //uploading the new img
+        userimg = req.url;
+      }
       let id;
       console.log(role);
       if (user.userrole === "Doctor" || user.userrole === "Patient") {
@@ -355,6 +375,7 @@ const updateUser = (role) => {
       toBeEdited.birthdate = birthdate;
       toBeEdited.updatedat = Date.now();
       toBeEdited.userstate = userstate;
+      toBeEdited.userimg = userimg;
 
       // preparing patient attributes
       bloodtype = bloodtype ? formatString(bloodtype) : null;

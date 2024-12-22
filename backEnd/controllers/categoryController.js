@@ -35,12 +35,19 @@ const createCategory = catchAsyncError(async (req, res, next) => {
 const editCategory = catchAsyncError(async (req, res, next) => {
   let { categoryName, categoryDescription } = req.body;
   const categoryId = req.params.id;
+  let categoryImg = null;
+  if (req.url) {
+    //checking if there is an existing photo to delete it
 
+    //uploading the new img
+    categoryImg = req.url;
+  }
   categoryName = categoryName ? formatString(categoryName) : null;
   categoryDescription = categoryDescription ? categoryDescription.trim() : null;
   let toBeEdited = {};
   toBeEdited.categoryName = categoryName;
   toBeEdited.categoryDescription = categoryDescription;
+  toBeEdited.categoryImg = categoryImg;
 
   if (!Object.values(toBeEdited).filter((v) => v).length)
     return next(new AppError("Specify at least one attribute to update"));

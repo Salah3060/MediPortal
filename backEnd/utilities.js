@@ -28,10 +28,9 @@ const uploadPhoto = upload.single("image"); // Match this with your frontend fie
 
 const uploadToCloud = async (req, res, next) => {
   try {
-    console.log(req);
-    const filePath = req.file?.path; // Use optional chaining in case req.file is undefined
-    if (!filePath) return next(new AppError("Please Provide the file", 400));
-
+    const filePath = req.file?.path;
+    if (!filePath) return next();
+    //new AppError("Please Provide the file", 400)
     const result = await cloudinary.uploader.upload(filePath);
     const url = cloudinary.url(result.public_id, {
       transformation: [
@@ -47,8 +46,12 @@ const uploadToCloud = async (req, res, next) => {
         },
       ],
     });
-    console.log(result);
-    res.status(200).json({ url });
+    // console.log(result);
+    // return url;
+    //propagation of parameters
+    if (url) req.url = url;
+    else req.url = null;
+    next();
   } catch (error) {
     console.log(error);
     next(error);
@@ -59,8 +62,12 @@ const deleteFromCloud = async (url) => {
   try {
     //https://res.cloudinary.com/dgljetjdr/image/upload/c_fill,f_auto,g_faces,h_200,q_auto,w_200/znia0eeexizaoq8f76un?_a=BAMCkGFD0
     const publicId = url.split("/").at(-1).split("?")[0];
+    console.log(publicId);
     const result = await cloudinary.uploader.destroy(publicId);
-    if (result.result === "OK") return true;
+    if (result.result === "OK") {
+      console.log("DELETED SUCCESSFULLY");
+      return true;
+    }
     return false;
   } catch (error) {
     console.log(error);

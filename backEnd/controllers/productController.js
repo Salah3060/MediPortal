@@ -147,6 +147,13 @@ const editProduct = catchAsyncError(async (req, res, next) => {
     productCategory,
     manufacture,
   } = req.body;
+  let productImg = null;
+  if (req.url) {
+    //checking if there is an existing photo to delete it
+
+    //uploading the new img
+    productImg = req.url;
+  }
   const productId = req.params.id;
   productName = productName ? formatString(productName) : null;
   productCategory = productCategory ? formatString(productCategory) : null;
@@ -168,6 +175,7 @@ const editProduct = catchAsyncError(async (req, res, next) => {
   toBeEdited.productDescription = productDescription;
   toBeEdited.productExpiryDate = productExpiryDate;
   toBeEdited.manufacture = manufacture;
+  toBeEdited.productImg = productImg;
   if (!Object.values(toBeEdited).filter((v) => v).length)
     return next(new AppError("Specify at least one attribute to update"));
 
