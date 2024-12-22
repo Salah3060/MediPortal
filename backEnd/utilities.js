@@ -23,11 +23,12 @@ const multerFilter = (req, file, cb) => {
 const storage = multer.diskStorage({});
 const upload = multer({ storage, fileFilter: multerFilter });
 
-const uploadPhoto = upload.single();
+// Expect the field name to be 'image' (change this if needed)
+const uploadPhoto = upload.single("image"); // Match this with your frontend field name
 
-const upploadToCloud = async (req, res, next) => {
+const uploadToCloud = async (req, res, next) => {
   try {
-    const filePath = req.file.path;
+    const filePath = req.file?.path;
     if (!filePath) return next();
     //new AppError("Please Provide the file", 400)
     const result = await cloudinary.uploader.upload(filePath);
@@ -53,7 +54,7 @@ const upploadToCloud = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    throw err;
+    next(error);
   }
 };
 
@@ -157,6 +158,6 @@ export {
   orderQueryHandler,
   formatString,
   uploadPhoto,
-  upploadToCloud,
+  uploadToCloud,
   deleteFromCloud,
 };
