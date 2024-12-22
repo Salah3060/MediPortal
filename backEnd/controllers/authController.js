@@ -229,7 +229,7 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
   if (user.userstate === "Blocked") {
     return next(new AppError("Please activate your account first", 401));
   }
-
+  console.log(user);
   if (!user) new AppError("Protected Path , Plesase login to get access", 401);
   req.user = user;
   next();
