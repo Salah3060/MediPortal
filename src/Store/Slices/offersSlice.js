@@ -74,7 +74,7 @@ const offersSlice = createSlice({
   initialState: {
     offers: [],
     selectedOffer: null,
-    selectedDoctor: {},
+    selectedDoctor: null,
     loading: false,
     error: null,
     doctorOffers: [],
@@ -115,17 +115,29 @@ const offersSlice = createSlice({
       })
       .addCase(getOfferById.fulfilled, (state, action) => {
         state.selectedOffer = action.payload.offer;
-        state.selectedDoctor = action.payload.doctor;
+        // state.selectedDoctor = action.payload.doctor;
+        // state.selectedDoctor = action.payload.doctor.availibility;
+        state.selectedDoctor = structuredClone(action.payload.doctor);
+        // state.selectedDoctor.availibility = {
+        //   ...action.payload.doctor.availibility,
+        // };
         const rv = action.payload.doctor.reviews?.filter(
           (el) => el.rate !== null
+        );
+        const Av = action.payload.doctor.availibility?.filter(
+          (el) => el.locationId !== null
         );
         const uniqueReviews = Array.from(
           new Set(rv?.map((review) => JSON.stringify(review)))
         ).map((json) => JSON.parse(json));
+
+        const uniqueAvs = Array.from(
+          new Set(Av?.map((review) => JSON.stringify(review)))
+        ).map((json) => JSON.parse(json));
+
         state.selectedDoctor.reviews = uniqueReviews;
-        state.selectedDoctor.availibility = action.payload.availibility?.filter(
-          (el) => el.workSpaceId != null
-        );
+        state.selectedDoctor.availibility = uniqueAvs;
+
         state.loading = false;
       })
       .addCase(getOfferById.rejected, (state, action) => {

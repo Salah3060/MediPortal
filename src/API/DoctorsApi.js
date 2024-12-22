@@ -48,7 +48,10 @@ export const getAllInsurances = async () => {
 // get doctor by id
 export const getDoctorById = async (id) => {
   try {
+    console.log(id);
     const response = await axiosInstance.get(`/doctors/${id}`);
+    console.log(response);
+
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);

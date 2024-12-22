@@ -86,7 +86,7 @@ export default function Availability({ index, hospitals, cols, values }) {
         <option value={0} disabled selected>
           Choose a hospital...
         </option>
-        {hospitals.map((option, index) => (
+        {hospitals?.map((option, index) => (
           <option key={index} value={option?.workspaceid}>
             {option?.workspacename}
           </option>
