@@ -16,7 +16,10 @@ const OfferCard = ({ offer }) => {
       {/* Image Section */}
       <div className="image rounded-lg h-[190px] w-full max-w-[400px] min-w-[280px] overflow-hidden relative">
         <img
-          src={`https://res.cloudinary.com/djuhk9ozp/image/upload/v1733386736/${offer?.offerid}.webp`}
+          src={
+            offer?.offerimg ||
+            `https://res.cloudinary.com/djuhk9ozp/image/upload/v1733386736/${offer?.offerid}.webp`
+          }
           alt={"offer"}
           className="rounded-lg object-cover w-full h-full"
         />

@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { fetchAllDoctors } from "@/Store/Slices/searchSlice";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { setSpecialties, setInsurances } from "@/Store/Slices/searchSlice";
-import { getAllSpecialties, getAllInsurances } from "@/API/DoctorsApi";
+import { setSpecialties } from "@/Store/Slices/searchSlice";
+import { getAllSpecialties } from "@/API/DoctorsApi";
 import { scrollToTop } from "@/Utils/functions.util";
 
 const Search = () => {
@@ -23,21 +23,16 @@ const Search = () => {
   const fetchData = async () => {
     try {
       const specialtiesData = await getAllSpecialties();
-      const insurancesData = await getAllInsurances();
       // Extract specializations and add "All Specialties"
       const specialtiesArray = [
         "All Specialties",
         ...specialtiesData.map((spec) => spec.specialization),
       ];
-      const insuranceArray = [
-        "All Insurances",
-        ...insurancesData.map((insurance) => insurance.insurancename),
-      ];
 
       // Dispatch the updated array
       dispatch(setSpecialties(specialtiesArray));
-      dispatch(setInsurances(insuranceArray));
     } catch (error) {
+      console.log("Error fetching specialties: ", error.message);
     }
   };
 

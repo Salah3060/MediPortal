@@ -29,7 +29,9 @@ const Specialties = () => {
         const specialtiesbb = specialtiessss.map((specialty) => ({
           id: count++,
           title: specialty.specialization,
-          image: `https://res.cloudinary.com/djuhk9ozp/image/upload/v1734793337/${specialty.specialization}.png`,
+          image:
+            specialty.img ||
+            `https://res.cloudinary.com/djuhk9ozp/image/upload/v1734793337/${specialty.specialization}.png`,
         }));
         dispatch(setSpecialties(specialtiesbb));
       } catch (error) {
