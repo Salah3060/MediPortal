@@ -35,14 +35,14 @@ const uploadToCloud = async (req, res, next) => {
     const url = cloudinary.url(result.public_id, {
       transformation: [
         {
-          responsive: true,
-          width: 200,
-          height: 200,
-          gravity: "auto",
-          crop: "fill",
-          quality: "auto",
-          fetch_format: "auto",
-          gravity: "faces",
+          responsive: true, // Keep responsive behavior
+          width: "auto:breakpoints", // Dynamically adjusts width for better responsiveness
+          height: 200, // Fixed height or remove for proportional scaling
+          dpr: "auto", // Adjusts resolution for high-DPI displays (Retina)
+          gravity: "faces:auto", // Prioritizes faces, falls back to auto-cropping
+          crop: "fill", // Maintains aspect ratio and fills dimensions
+          quality: "auto:best", // Ensures highest visual quality
+          fetch_format: "auto", // Converts to best format (e.g., WebP/AVIF)
         },
       ],
     });
