@@ -90,7 +90,7 @@ const OrderCheckout = () => {
       // Redirect after 3 seconds
       setTimeout(() => {
         setPopupMessage(null);
-        navigate("/MediPortal/");
+        navigate("/");
       }, 3000);
     } catch (error) {
       console.error("Order Error:", error);

@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllOffers } from "@/API/OffersApi";
 import {
   addOffer,
+  getAllOffers,
   getDoctorOffer,
   getOffersById,
   updateOffer,
-} from "../../API/offersApi";
+} from "../../API/offerApi";
 import { getDoctorById } from "@/API/DoctorsApi";
 import { formatDate } from "../../Utils/functions.util";
 

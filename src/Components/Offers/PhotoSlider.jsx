@@ -3,10 +3,7 @@ import "swiper/css/autoplay";
 import { Autoplay } from "swiper/modules";
 
 export default function PhotoSlider() {
-  const images = [
-    "/MediPortal/Offers/offer1.jpg",
-    "/MediPortal/Offers/offer2.jpg",
-  ];
+  const images = ["./offer1.jpg", "./offer2.jpg"];
   return (
     <Swiper
       modules={[Autoplay]}

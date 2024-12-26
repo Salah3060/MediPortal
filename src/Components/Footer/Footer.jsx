@@ -21,22 +21,22 @@ const Footer = () => {
               Our Team
             </li>
           </Link>
-          <Link to={"/MediPortal/"}>
+          <Link to={"/"}>
             <li className="hover:text-tertiary hover:border-b transition-all duration-200">
               Area{" "}
             </li>
           </Link>
-          <Link to={"/MediPortal/"}>
+          <Link to={"/"}>
             <li className="hover:text-tertiary hover:border-b transition-all duration-200">
               Insurance
             </li>
           </Link>
-          <Link to={"/MediPortal/"}>
+          <Link to={"/"}>
             <li className="hover:text-tertiary hover:border-b transition-all duration-200">
               Hospital
             </li>
           </Link>
-          <Link to={"/MediPortal/"}>
+          <Link to={"/"}>
             <li className="hover:text-tertiary hover:border-b transition-all duration-200">
               Center
             </li>

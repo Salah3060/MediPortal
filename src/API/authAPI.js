@@ -34,7 +34,6 @@ export const review = async (id, data) => {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
     });
-    console.log(response);
     return response.status === 200;
   } catch (error) {
     throw new Error(

@@ -1,4 +1,3 @@
-import Header from "./header";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "./theme";
@@ -16,6 +15,7 @@ import {
   fetchAllAppointments,
 } from "../../Store/Slices/AppointmentsSlice";
 import Loader from "../Loader";
+import Header from "./HeaderTypo.jsx";
 export default function Appointments() {
   const dispatch = useDispatch();
   const { doctorid } = useParams();

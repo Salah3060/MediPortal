@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { askQuestion } from "@/API/questionsApi";
-import SuccessPopup from "@/Components/SuccessPopup";
 import ErrorPopup from "@/Components/ErrorPopup";
 import Loader from "@/Components/Loader";
 import Chatbot from "@/Components/Questions/Chatbot";
 import { useEffect } from "react";
 import { scrollToTop } from "@/Utils/functions.util";
+import SuccessPopup from "../Components/SuccesspopupMSG.jsx";
 
 const AskQuestion = () => {
   const [selectedStatus, setSelectedStatus] = useState("myself"); // Default selection

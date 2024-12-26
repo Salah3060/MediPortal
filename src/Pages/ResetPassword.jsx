@@ -46,7 +46,7 @@ export default function ResetPassword() {
     toast.success("Successfully changed");
     toast.success("redirecting to home page");
     const timeOutId = setTimeout(() => {
-      navigate("/MediPortal/");
+      navigate("/");
     }, 2000);
     return () => {
       clearTimeout(timeOutId);

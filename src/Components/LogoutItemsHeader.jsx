@@ -3,7 +3,7 @@ import { upload } from "@/API/uploadApi";
 import { useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser, logout, setUser } from "../Store/Slices/userSlice";
+import { clearUser, logout } from "../Store/Slices/userSlice";
 
 export default function LogoutHeader({
   handleLogout,

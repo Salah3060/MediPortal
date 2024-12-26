@@ -13,7 +13,7 @@ const Error = () => {
 
         <div className="flex gap-4 w-full">
           <Link
-            to="/MediPortal/"
+            to="/"
             className="text-white bg-darkRed px-6 py-2 rounded-lg text-center mt-8 md:mt-10"
           >
             Back to Home
@@ -28,7 +28,7 @@ const Error = () => {
       </div>
       <div className="image w-full max-w-xs md:max-w-md lg:max-w-lg">
         <img
-          src="/MediPortal/error.png"
+          src="/error.png"
           alt="Payment Error"
           className="w-full object-contain"
         />

@@ -8,10 +8,7 @@ export default function OffersBreadcrumb({ offername }) {
     <div className="w-full py-2 Header text-[12px]">
       <div className="container max-w-screen-2xl mx-auto">
         <p className="flex gap-2">
-          <Link
-            className="flex gap-2 items-center text-secondary"
-            to={"/MediPortal/"}
-          >
+          <Link className="flex gap-2 items-center text-secondary" to={"/"}>
             <GoHome className="text-lg" />
             <span>MediPort</span>
           </Link>

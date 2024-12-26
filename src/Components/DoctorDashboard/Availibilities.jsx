@@ -1,9 +1,8 @@
-import Header from "./header";
-import { Box, Button, useTheme } from "@mui/material";
+import Header from "./HeaderTypo";
+import { Box, Button, ThemeProvider, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "./theme";
 import { useEffect, useState } from "react";
-// import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import {
@@ -14,6 +13,7 @@ import {
 import { fetchDoctorById } from "../../Store/Slices/searchSlice";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
 export default function Availibilities() {
   const dispatch = useDispatch();
   const { availibility: rows } = useSelector(
@@ -30,16 +30,16 @@ export default function Availibilities() {
       toast.success("Cancelled Successfully");
     }
   }, [dispatch, doctorid, updated]);
+
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(resetErrorState());
     }
   }, [dispatch, error]);
+
   async function deleteSelected() {
     const data = selectedRows.map((el, i) => {
-      console.log(rows);
-
       return {
         data: {
           workingDay: rows[i]?.workingDay,
@@ -52,6 +52,7 @@ export default function Availibilities() {
 
     dispatch(cancelAvailibility(data));
   }
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -72,12 +73,14 @@ export default function Availibilities() {
       cellClassName: "name-column--cell",
     },
   ];
+
   const [selectedRows, setSelectedRows] = useState([]);
   const handleSelectionChange = (selectionModel) => {
     setSelectedRows(selectionModel);
   };
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Box m="20px">
         <Header title="Availabilities" subtitle="Your all availabilities" />
         {loading ? (
@@ -96,6 +99,7 @@ export default function Availibilities() {
               "& .name-column--cell": {
                 color: colors.greenAccent[300],
               },
+
               "& .MuiDataGrid-columnHeaders": {
                 backgroundColor: colors.blueAccent[700],
                 borderBottom: "none",
@@ -136,6 +140,6 @@ export default function Availibilities() {
           </Box>
         )}
       </Box>
-    </>
+    </ThemeProvider>
   );
 }

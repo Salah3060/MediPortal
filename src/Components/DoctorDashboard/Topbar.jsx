@@ -25,7 +25,7 @@ const Topbar = ({ setSelected }) => {
     dispath(logout());
     toast.success("Logging out...");
     setTimeout(() => {
-      navigate("/MediPortal/");
+      navigate("/");
     }, 1000);
   }
 

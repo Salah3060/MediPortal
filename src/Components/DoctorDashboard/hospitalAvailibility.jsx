@@ -83,7 +83,6 @@ export default function Availability({ index, hospitals, cols, values }) {
           ).map((json) => JSON.parse(json));
           setLocations(uniqueLocations);
           console.log(uniqueLocations);
-
           values.hospitalId = e.target.value;
           values.hospitalName[index] = e.target.value;
         }}

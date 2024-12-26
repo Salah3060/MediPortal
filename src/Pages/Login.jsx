@@ -3,7 +3,7 @@ import { useState } from "react";
 import { clearUser, userLogin } from "../Store/Slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Components/Loader";
-import SuccessPopup from "../Components/Successpopup";
+import SuccessPopup from "../Components/SuccesspopupMSG";
 import LoginForm from "../Components/Login/LoginForm";
 import ErrorPopup from "../Components/ErrorPopup";
 import { useNavigate } from "react-router-dom";

@@ -32,7 +32,7 @@ export default function Items({ openUserInfoModal }) {
     dispath(logout());
     toast.success("Logging out...");
     setTimeout(() => {
-      navigate("/MediPortal/");
+      navigate("/");
     }, 1000);
   }
   const [isOpen, setIsOpen] = useState(false);

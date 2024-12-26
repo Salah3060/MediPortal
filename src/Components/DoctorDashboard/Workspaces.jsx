@@ -1,4 +1,4 @@
-import Header from "./header";
+import Header from "./HeaderTypo";
 import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
 import useMediaQuery from "@mui/material/useMediaQuery";

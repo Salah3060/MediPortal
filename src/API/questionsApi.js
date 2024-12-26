@@ -75,7 +75,7 @@ export const answerQ = async (id, data) => {
         },
       }
     );
-    console.log(response);
+    response;
 
     return response.data.data.answerRes;
   } catch (error) {

@@ -26,7 +26,7 @@ const PharmacyHeader = () => {
     dispath(logout());
     toast.success("Logging out...");
     setTimeout(() => {
-      navigate("/MediPortal/");
+      navigate("/");
     }, 1000);
   }
   const toggleMenu = () => {
@@ -38,12 +38,8 @@ const PharmacyHeader = () => {
       <div className="container max-w-[1500px] mx-auto flex justify-between items-center px-4 py-2">
         {/* Logo */}
         <div className="logo">
-          <Link to={"/MediPortal/"}>
-            <img
-              src="/MediPortal/HeaderHorLogo.png"
-              alt="Logo"
-              className="h-16"
-            />
+          <Link to={"/"}>
+            <img src="/HeaderHorLogo.png" alt="Logo" className="h-16" />
           </Link>
         </div>
 

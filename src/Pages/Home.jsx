@@ -22,11 +22,7 @@ const Home = () => {
     dispatch(setSelectedSpecialty("All Specialties"));
   }, []);
 
-  const images = [
-    "/MediPortal/Home/back1.jpg",
-    "/MediPortal/Home/back2.jpg",
-    "/MediPortal/Home/back3.jpg",
-  ];
+  const images = ["./back1.jpg", "./back2.jpg", "./back3.jpg"];
 
   // State to track the current image index
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

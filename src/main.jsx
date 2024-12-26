@@ -40,11 +40,11 @@ import AnswerQuestions from "./Components/DoctorDashboard/AnswerQuestions.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/MediPortal/",
+    path: "/",
     element: <App />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <Home />,
       },
       {
@@ -52,71 +52,71 @@ const router = createBrowserRouter([
         element: <Error />,
       },
       {
-        path: "booking/paymenterror",
+        path: "MediPortal/booking/paymenterror",
         element: <PaymentError />,
       },
       {
-        path: "search",
+        path: "MediPortal/search",
         element: <Search />,
       },
       {
-        path: "search/doctors/:doctorId",
+        path: "MediPortal/search/doctors/:doctorId",
         element: <SingleDoctor />,
       },
       {
-        path: "booking/success",
+        path: "MediPortal/booking/success",
         element: <SuccessBooking />,
       },
       {
-        path: "pharmacy",
+        path: "MediPortal/pharmacy",
         element: <Pharmacy />,
       },
       {
-        path: "askquestion",
+        path: "MediPortal/askquestion",
         element: <AskQuestion />,
       },
       {
-        path: "questions",
+        path: "MediPortal/questions",
         element: <QuestionsCats />,
       },
       {
-        path: "questions/:speciality",
+        path: "MediPortal/questions/:speciality",
         element: <QuestionsGroup />,
       },
       {
-        path: "pharmacy/categories/:categoryName/products",
+        path: "MediPortal/pharmacy/categories/:categoryName/products",
         element: <Products />,
       },
       {
-        path: "login",
+        path: "MediPortal/login",
         element: <Login />,
       },
       {
-        path: "signup",
+        path: "MediPortal/signup",
         element: <Signup />,
       },
       {
-        path: "pharmacy/categories/:categoryName/products/:productId",
+        path: "MediPortal/pharmacy/categories/:categoryName/products/:productId",
         element: <SingleProductPage />,
       },
       {
-        path: "pharmacy/cart",
+        path: "MediPortal/pharmacy/cart",
         element: <Cart />,
       },
       {
-        path: "pharmacy/checkout",
+        path: "MediPortal/pharmacy/checkout",
         element: <OrderCheckout />,
       },
       {
-        path: "offers",
+        path: "MediPortal/offers",
         element: <Offers />,
       },
       {
-        path: "offers/:offerid/",
+        path: "MediPortal/offers/:offerid/",
         element: <SingleOfferPage />,
       },
       {
-        path: "doctor/:doctorid/",
+        path: "MediPortal/doctor/:doctorid/",
         element: <DoctorDashboard />,
         children: [
           {
@@ -124,49 +124,49 @@ const router = createBrowserRouter([
             element: <Stats />,
           },
           {
-            path: "Workspaces/",
+            path: "Workspaces",
             element: <Workspaces />,
           },
           {
-            path: "Appointments/",
+            path: "Appointments",
             element: <Appointments />,
           },
           {
-            path: "Availibilities/",
+            path: "Availabilities",
             element: <Availibilities />,
           },
           {
-            path: "Offers/",
+            path: "Offers",
             element: <DocOffers />,
           },
           {
-            path: "Add-UpdateOffers/",
+            path: "Add-UpdateOffers",
             element: <AddUpdateOffer />,
           },
           {
-            path: "UpdateMe/",
+            path: "UpdateMe",
             element: <UpdateMyInfo />,
           },
           {
-            path: "changePassword/",
+            path: "changePassword",
             element: <ChangePassword />,
           },
           {
-            path: "answerQuestions/",
+            path: "answerQuestions",
             element: <AnswerQuestions />,
           },
         ],
       },
       {
-        path: "patient/myappointments",
+        path: "MediPortal/patient/myappointments",
         element: <PatientAppointments />,
       },
       {
-        path: "ResetPassword/",
+        path: "MediPortal/ResetPassword/",
         element: <ResetPassword />,
       },
       {
-        path: "redirectToLogout/",
+        path: "MediPortal/redirectToLogout/",
         element: <Rlogout />,
       },
     ],

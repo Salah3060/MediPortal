@@ -18,7 +18,7 @@ export default function Card({
     >
       <img
         className="rounded-t-lg"
-        src="/MediPortal/discount.png"
+        src="/discount.png"
         width="400px"
         height="200px"
         alt=""

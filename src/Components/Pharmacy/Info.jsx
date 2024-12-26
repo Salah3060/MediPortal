@@ -1,12 +1,10 @@
-import ministryLogo from "@/assets/Pharmacy/ministry.jpg";
-
 const Info = () => {
   return (
     <div className="container max-w-[1300px] mx-auto flex flex-col md:flex-row items-center px-4 py-6 gap-4 md:gap-8">
       {/* Logo Section */}
       <div className="logo">
         <img
-          src={ministryLogo}
+          src="/ministry.jpg"
           alt="Ministry Logo"
           className="h-10 w-10 md:h-10 md:w-10 object-contain"
         />

@@ -34,7 +34,7 @@ const SuccessBooking = () => {
         {/* Image Section */}
         <div className="image w-full rounded-t-xl bg-transparent">
           <img
-            src="/MediPortal/booked.png"
+            src="/booked.png"
             alt="Booked"
             className="object-cover w-full h-60 sm:h-48 md:h-64 lg:h-64 rounded-t-xl"
           />

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import Header from "./header";
+import Header from "./HeaderTypo";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "./theme";
@@ -13,7 +13,7 @@ import {
 } from "../../Store/Slices/WorkspaceSlice";
 import { fetchDoctorById } from "../../Store/Slices/searchSlice";
 import { useParams } from "react-router-dom";
-import { getDoctorOffer } from "../../API/offersApi";
+import { getDoctorOffer } from "../../API/offerApi";
 import { DoctorOffer } from "../../Store/Slices/offersSlice";
 export default function DocOffers() {
   const dispatch = useDispatch();
@@ -72,8 +72,8 @@ export default function DocOffers() {
                 "& .name-column--cell": {
                   color: colors.greenAccent[300],
                 },
-                "& .MuiDataGrid-columnHeaders": {
-                  backgroundColor: colors.blueAccent[700],
+                "& .MuiDataGrid-root .MuiDataGrid-columnHeaders": {
+                  backgroundColor: `${colors.blueAccent[700]} !important`,
                   borderBottom: "none",
                 },
                 "& .MuiDataGrid-virtualScroller": {
@@ -94,13 +94,6 @@ export default function DocOffers() {
                 columns={columns}
                 onSelectionModelChange={handleSelectionChange}
               />
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  mt: 2, // Add some margin-top for spacing
-                }}
-              ></Box>
             </Box>
           )}
         </Box>

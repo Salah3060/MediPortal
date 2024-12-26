@@ -6,7 +6,7 @@ import Doctor from "../Components/Signup/Doctor";
 import Loader from "../Components/Loader";
 import { clearUser, userSignup } from "../Store/Slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import SuccessPopup from "../Components/Successpopup";
+import SuccessPopup from "../Components/SuccesspopupMSG";
 import ErrorPopup from "../Components/ErrorPopup";
 import { useNavigate } from "react-router-dom";
 import { scrollToTop } from "../Utils/functions.util";

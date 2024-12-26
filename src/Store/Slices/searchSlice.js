@@ -151,9 +151,13 @@ const searchSlice = createSlice({
           new Set(rv?.map((review) => JSON.stringify(review)))
         ).map((json) => JSON.parse(json));
         state.selectedDoctor.reviews = uniqueReviews;
-        state.selectedDoctor.availibility = action.payload.availibility?.filter(
-          (el) => el.workSpaceId != null
+        const av = action.payload.availibility?.filter(
+          (el) => el.rate !== null
         );
+        const uniqueAvailibilities = Array.from(
+          new Set(av?.map((avail) => JSON.stringify(avail)))
+        ).map((json) => JSON.parse(json));
+        state.selectedDoctor.availibility = uniqueAvailibilities;
       })
       .addCase(fetchDoctorById.rejected, (state, action) => {
         state.error = action.payload;

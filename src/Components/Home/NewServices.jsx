@@ -20,7 +20,7 @@ const PharmacySectionLargeScreen = () => {
       <div className="img w-64 h-[125px] flex items-center justify-center">
         <img
           className="object-contain rounded-br-lg"
-          src="/MediPortal/Home/store.png"
+          src="/store.png"
           alt="pharmacy"
         />
       </div>

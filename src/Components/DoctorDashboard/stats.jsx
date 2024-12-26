@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import Header from "./header";
+import Header from "./HeaderTypo.jsx";
 import Loader from "../Loader";
 import StatBox from "./statBox";
 import { tokens } from "./theme.js";

@@ -48,9 +48,7 @@ export const getAllInsurances = async () => {
 // get doctor by id
 export const getDoctorById = async (id) => {
   try {
-    console.log(id);
     const response = await axiosInstance.get(`/doctors/${id}`);
-    console.log(response);
 
     return response.data;
   } catch (error) {
@@ -105,10 +103,8 @@ export const getDoctorReviews = async (id) => {
     const response = await axiosInstance.get(`/doctors/reviews/${id}`, {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
-    console.log(response);
     return response.data.data.reviews;
   } catch (error) {
-    console.log(error);
 
     throw new Error(error.response ? error.response.data : error.message);
   }

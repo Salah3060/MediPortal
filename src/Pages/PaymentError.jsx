@@ -20,7 +20,7 @@ const PaymentError = () => {
       </div>
       <div className="image w-full max-w-xs md:max-w-md lg:max-w-lg">
         <img
-          src="/MediPortal/error.png"
+          src="/error.png"
           alt="Payment Error"
           className="w-full object-contain"
         />
