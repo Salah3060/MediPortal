@@ -124,7 +124,7 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
     )}/api/v1/appointments/booking-success?date=${appointmentDate}&fees=${
       doctor[0].fees
     }&docId=${doctorId}&locId=${locationId}&userId=${user.userid}`,
-    cancel_url: `http://localhost:5173/MediPortal/booking/paymenterror`,
+    cancel_url: `https://medi-portal-bay.vercel.app/MediPortal/booking/paymenterror`,
     customer_email: req.user.email,
     client_reference_id: doctorId,
     line_items: transformedData,
@@ -168,7 +168,7 @@ const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
   }
 
   //res.redirect(req.originalUrl.split("?")[0]);
-  res.redirect("http://localhost:5173/MediPortal/redirectToLogout/");
+  res.redirect("https://medi-portal-bay.vercel.app/MediPortal/booking/success");
 });
 
 const bookAppointment = catchAsyncError(async (req, res, next) => {

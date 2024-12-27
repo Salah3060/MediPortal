@@ -258,6 +258,7 @@ const updateUser = (role) => {
     try {
       const { user } = req;
       let userimg = null;
+      console.log(req.imgurl);
       if (req.imgurl) {
         //checking if there is an existing photo to delete it
         if (user.userimg) {
