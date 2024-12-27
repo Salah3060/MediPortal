@@ -153,6 +153,7 @@ const createWorkspaceContacts = `create table WorkspaceContacts
     foreign key (workspaceId) references Workspaces(workspaceId) on delete cascade
 );
 `;
+
 const createWorkspaceLocations = `create table WorkspaceLocations
 (
     locationId int generated always as identity,
