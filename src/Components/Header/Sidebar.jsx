@@ -25,7 +25,7 @@ export default function Sidebar({
         &rarr;
       </button>
       <ul className="flex flex-col gap-y-5 h-full">
-        <Link to={"/MediPortal/"} onClick={toogleSideBar}>
+        <Link to={"/"} onClick={toogleSideBar}>
           <li className="sliderElement">
             <IoHomeOutline className="text-2xl" /> Home
           </li>

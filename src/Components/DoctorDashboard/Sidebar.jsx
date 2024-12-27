@@ -79,7 +79,8 @@ const Sidebar = ({
             color: colors.grey[100],
             paddingTop: "20px",
             transition: "width 0.3s", // Add transition for smooth collapse effect
-            overflow: "hidden", // Prevent overflow of content
+            overflowY: "scroll", // Prevent overflow of content
+            overflowX: "hidden", // Prevent overflow of content
           },
         }}
       >
