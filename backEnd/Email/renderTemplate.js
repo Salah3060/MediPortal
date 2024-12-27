@@ -321,7 +321,7 @@ const render = (template, options) => {
                                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                     <tbody>
                                       <tr>
-                                        <td> <a href= "http://127.0.0.1:3000/api/v1/auth/verifyCode/${options.code}/${options.id}" target="_blank">${template}</a> </td>
+                                        <td> <a href= "https://mediportal-api-production.up.railway.app/api/v1/auth/verifyCode/${options.code}/${options.id}" target="_blank">${template}</a> </td>
                                       </tr>
                                     </tbody>
                                   </table>

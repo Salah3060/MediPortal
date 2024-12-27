@@ -526,7 +526,9 @@ const verifyCode = catchAsyncError(async (req, res, next) => {
     "",
     id
   );
-  res.redirect("http://localhost:5173/MediPortal/redirectToLogout/");
+  res.redirect(
+    "https://medi-portal-bay.vercel.app/MediPortal/redirectToLogout/"
+  );
 });
 
 const checkVerificationCode = catchAsyncError(async (req, res, next) => {
