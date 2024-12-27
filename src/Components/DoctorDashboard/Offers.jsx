@@ -52,52 +52,52 @@ export default function DocOffers() {
     setSelectedRows(selectionModel);
   };
   return (
-    <>
-      {
-        <Box m="20px">
-          <Header title="Offers" subtitle="Your all offers" />
-          {loading ? (
-            <Loader />
-          ) : (
-            <Box
-              m="40px 0 0 0"
-              height="75vh"
-              sx={{
-                "& .MuiDataGrid-root": {
-                  border: "none",
-                },
-                "& .MuiDataGrid-cell": {
-                  borderBottom: "none",
-                },
-                "& .name-column--cell": {
-                  color: colors.greenAccent[300],
-                },
-                "& .MuiDataGrid-root .MuiDataGrid-columnHeaders": {
-                  backgroundColor: `${colors.blueAccent[700]} !important`,
-                  borderBottom: "none",
-                },
-                "& .MuiDataGrid-virtualScroller": {
-                  backgroundColor: colors.primary[400],
-                },
-                "& .MuiDataGrid-footerContainer": {
-                  borderTop: "none",
-                  backgroundColor: colors.blueAccent[700],
-                },
-                "& .MuiCheckbox-root": {
-                  color: `${colors.greenAccent[200]} !important`,
-                },
-              }}
-            >
-              <DataGrid
-                checkboxSelection
-                rows={rows?.map((el, i) => ({ ...el, id: i })) || []}
-                columns={columns}
-                onSelectionModelChange={handleSelectionChange}
-              />
-            </Box>
-          )}
+    <Box className="p-5 h-screen">
+      <Header title="Offers" subtitle="Your all offers" />
+      {loading ? (
+        <Loader />
+      ) : (
+        <Box
+          className="mt-10 w-full h-full overflow-auto bg-gray-800 rounded-lg shadow-md"
+          sx={{
+            "& .MuiDataGrid-root": {
+              border: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+              padding: "10px",
+            },
+            "& .name-column--cell": {
+              color: colors.greenAccent[300],
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: colors.blueAccent[700],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: colors.primary[400],
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "none",
+              backgroundColor: colors.blueAccent[700],
+            },
+            "& .MuiCheckbox-root": {
+              color: `${colors.greenAccent[200]} !important`,
+            },
+          }}
+        >
+          <DataGrid
+            checkboxSelection
+            rows={rows?.map((el, i) => ({ ...el, id: i })) || []}
+            columns={columns.map((col) => ({
+              ...col,
+              flex: col.flex || 1, // Ensure columns expand equally
+              minWidth: 150, // Set a minimum width for columns
+            }))}
+            onSelectionModelChange={handleSelectionChange}
+          />
         </Box>
-      }
-    </>
+      )}
+    </Box>
   );
 }

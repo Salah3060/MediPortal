@@ -81,54 +81,46 @@ export default function Availibilities() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box m="20px">
+      <Box className="m-5">
         <Header title="Availabilities" subtitle="Your all availabilities" />
         {loading ? (
           <Loader />
         ) : (
-          <Box
-            m="40px 0 0 0"
-            height="75vh"
-            sx={{
-              "& .MuiDataGrid-root": {
-                border: "none",
-              },
-              "& .MuiDataGrid-cell": {
-                borderBottom: "none",
-              },
-              "& .name-column--cell": {
-                color: colors.greenAccent[300],
-              },
-
-              "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: colors.blueAccent[700],
-                borderBottom: "none",
-              },
-              "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: colors.primary[400],
-              },
-              "& .MuiDataGrid-footerContainer": {
-                borderTop: "none",
-                backgroundColor: colors.blueAccent[700],
-              },
-              "& .MuiCheckbox-root": {
-                color: `${colors.greenAccent[200]} !important`,
-              },
-            }}
-          >
-            <DataGrid
-              checkboxSelection
-              rows={rows?.map((el, i) => ({ ...el, id: i + 1 })) || []}
-              columns={columns}
-              onSelectionModelChange={handleSelectionChange}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                mt: 2, // Add some margin-top for spacing
-              }}
-            >
+          <>
+            <Box className="mt-10 h-[75vh] w-full overflow-auto  rounded-lg sh  adow-md">
+              <DataGrid
+                checkboxSelection
+                rows={rows?.map((el, i) => ({ ...el, id: i + 1 })) || []}
+                columns={columns}
+                onSelectionModelChange={handleSelectionChange}
+                sx={{
+                  "& .MuiDataGrid-root": {
+                    border: "none",
+                  },
+                  "& .MuiDataGrid-cell": {
+                    borderBottom: "none",
+                  },
+                  "& .name-column--cell": {
+                    color: colors.greenAccent[300],
+                  },
+                  "& .MuiDataGrid-columnHeaders": {
+                    backgroundColor: colors.blueAccent[700],
+                    borderBottom: "none",
+                  },
+                  "& .MuiDataGrid-virtualScroller": {
+                    backgroundColor: colors.primary[400],
+                  },
+                  "& .MuiDataGrid-footerContainer": {
+                    borderTop: "none",
+                    backgroundColor: colors.blueAccent[700],
+                  },
+                  "& .MuiCheckbox-root": {
+                    color: `${colors.greenAccent[200]} !important`,
+                  },
+                }}
+              />
+            </Box>
+            <Box className="flex justify-center mt-4">
               <Button
                 variant="contained"
                 color="error"
@@ -137,7 +129,7 @@ export default function Availibilities() {
                 Cancel
               </Button>
             </Box>
-          </Box>
+          </>
         )}
       </Box>
     </ThemeProvider>

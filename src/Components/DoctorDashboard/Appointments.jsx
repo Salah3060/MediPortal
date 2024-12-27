@@ -99,58 +99,53 @@ export default function Appointments() {
   };
   return (
     <>
-      <Box m="20px">
+      <Box className="p-5 h-screen">
         <Header title="Appointments" subtitle="Your all appointments" />
         {loading ? (
           <Loader />
         ) : (
-          <Box
-            m="40px 0 0 0"
-            height="75vh"
-            sx={{
-              "& .MuiDataGrid-root": {
-                border: "none",
-              },
-              "& .MuiDataGrid-cell": {
-                borderBottom: "none",
-              },
-              "& .name-column--cell": {
-                color: colors.greenAccent[300],
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: colors.blueAccent[700],
-                borderBottom: "none",
-              },
-              "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: colors.primary[400],
-              },
-              "& .MuiDataGrid-footerContainer": {
-                borderTop: "none",
-                backgroundColor: colors.blueAccent[700],
-              },
-              "& .MuiCheckbox-root": {
-                color: `${colors.greenAccent[200]} !important`,
-              },
-            }}
-          >
+          <Box className="mt-10 w-full h-full overflow-auto  rounded-lg shadow-md">
             <DataGrid
               checkboxSelection
               rows={rows}
-              columns={columns}
+              columns={columns.map((col) => ({
+                ...col,
+                flex: col.flex || 1, // Ensure columns expand equally
+                minWidth: 150, // Set a minimum width for columns
+              }))}
               onSelectionModelChange={handleSelectionChange}
-            />
-            <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                mt: 2, // Add some margin-top for spacing
+                height: "75%",
+                "& .MuiDataGrid-root": {
+                  border: "none",
+                },
+                "& .MuiDataGrid-cell": {
+                  borderBottom: "none",
+                  padding: "10px", // Add padding for better readability
+                },
+                "& .MuiDataGrid-columnHeaders": {
+                  backgroundColor: colors.blueAccent[700],
+                  borderBottom: "none",
+                  fontSize: "1rem", // Increase font size for headers
+                },
+                "& .MuiDataGrid-virtualScroller": {
+                  backgroundColor: colors.primary[400],
+                },
+                "& .MuiDataGrid-footerContainer": {
+                  borderTop: "none",
+                  backgroundColor: colors.blueAccent[700],
+                },
+                "& .MuiCheckbox-root": {
+                  color: `${colors.greenAccent[200]} !important`,
+                },
               }}
-            >
+            />
+            <Box className="flex flex-col md:flex-row justify-center items-center gap-4 mt-4">
               <Button
                 variant="contained"
                 color="success"
                 onClick={() => changeStatus(1)}
-                sx={{ mr: 2 }} // Add margin-right for spacing
+                className="w-full md:w-auto"
               >
                 Approve
               </Button>
@@ -158,6 +153,7 @@ export default function Appointments() {
                 variant="contained"
                 color="error"
                 onClick={() => changeStatus(0)}
+                className="w-full md:w-auto"
               >
                 Decline
               </Button>
