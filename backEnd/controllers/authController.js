@@ -231,7 +231,7 @@ const validateLoggedIn = catchAsyncError(async (req, res, next) => {
   const user = await logInDb(undefined, id);
 
   //if blocked or pending
-  if (user.userstate === "Blocked") {
+  if (user.userstate !== "Active") {
     return next(new AppError("Please activate your account first", 401));
   }
   console.log(user);
