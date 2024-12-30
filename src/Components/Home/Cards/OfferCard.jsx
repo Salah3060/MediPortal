@@ -18,7 +18,7 @@ const OfferCard = ({ offer }) => {
         <img
           src={
             offer?.offerimg ||
-            `https://res.cloudinary.com/djuhk9ozp/image/upload/v1733386736/${offer?.offerid}.webp`
+            `https://res.cloudinary.com/dgljetjdr/image/upload/v1735582498/rb_2150766982_yyffa6.png`
           }
           alt={"offer"}
           className="rounded-lg object-cover w-full h-full"

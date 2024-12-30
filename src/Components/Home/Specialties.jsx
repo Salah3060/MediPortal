@@ -32,7 +32,7 @@ const Specialties = () => {
           title: specialty.specialization,
           image:
             specialty.img ||
-            `https://res.cloudinary.com/djuhk9ozp/image/upload/v1734793337/${specialty.specialization}.png`,
+            `https://res.cloudinary.com/dgljetjdr/image/upload/v1735582180/medical-banner-with-doctor-wearing-goggles_nmsgmd.jpg`,
         }));
         dispatch(setSpecialties(specialtiesbb));
       } catch (error) {
