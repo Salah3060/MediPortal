@@ -31,7 +31,7 @@ const OfferCard = ({ offer }) => {
       {/* Text Section */}
       <div className="text flex flex-col gap-2 items-center md:items-start">
         <h2 className="text-lg md:text-xl font-bold text-center md:text-left">
-          {offer?.firstname}
+          {offer?.offername}
         </h2>
 
         {/* Prices Section */}
