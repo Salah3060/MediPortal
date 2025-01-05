@@ -60,7 +60,7 @@
 
 ### 🏗️ Technology Stack 
 
-* **Frontend:** HTML, CSS, JavaScript.
+* **Frontend:** Vite, HTML5, CSS3, Tailwind CSS, JavaScript (ES6+), React, Material-UI, Redux, Redux toolkit, Axios.
 * **Backend:** Node.js, Express.js
 * **Database:** Postgress
 
