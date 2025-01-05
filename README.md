@@ -62,7 +62,7 @@
 
 * **Frontend:** HTML, CSS, JavaScript.
 * **Backend:** Node.js, Express.js
-* **Database:** MongoDB
+* **Database:** Postgress
 
 ### 📚 MediPortal API 
 A powerful RESTful API that provides access to the MediPortal platform's extensive healthcare database and booking functionality.
