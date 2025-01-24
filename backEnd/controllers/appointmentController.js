@@ -131,6 +131,11 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
     customer_email: req.user.email,
     client_reference_id: doctorId,
     line_items: transformedData,
+    metadata: {
+      date: Date.now(),
+      locationId: locationId,
+      appointmentDate,
+    },
     mode: "payment",
   });
 
@@ -191,7 +196,7 @@ const createAppointmentCheckout = async (session, userId) => {
   ];
 
   console.log(attributes);
-  const appointment = await createAppointmentDb(attributes, locId);
+  const appointment = await createAppointmentDb(attributes, 7);
   if (
     !appointment ||
     appointment.severity === "ERROR" ||
