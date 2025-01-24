@@ -119,11 +119,12 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
   // 2) Create the checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    success_url: `${req.protocol}://${req.get(
-      "host"
-    )}/api/v1/appointments/booking-success?date=${appointmentDate}&fees=${
-      doctor[0].fees
-    }&docId=${doctorId}&locId=${locationId}&userId=${user.userid}`,
+    // success_url: `${req.protocol}://${req.get(
+    //   "host"
+    // )}/api/v1/appointments/booking-success?date=${appointmentDate}&fees=${
+    //   doctor[0].fees
+    // }&docId=${doctorId}&locId=${locationId}&userId=${user.userid}`,
+    success_url: `https://medi-portal-bay.vercel.app`,
     cancel_url: `https://medi-portal-bay.vercel.app`,
     customer_email: req.user.email,
     client_reference_id: doctorId,
