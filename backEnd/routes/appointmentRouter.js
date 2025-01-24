@@ -11,7 +11,7 @@ import { validateLoggedIn, restrictTo } from "../controllers/authController.js";
 
 const router = express.Router();
 
-router.get("/booking-success", createAppointmentCheckout);
+// router.get("/booking-success", createAppointmentCheckout);
 
 router.use(validateLoggedIn);
 router.get("/stats", getAppointmentsStats);

@@ -140,22 +140,49 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
   });
 });
 
-const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
-  let { date, fees, docId, locId, userId } = req.query;
-  console.log(date, fees, docId, locId);
-  date = new Date(date * 1000).toISOString().split("T")[0];
+// const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
+//   let { date, fees, docId, locId, userId } = req.query;
+//   console.log(date, fees, docId, locId);
+//   date = new Date(date * 1000).toISOString().split("T")[0];
 
-  if (!date || !fees || !docId || !locId || !userId)
-    return next(new AppError("Missing data", 400));
+//   if (!date || !fees || !docId || !locId || !userId)
+//     return next(new AppError("Missing data", 400));
 
+//   let attributes = [
+//     date,
+//     "Scheduled",
+//     fees,
+//     "Online",
+//     Date.now(),
+//     userId,
+//     docId,
+//   ];
+
+//   const appointment = await createAppointmentDb(attributes, locId);
+//   if (
+//     !appointment ||
+//     appointment.severity === "ERROR" ||
+//     appointment.status === "fail"
+//   ) {
+//     return next(new AppError("Something wrong happened", 400));
+//   }
+
+//   //res.redirect(req.originalUrl.split("?")[0]);
+//   res.redirect("https://medi-portal-bay.vercel.app");
+// });
+
+const createAppointmentCheckout = async (session) => {
+  const { user } = req;
+  // date = new Date(date * 1000).toISOString().split("T")[0];
   let attributes = [
-    date,
+    // date,
+    "2021-09-01",
     "Scheduled",
-    fees,
+    session.line_items[0].price_data.unit_amount / 100,
     "Online",
     Date.now(),
-    userId,
-    docId,
+    user.userid,
+    session.client_reference_id,
   ];
 
   const appointment = await createAppointmentDb(attributes, locId);
@@ -166,9 +193,26 @@ const createAppointmentCheckout = catchAsyncError(async (req, res, next) => {
   ) {
     return next(new AppError("Something wrong happened", 400));
   }
+};
 
-  //res.redirect(req.originalUrl.split("?")[0]);
-  res.redirect("https://medi-portal-bay.vercel.app");
+const webhookCheckout = catchAsyncError(async (req, res, next) => {
+  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+  const signature = req.headers["stripe-signature"];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (error) {
+    return res.status(400).send(`Webhook error: ${error.message}`);
+  }
+  if (event.type === "checkout.session.completed") {
+    console.log("Payment was successful");
+    createAppointmentCheckout(event.data.object);
+  }
+  res.status(200).json({ received: true });
 });
 
 const bookAppointment = catchAsyncError(async (req, res, next) => {
@@ -264,4 +308,5 @@ export {
   editAppointment,
   getAppointmentsStats,
   createAppointmentCheckout,
+  webhookCheckout,
 };

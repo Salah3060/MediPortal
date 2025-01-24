@@ -14,6 +14,7 @@ import productRouter from "./routes/productRouter.js";
 import workspaceRouter from "./routes/workspaceRouter.js";
 import offerRouter from "./routes/offerRouter.js";
 import appointmentRouter from "./routes/appointmentRouter.js";
+import appointmentController from "./controllers/appointmentController.js";
 import questionRouter from "./routes/questionRouter.js";
 import providerRouter from "./routes/providerRouter.js";
 import insuranceRouter from "./routes/insuranceRouter.js";
@@ -28,6 +29,13 @@ import { makeReview } from "./controllers/reviewController.js";
 dotenv.config();
 // const cors = require("cors");
 const app = express();
+
+app.post(
+  "/webhook-checkout",
+  express.raw({ type: "application/json" }),
+  appointmentController.webhookCheckout
+);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieparser());
