@@ -182,8 +182,10 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
 const createAppointmentCheckout = async (session) => {
   // const { user } = req;
   console.log(session, "session");
-  console.log(+session.metadata * 1000);
-  const date = new Date(+session.metadata * 1000).toISOString().split("T")[0];
+  console.log(+session.metadata.appointmentDate * 1000);
+  const date = new Date(+session.metadata.appointmentDate * 1000)
+    .toISOString()
+    .split("T")[0];
   let attributes = [
     date,
     "Scheduled",
