@@ -25,6 +25,9 @@ import pkg from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import { AppError, globalErrorHandler } from "./utilities.js";
 import { makeReview } from "./controllers/reviewController.js";
+import rateLimit from "express-rate-limit";
+import hpp from "hpp";
+import helmet from "helmet";
 
 dotenv.config();
 // const cors = require("cors");
@@ -36,6 +39,16 @@ app.post(
   appointmentController.webhookCheckout
 );
 
+// Define the rate limiter
+const limiter = rateLimit({
+  max: 100, // Maximum 100 requests
+  windowMs: 60 * 60 * 1000, // 1 hour window
+  message: "Too many requests from this IP, please try again in an hour!", // Custom message
+});
+
+// Apply the rate limiter to all routes under "/api"
+app.use("/api", limiter);
+app.use(express.json({ limit: "10kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieparser());
@@ -47,7 +60,21 @@ app.use(
   })
 );
 
+app.use(
+  hpp({
+    whitelist: [
+      "duration",
+      "ratingsQuantity",
+      "ratingsAverage",
+      "maxGroupSize",
+      "difficulty",
+      "price",
+    ],
+  })
+);
+
 app.use(express.json());
+app.use(helmet());
 
 // app.use("/test", (req, res, next) => {
 //   res.cookie("JWT", "hi", {
