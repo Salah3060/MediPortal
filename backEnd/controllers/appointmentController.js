@@ -172,8 +172,8 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
 //   res.redirect("https://medi-portal-bay.vercel.app");
 // });
 
-const createAppointmentCheckout = async (session) => {
-  const { user } = req;
+const createAppointmentCheckout = async (session, userId) => {
+  // const { user } = req;
   // date = new Date(date * 1000).toISOString().split("T")[0];
   let attributes = [
     // date,
@@ -182,7 +182,8 @@ const createAppointmentCheckout = async (session) => {
     session.line_items[0].price_data.unit_amount / 100,
     "Online",
     Date.now(),
-    user.userid,
+    // user.userid,
+    userId,
     session.client_reference_id,
   ];
 
@@ -198,7 +199,7 @@ const createAppointmentCheckout = async (session) => {
 };
 
 const webhookCheckout = catchAsyncError(async (req, res, next) => {
-  console.log(1111111111111111111111111, "webhookCheckout");
+  console.log(123, "webhookCheckout");
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
   const signature = req.headers["stripe-signature"];
   let event;
@@ -214,7 +215,7 @@ const webhookCheckout = catchAsyncError(async (req, res, next) => {
   console.log(event);
   if (event.type === "checkout.session.completed") {
     console.log("Payment was successful");
-    createAppointmentCheckout(event.data.object);
+    createAppointmentCheckout(event.data.object, req.user.userid);
   }
   res.status(200).json({ received: true });
 });
