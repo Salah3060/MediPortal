@@ -132,9 +132,9 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
     client_reference_id: doctorId,
     line_items: transformedData,
     metadata: {
-      date: Date.now(),
       locationId: locationId,
       appointmentDate,
+      userId: user.userid,
     },
     mode: "payment",
   });
@@ -179,24 +179,26 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
 //   res.redirect("https://medi-portal-bay.vercel.app");
 // });
 
-const createAppointmentCheckout = async (session, userId) => {
+const createAppointmentCheckout = async (session) => {
   // const { user } = req;
-  // date = new Date(date * 1000).toISOString().split("T")[0];
+  const date = new Date(+session.metadata * 1000).toISOString().split("T")[0];
   console.log(session, "session");
   let attributes = [
-    // date,
-    "2021-09-01",
+    date,
     "Scheduled",
     session.amount_total / 100,
     "Online",
     Date.now(),
     // user.userid,
-    userId,
+    session.metadata.userId,
     session.client_reference_id,
   ];
 
   console.log(attributes);
-  const appointment = await createAppointmentDb(attributes, 7);
+  const appointment = await createAppointmentDb(
+    attributes,
+    session.metadata.locationId
+  );
   if (
     !appointment ||
     appointment.severity === "ERROR" ||
@@ -223,7 +225,7 @@ const webhookCheckout = catchAsyncError(async (req, res, next) => {
   console.log(event);
   if (event.type === "checkout.session.completed") {
     console.log("Payment was successful");
-    createAppointmentCheckout(event.data.object, 256);
+    createAppointmentCheckout(event.data.object);
   }
   res.status(200).json({ received: true });
 });
