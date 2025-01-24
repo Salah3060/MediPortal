@@ -175,13 +175,12 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
 const createAppointmentCheckout = async (session, userId) => {
   // const { user } = req;
   // date = new Date(date * 1000).toISOString().split("T")[0];
-  console.log(session, 11111);
-  console.log(session.total_details);
+  console.log(session, "session");
   let attributes = [
     // date,
     "2021-09-01",
     "Scheduled",
-    session.line_items[0].price_data.unit_amount / 100,
+    session.amount_total / 100,
     "Online",
     Date.now(),
     // user.userid,
@@ -217,7 +216,7 @@ const webhookCheckout = catchAsyncError(async (req, res, next) => {
   console.log(event);
   if (event.type === "checkout.session.completed") {
     console.log("Payment was successful");
-    createAppointmentCheckout(event.data.object, req.user.userid);
+    createAppointmentCheckout(event.data.object, 256);
   }
   res.status(200).json({ received: true });
 });
