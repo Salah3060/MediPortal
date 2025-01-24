@@ -98,7 +98,7 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
   if (!doctor) {
     return next(new AppError("There is no such a doctor with that id", 400));
   }
-
+  appointmentDate = new Date(appointmentDate).getTime() / 1000;
   const transformedData = [
     {
       quantity: 1,
@@ -109,12 +109,14 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
           name: `Appointment with Dr ${doctor[0].firstname} ${doctor[0].lastname} `,
           metadata: {
             date: Date.now(),
+            locationId: locationId,
+            appointmentDate,
           },
         },
       },
     },
   ];
-  appointmentDate = new Date(appointmentDate).getTime() / 1000;
+
   console.log(appointmentDate);
   // 2) Create the checkout session
   const session = await stripe.checkout.sessions.create({
