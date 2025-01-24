@@ -14,17 +14,17 @@ import productRouter from "./routes/productRouter.js";
 import workspaceRouter from "./routes/workspaceRouter.js";
 import offerRouter from "./routes/offerRouter.js";
 import appointmentRouter from "./routes/appointmentRouter.js";
-import appointmentController from "./controllers/appointmentController.js";
+import { webhookCheckout } from "./controllers/appointmentController.js";
 import questionRouter from "./routes/questionRouter.js";
 import providerRouter from "./routes/providerRouter.js";
 import insuranceRouter from "./routes/insuranceRouter.js";
 import reviewRouter from "./routes/reviewRouter.js";
 import orderRouter from "./routes/orderRouter.js";
 import statsRouter from "./routes/statsRouter.js";
-import pkg from "jsonwebtoken";
-import jwt from "jsonwebtoken";
+// import pkg from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 import { AppError, globalErrorHandler } from "./utilities.js";
-import { makeReview } from "./controllers/reviewController.js";
+// import { makeReview } from "./controllers/reviewController.js";
 import rateLimit from "express-rate-limit";
 import hpp from "hpp";
 import helmet from "helmet";
@@ -36,7 +36,7 @@ const app = express();
 app.post(
   "/webhook-checkout",
   express.raw({ type: "application/json" }),
-  appointmentController.webhookCheckout
+  webhookCheckout
 );
 
 // Define the rate limiter
