@@ -186,6 +186,7 @@ const createAppointmentCheckout = async (session) => {
     session.client_reference_id,
   ];
 
+  console.log(attributes);
   const appointment = await createAppointmentDb(attributes, locId);
   if (
     !appointment ||
@@ -197,6 +198,7 @@ const createAppointmentCheckout = async (session) => {
 };
 
 const webhookCheckout = catchAsyncError(async (req, res, next) => {
+  console.log(1111111111111111111111111, "webhookCheckout");
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
   const signature = req.headers["stripe-signature"];
   let event;
@@ -209,6 +211,7 @@ const webhookCheckout = catchAsyncError(async (req, res, next) => {
   } catch (error) {
     return res.status(400).send(`Webhook error: ${error.message}`);
   }
+  console.log(event);
   if (event.type === "checkout.session.completed") {
     console.log("Payment was successful");
     createAppointmentCheckout(event.data.object);
