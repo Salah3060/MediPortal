@@ -175,6 +175,8 @@ const getCheckoutSession = catchAsyncError(async (req, res, next) => {
 const createAppointmentCheckout = async (session, userId) => {
   // const { user } = req;
   // date = new Date(date * 1000).toISOString().split("T")[0];
+  console.log(session, 11111);
+  console.log(session.total_details);
   let attributes = [
     // date,
     "2021-09-01",
